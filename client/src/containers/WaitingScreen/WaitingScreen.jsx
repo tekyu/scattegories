@@ -4,6 +4,7 @@ import { roomSelectors, userSelectors } from "../../store/selectors";
 import { roomActions, socketActions } from "../../store/actions";
 import PlayersList from "../../components/PlayersList/PlayersList";
 import ReadyButton from "../../components/ReadyButton/ReadyButton";
+import RoomInfo from "../../components/RoomInfo/RoomInfo";
 
 const WaitingScreen = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const WaitingScreen = () => {
 
   return (
     <div>
+      <RoomInfo />
       <PlayersList />
       {admin === userId ? <div>test</div> : <ReadyButton />}
     </div>

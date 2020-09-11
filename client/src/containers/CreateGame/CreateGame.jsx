@@ -5,12 +5,16 @@ import { useHistory } from "react-router-dom";
 import { emitter } from "../../store/socket/socketActions";
 import RippedPaper from "../../components/RippedPaper/RippedPaper";
 import * as Styled from "./CreateGame.styled";
+import PlusMinusSlider from "../../components/Form/PlusMinusSlider/PlusMinusSlider";
 
-const validate = ({ username, playersMax, maxScore }) => {
-  const errors = {};
+const validate = values => {
+  const errors = {
+    // categories: "TEST"
+  };
   // if (!username.trim()) {
   //   errors.username = `Podaj swoje imię`;
   // }
+  console.log("VALIDATE CREATEGAME", values);
   return errors;
 };
 
@@ -72,11 +76,17 @@ const CreateGame = () => {
           return (
             <Styled.CreateGameForm>
               <Styled.Header>Stwórz grę</Styled.Header>
-              <label htmlFor="plaersMax">Maksymalna liczba graczy</label>
-              <Field label="Maksymalna liczba graczy" value={playersMax} />
+              <label htmlFor="playersMax">Maksymalna liczba graczy</label>
+              <PlusMinusSlider name="playersMax" minValue={2} maxValue={10} />
               <ErrorMessage name="playersMax" />
               <label htmlFor="maxScore">Limit punktów</label>
-              <Field label="Limit punktów" value={maxScore} />
+              <PlusMinusSlider
+                name="maxScore"
+                initialValue={300}
+                minValue={100}
+                maxValue={1500}
+                step={10}
+              />
               <ErrorMessage name="maxScore" />
               <label htmlFor="categories">Kategorie</label>
               <Field label="Kategorie" value={categories} />

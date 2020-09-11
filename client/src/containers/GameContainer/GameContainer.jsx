@@ -36,6 +36,7 @@ const GameContainer = () => {
   }, [dispatch, updatePlayers]);
 
   useEffect(() => {
+    console.log("gamecontainer", room.id, user.id, room.state);
     if (room.state > 2) {
       setComponent(<Game />);
     } else if (room.id && user.id) {
