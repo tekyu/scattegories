@@ -1,4 +1,5 @@
 import { emitter } from "store/socket/socketActions";
+import { updatePlayer } from "store/user/userActions";
 import { RESET_USER } from "../user/userActions";
 
 export const UPDATE_ROOM = `UPDATE_ROOM`;
@@ -8,6 +9,7 @@ export const UPDATE_STATE = `UPDATE_STATE`;
 export const UPDATE_PLAYERS = `UPDATE_PLAYERS`;
 export const UPDATE_WINNERS = `UPDATE_WINNERS`;
 export const LEAVE_ROOM = `LEAVE_ROOM`;
+export const CHANGE_USER_STATE = `CHANGE_USER_STATE`;
 
 export const updateRoom = room => ({
   type: UPDATE_ROOM,
@@ -29,10 +31,24 @@ export const updateState = state => ({
   payload: state
 });
 
-export const updatePlayers = players => ({
-  type: UPDATE_PLAYERS,
-  payload: players
-});
+export const changeUserState = () => {
+  return dispatch => {
+    dispatch(emitter(CHANGE_USER_STATE));
+  };
+};
+
+export const updatePlayers = players => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_PLAYERS,
+      payload: players
+    });
+    const userId = getState().user.id;
+    const player = players.find(({ id }) => id === userId);
+
+    dispatch(updatePlayer(player));
+  };
+};
 
 export const updateWinners = winners => ({
   type: UPDATE_WINNERS,

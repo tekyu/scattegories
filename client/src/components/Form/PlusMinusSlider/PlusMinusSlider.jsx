@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+
 import { useField } from "formik";
 import * as Styled from "./PlusMinusSlider.styled";
 
 const PlusMinusSlider = ({
-  name = "PlusMinusSlider",
+  name = `PlusMinusSlider`,
   initialValue = null,
   minValue = 0,
   maxValue = 10,
@@ -19,7 +19,7 @@ const PlusMinusSlider = ({
   const { value } = meta;
   useEffect(() => {
     setValue(sliderValue);
-  }, [sliderValue]);
+  }, [setValue, sliderValue]);
 
   const inputHandler = ({ target }) => {
     const valueAsNumber = +target.value;
@@ -40,16 +40,16 @@ const PlusMinusSlider = ({
   };
 
   const buttonHandler = ({ target }) => {
-    const direction = target.getAttribute("direction");
+    const direction = target.getAttribute(`direction`);
     switch (direction) {
-      case "decrease":
+      case `decrease`:
         setSliderValue(previousValue => {
           return previousValue - step >= minValue
             ? previousValue - step
             : minValue;
         });
         break;
-      case "increase":
+      case `increase`:
         setSliderValue(previousValue => {
           return previousValue + step >= maxValue
             ? maxValue

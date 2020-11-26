@@ -1,0 +1,42 @@
+{
+  "logo": "Państwa Miasta",
+  "navigation": {
+    "create": "Stwórz nową grę",
+    "join": "Dołącz do gry"
+  },
+  "header": {
+    "id": "ID pokoju"
+  },
+  "createForm": {
+    "header": "Stwórz grę",
+    "playersmax": "Maksymalna liczba graczy",
+    "maxscore": "Limit punktów",
+    "timePerRound": "Czas na odpowiedzi (w sekundach)",
+    "categories": "Kategorie",
+    "submit": "Stwórz",
+    "initialCategories": "Państwo,Miasto,Imię,Rzecz,Zwierzę,Potrawa,Rośliny",
+    "errors": {
+      "categories": "Musisz dodać conajmniej 1 kategorię"
+    }
+  },
+  "joinForm": {
+    "header": "Dołącz do gry",
+    "username": "Wybierz swoje imię",
+    "gameCode": "Wpisz kod gry",
+    "submit": "Dołącz",
+    "errors": {
+      "username": "Imię nie może być puste",
+      "gameCode": "Kod gry nie może być pusty"
+    }
+  },
+  "waitingRoom": {
+    "shareCode": "Udostępnij kod poniżej",
+    "or": "albo",
+    "clickLink": "kliknij w ten link",
+    "playersCount": "Liczba graczy",
+    "maxScore": "Limit punktów",
+    "categories": "Kategorie",
+    "startingInCountdownText": "Startujemy za",
+    "countdownText": "Teraz!"
+  }
+}

@@ -52,9 +52,19 @@ module.exports = {
   },
   settings: {
     "import/resolver": {
-      node: {
-        extensions: [".js", ".jsx"],
-        paths: "src"
+      alias: {
+        map: [
+          ["root", "./src"],
+          ["assets", "./src/assets"],
+          ["store", "./src/store"],
+          ["components", "./src/components"],
+          ["containers", "./src/containers"],
+          ["utils", "./src/utils"],
+          ["theme", "../src/theme"],
+          ["i18n", "./src/i18n"],
+          ["mocks", "./src/mocks"]
+        ],
+        extensions: [".ts", ".js", ".jsx", ".json"]
       }
     }
   }

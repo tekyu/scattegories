@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { useTranslation } from "react-i18next";
 import sillyname from "sillyname";
 import { Formik, Field, ErrorMessage } from "formik";
 import RippedPaper from "../../components/RippedPaper/RippedPaper";
@@ -11,26 +11,27 @@ import * as socketActions from "../../store/socket/socketActions";
 import { userActions, roomActions } from "../../store/actions";
 import "react-toastify/dist/ReactToastify.css";
 
-const validate = ({ username = "", code = "" }) => {
-  const errors = {};
-  if (!username.trim()) {
-    errors.username = `Imię nie może być puste`;
-  }
-  if (!code.trim()) {
-    errors.code = `Kod gry nie może być pusty`;
-  }
-  return errors;
-};
-
 const JoinGame = ({ roomId }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const validate = ({ username = ``, code = `` }) => {
+    const errors = {};
+    if (!username.trim()) {
+      errors.username = t(`joinForm.errors.username`);
+    }
+    if (!code.trim()) {
+      errors.code = t(`joinForm.errors.gameCode`);
+    }
+    return errors;
+  };
+
   const submitJoinGameHandler = ({ code, username }) => {
-    console.log("SUBMIT", code, username);
     const roomCode = roomId || code;
     dispatch(
       socketActions.emitter(
-        "JOIN_ROOM",
+        `JOIN_ROOM`,
         { roomId: roomCode, username },
         ({ error, room, user }) => {
           if (!error) {
@@ -57,7 +58,7 @@ const JoinGame = ({ roomId }) => {
         validateOnChange={false}
         validateOnBlur={false}
         initialValues={{
-          code: roomId || "",
+          code: roomId || ``,
           username: sillyname()
         }}
         onSubmit={(values, { setSubmitting }) => {
@@ -68,19 +69,19 @@ const JoinGame = ({ roomId }) => {
         {({ isSubmitting, values: { code, username } }) => {
           return (
             <Styled.JoinGameForm>
-              <Styled.Header>Dołącz do gry</Styled.Header>
-              <label htmlFor="username">Wybierz swoje imię</label>
+              <Styled.Header>{t(`joinForm.header`)}</Styled.Header>
+              <label htmlFor="username">{t(`joinForm.username`)}</label>
               <Field label="Wpisz kod gry" name="username" value={username} />
               <ErrorMessage name="username" />
               {!roomId && (
                 <React.Fragment>
-                  <label htmlFor="code">Wpisz kod gry</label>
+                  <label htmlFor="code">{t(`joinForm.gameCode`)}</label>
                   <Field label="Wpisz kod gry" name="code" value={code} />
                   <ErrorMessage name="code" />
                 </React.Fragment>
               )}
               <Styled.JoinGameButton type="submit" disabled={isSubmitting}>
-                Wyślij
+                {t(`joinForm.submit`)}
               </Styled.JoinGameButton>
             </Styled.JoinGameForm>
           );

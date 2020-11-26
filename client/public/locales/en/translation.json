@@ -1,0 +1,42 @@
+{
+  "logo": "Scattegories",
+  "navigation": {
+    "create": "Create game",
+    "join": "Join game"
+  },
+  "header": {
+    "id": "Room ID"
+  },
+  "createForm": {
+    "header": "Create game",
+    "playersmax": "Maximum players",
+    "maxscore": "Score limit",
+    "timePerRound": "Time for answers (in seconds)",
+    "categories": "Categories",
+    "submit": "Create",
+    "initialCategories": "Country,City,Name,Thing,Animal,Food",
+    "errors": {
+      "categories": "You need to add at least 1 category"
+    }
+  },
+  "joinForm": {
+    "header": "Join game",
+    "username": "Choose your name",
+    "gameCode": "Type game code",
+    "submit": "Join",
+    "errors": {
+      "username": "Name cannot be empty",
+      "gameCode": "Game code cannot be empty"
+    }
+  },
+  "waitingRoom": {
+    "shareCode": "share code below",
+    "or": "or",
+    "clickLink": "click this link",
+    "playersCount": "Players",
+    "maxScore": "Maximum points",
+    "categories": "Categories",
+    "startingInCountdownText": "Starting in",
+    "countdownText": "Now!"
+  }
+}

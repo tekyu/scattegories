@@ -1,5 +1,30 @@
 import styled from "styled-components";
 
+const stateObject = {
+  0: `linear-gradient(
+    135deg,
+    #ffff88 81%,
+    #ffff88 82%,
+    #ffff88 82%,
+    #ffffc6 100%
+  );`,
+  1: `linear-gradient(
+    135deg,
+    #ffff88 51%,
+    #ffff88 52%,
+    #d2f6c5 72%,
+    #99f3bd 82%,
+    #99f3bd 100%
+  );`,
+  2: `linear-gradient(
+    135deg,
+    #ffff88 81%,
+    #ffff88 82%,
+    #ffff88 82%,
+    #ffffc6 100%
+  );`
+};
+
 export const Container = styled.div`
   cursor: pointer;
   margin: 0 25px;
@@ -27,13 +52,17 @@ export const Note = styled.div`
   display: inline-block;
   position: relative;
   background: #ffff88; /* Old browsers */
-  background: linear-gradient(
+  background: ${({ backgroundReadyState }) =>
+    backgroundReadyState
+      ? stateObject[backgroundReadyState]
+      : `linear-gradient(
     135deg,
     #ffff88 81%,
     #ffff88 82%,
     #ffff88 82%,
     #ffffc6 100%
-  );
+  );`};
+  transition: all ease-in-out 0.3s;
 
   &:before {
     content: "";

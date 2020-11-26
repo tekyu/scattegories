@@ -8,6 +8,11 @@ export const answers = createSelector(
   ({ answers = initialState.answers }) => answers
 );
 
+export const activeLetter = createSelector(
+  gameSelector,
+  ({ activeLetter = initialState.activeLetter }) => activeLetter
+);
+
 export const scoreboard = createSelector(
   gameSelector,
   ({ scoreboard = initialState.scoreboard }) => scoreboard

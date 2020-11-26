@@ -24,7 +24,13 @@ export const Button = styled.button`
   outline: none;
 `;
 
-export const Minus = styled(Button)``;
+export const Minus = styled(Button)`
+  cursor: pointer;
+  &:hover,
+  &:active {
+    color: red;
+  }
+`;
 
 export const Input = styled.input`
   text-align: center;
@@ -40,7 +46,13 @@ export const Input = styled.input`
   `}
 `;
 
-export const Plus = styled(Button)``;
+export const Plus = styled(Button)`
+  cursor: pointer;
+  &:hover,
+  &:active {
+    color: green;
+  }
+`;
 
 export const InputContainer = styled.div`
   width: auto;

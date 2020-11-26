@@ -2,12 +2,14 @@ import produce from "immer";
 import {
   UPDATE_ANSWERS,
   RESET_ANSWERS,
-  UPDATE_SCOREBOARD
+  UPDATE_SCOREBOARD,
+  UPDATE_ACTIVE_LETTER
 } from "./gameActions";
 
 export const initialState = {
   answers: {},
-  scoreboard: {}
+  scoreboard: {},
+  activeLetter: ``
 };
 
 export const gameReducer = produce(
@@ -17,6 +19,9 @@ export const gameReducer = produce(
         Object.entries(payload.answers).forEach((key, value) => {
           draft.answers[key] = value;
         });
+        return draft;
+      case UPDATE_ACTIVE_LETTER:
+        draft.activeLetter = payload;
         return draft;
       case RESET_ANSWERS:
         draft.answers = {};

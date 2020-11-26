@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
 export const LogoContainer = styled.div`
-  padding-top: ${({ minified }) => (minified ? `2vh` : `8vh`)};
-  padding-bottom: ${({ minified }) => (minified ? `2vh` : `16vh`)};
+  padding-top: ${({ minified }) => (minified ? `1vh` : `4vh`)};
+  padding-bottom: ${({ minified }) => (minified ? `1vh` : `8vh`)};
   text-align: center;
 `;
+
+export const Header = styled.div``;
+
+export const RoomId = styled.div``;

@@ -2,42 +2,41 @@ import React from "react";
 import { Formik, Field, ErrorMessage } from "formik";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { emitter } from "../../store/socket/socketActions";
-import RippedPaper from "../../components/RippedPaper/RippedPaper";
+import { emitter } from "store/socket/socketActions";
+import RippedPaper from "components/RippedPaper/RippedPaper";
+import PlusMinusSlider from "components/Form/PlusMinusSlider/PlusMinusSlider";
+import { useTranslation } from "react-i18next";
+import CategoriesMultiSelect from "components/CategoriesMultiSelect/CategoriesMultiSelect";
 import * as Styled from "./CreateGame.styled";
-import PlusMinusSlider from "../../components/Form/PlusMinusSlider/PlusMinusSlider";
-
-const validate = values => {
-  const errors = {
-    // categories: "TEST"
-  };
-  // if (!username.trim()) {
-  //   errors.username = `Podaj swoje imię`;
-  // }
-  console.log("VALIDATE CREATEGAME", values);
-  return errors;
-};
 
 const CreateGame = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const submitCreateGameHandler = ({ playersMax, maxScore, categories }) => {
+  const validate = values => {
+    const errors = {};
+    if (values.categories.length <= 0) {
+      errors.categories = t(`createForm.errors.categories`);
+    }
+    return errors;
+  };
+
+  const submitCreateGameHandler = ({
+    playersMax,
+    maxScore,
+    categories,
+    timePerRound
+  }) => {
     const roomOptions = {
       playersMax: +playersMax,
       maxScore: +maxScore,
-      categories: categories || [
-        "Państwo",
-        "Miasto",
-        "Imię",
-        "Rzecz",
-        "Zwierze",
-        "Potrawa",
-        "Rośliny"
-      ]
+      categories,
+      timePerRound
     };
+    console.log(`CREATE GAME SUBMIT`, categories);
     dispatch(
-      emitter("CREATE_ROOM", roomOptions, ({ error, id }) => {
+      emitter(`CREATE_ROOM`, roomOptions, ({ error, id }) => {
         if (!error) {
           history.push(`/game/${id}`);
         }
@@ -54,15 +53,8 @@ const CreateGame = () => {
         initialValues={{
           maxScore: 100,
           playersMax: 4,
-          categories: [
-            "Państwo",
-            "Miasto",
-            "Imię",
-            "Rzecz",
-            "Zwierze",
-            "Potrawa",
-            "Rośliny"
-          ]
+          categories: t(`createForm.initialCategories`).split(`,`),
+          timePerRound: 30
         }}
         onSubmit={(values, { setSubmitting }) => {
           submitCreateGameHandler(values);
@@ -71,28 +63,46 @@ const CreateGame = () => {
       >
         {({
           isSubmitting,
-          initialValues: { playersMax, maxScore, categories }
+          initialValues: { playersMax, maxScore, categories, timePerRound }
         }) => {
           return (
             <Styled.CreateGameForm>
-              <Styled.Header>Stwórz grę</Styled.Header>
-              <label htmlFor="playersMax">Maksymalna liczba graczy</label>
-              <PlusMinusSlider name="playersMax" minValue={2} maxValue={10} />
+              <Styled.Header>{t(`createForm.header`)}</Styled.Header>
+              <label htmlFor="playersMax">{t(`createForm.playersmax`)}</label>
+              <PlusMinusSlider
+                name="playersMax"
+                initialValue={playersMax}
+                minValue={2}
+                maxValue={10}
+              />
               <ErrorMessage name="playersMax" />
-              <label htmlFor="maxScore">Limit punktów</label>
+              <label htmlFor="maxScore">{t(`createForm.maxscore`)}</label>
               <PlusMinusSlider
                 name="maxScore"
-                initialValue={300}
+                initialValue={maxScore}
                 minValue={100}
                 maxValue={1500}
                 step={10}
               />
-              <ErrorMessage name="maxScore" />
-              <label htmlFor="categories">Kategorie</label>
-              <Field label="Kategorie" value={categories} />
-              <ErrorMessage name="maxScore" />
+              <ErrorMessage name="timePerRound" />
+              <label htmlFor="timePerRound">
+                {t(`createForm.timePerRound`)}
+              </label>
+              <PlusMinusSlider
+                name="timePerRound"
+                initialValue={timePerRound}
+                minValue={5}
+                maxValue={300}
+                step={5}
+              />
+              <ErrorMessage name="timePerRound" />
+              <label htmlFor="categories">{t(`createForm.categories`)}</label>
+              <CategoriesMultiSelect
+                name="CategoriesMultiSelect"
+                initialValue={categories}
+              />
               <Styled.CreateGameButton type="submit" disabled={isSubmitting}>
-                Wyślij
+                {t(`createForm.submit`)}
               </Styled.CreateGameButton>
             </Styled.CreateGameForm>
           );

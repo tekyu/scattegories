@@ -17,9 +17,21 @@ export default class Room implements IRoom {
   createdAt: number;
   chat: Array<Object>;
   scoreboard: Object;
+  timePerRound: number;
+  rounds: Array<Object>;
+  letters: Array<string>;
+  activeLetter: string;
+  timeWaiting: number;
 
   constructor(
-    { playersMax, maxScore, username, categories }: ICreateRoomOptions,
+    {
+      playersMax,
+      maxScore,
+      username,
+      categories,
+      timePerRound,
+      timeWaiting,
+    }: ICreateRoomOptions,
     socketId: any
   ) {
     this.playersMax = playersMax || 10; // check for max players per game (adjustable in gameMapping)
@@ -34,6 +46,38 @@ export default class Room implements IRoom {
     this.createdAt = Date.now();
     this.scoreboard = {};
     this.chat = [];
+    this.timePerRound = timePerRound ? timePerRound * 1000 : 1000;
+    this.rounds = [];
+    this.letters = [
+      'a',
+      'b',
+      'c',
+      'd',
+      'e',
+      'f',
+      'g',
+      'h',
+      'i',
+      'j',
+      'k',
+      'l',
+      'm',
+      'n',
+      'o',
+      'p',
+      'q',
+      'r',
+      's',
+      't',
+      'u',
+      'v',
+      'w',
+      'x',
+      'y',
+      'z',
+    ]; // change this to locale alphabet
+    this.timeWaiting = timeWaiting || 5000;
+    this.activeLetter = '';
     console.log('[Room] constructor');
   }
 
@@ -53,6 +97,7 @@ export default class Room implements IRoom {
       players,
       winners,
       createdAt,
+      timePerRound,
     } = this;
     return {
       playersMax,
@@ -64,6 +109,7 @@ export default class Room implements IRoom {
       players,
       winners,
       createdAt,
+      timePerRound,
     };
   }
 

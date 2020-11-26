@@ -38,6 +38,11 @@ export const state = createSelector(
   ({ state = initialState.state }) => state
 );
 
+export const stage = createSelector(
+  roomSelector,
+  ({ stage = initialState.stage }) => stage
+);
+
 export const players = createSelector(
   roomSelector,
   ({ players = initialState.players }) => players

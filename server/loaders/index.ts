@@ -12,8 +12,8 @@ export default async ({
   expressApp: express.Application;
   logger: any;
 }) => {
-  const mongoConnection = await mongoLoader({ app: expressApp, logger });
-  Logger.info(`✌️ DB loaded and connected to ${config.db.databaseURL}`);
+  // const mongoConnection = await mongoLoader({ app: expressApp, logger });
+  // Logger.info(`✌️ DB loaded and connected to ${config.db.databaseURL}`);
 
   await expressLoader({ app: expressApp });
   await socketLoader({ app: expressApp, logger });

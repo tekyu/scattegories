@@ -12,9 +12,9 @@ import {
 export const initialState = {
   playersMax: 10,
   maxScore: 100,
-  id: "",
-  owner: "",
-  admin: "",
+  id: ``,
+  owner: ``,
+  admin: ``,
   state: 0, // 0 - waiting | 1 - ready | 2 - started | 3 - paused | 4 - ended,
   stage: 0, // 0 - idle | 1 - choosing | 2 - writing | 3 - waiting | 4 - checking | 5 - summary | 6 - ended
   players: [],
@@ -27,7 +27,11 @@ export const roomReducer = produce(
   (draft = initialState, { type, payload }) => {
     switch (type) {
       case UPDATE_ROOM:
-        Object.assign(draft, payload);
+        console.log(`updateroom reducer`, payload);
+        Object.entries(payload).forEach(([key, value]) => {
+          draft[key] = value;
+        });
+        // Object.assign({}, draft, payload);
         return draft;
       case UPDATE_PLAYERS:
         draft.players = payload;

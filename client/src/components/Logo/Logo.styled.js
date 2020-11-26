@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const Logo = styled.div`
-  font-size: ${({ minified }) => (minified ? `3em` : `6em`)};
+  font-size: ${({ minified }) => (minified ? `2em` : `5em`)};
   color: black;
-  margin: 0 auto;
   font-family: "Caveat", cursive;
 `;

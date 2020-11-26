@@ -25,7 +25,7 @@ export const removeActiveRoom = roomId => ({
   payload: { roomId }
 });
 
-export const changeState = state => ({
+export const changeRoomState = state => ({
   type: CHANGE_STATE,
   payload: { state }
 });

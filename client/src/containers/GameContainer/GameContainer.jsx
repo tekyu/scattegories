@@ -15,6 +15,7 @@ const GameContainer = () => {
   } = useRouteMatch();
   const user = useSelector(userSelectors.user);
   const room = useSelector(roomSelectors.room);
+  const roomState = useSelector(roomSelectors.state);
   const dispatch = useDispatch();
   const history = useHistory();
   const [component, setComponent] = useState(<FullScreenLoader />);
@@ -27,24 +28,33 @@ const GameContainer = () => {
     [dispatch]
   );
 
+  const updateRoom = useCallback(
+    ({ data }) => {
+      dispatch(roomActions.updateRoom(data));
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
     dispatch(socketActions.listener(`UPDATE_PLAYERS`, updatePlayers));
+    dispatch(socketActions.listener(`UPDATE_ROOM`, updateRoom));
 
     return () => {
-      dispatch(socketActions.listener(`UPDATE_PLAYERS`, updatePlayers));
+      dispatch(socketActions.removeListener(`UPDATE_PLAYERS`, updatePlayers));
+      dispatch(socketActions.removeListener(`UPDATE_ROOM`, updateRoom));
     };
-  }, [dispatch, updatePlayers]);
+  }, [dispatch, updatePlayers, updateRoom]);
 
   useEffect(() => {
-    console.log("gamecontainer", room.id, user.id, room.state);
-    if (room.state > 2) {
+    console.log(`gamecontainer`, room.id, user.id, room.state);
+    if (roomState >= 2) {
       setComponent(<Game />);
     } else if (room.id && user.id) {
       setComponent(<WaitingScreen />);
     } else {
       setComponent(<JoinGame roomId={id} />);
     }
-  }, [id, room, setComponent, user]);
+  }, [id, room, roomState, setComponent, user]);
 
   useEffect(() => {
     const pingInterval = setInterval(() => {

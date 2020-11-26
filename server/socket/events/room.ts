@@ -7,6 +7,7 @@ import Player from '../../player/player.model';
 const JOIN_ROOM = 'JOIN_ROOM';
 const CREATE_ROOM = 'CREATE_ROOM';
 const LEAVE_ROOM = 'LEAVE_ROOM';
+const CHANGE_USER_STATE = 'CHANGE_USER_STATE';
 
 export default ({
   io,
@@ -23,7 +24,7 @@ export default ({
     // @ts-ignore
     io.gameRooms[id] = room;
     // @ts-ignore
-    console.log('CREATE ROOM ->', id);
+    console.log('CREATE ROOM ->', params);
     callback({ id });
   });
 
@@ -31,8 +32,12 @@ export default ({
     const { roomId, username } = params;
     //@ts-ignore
     if (io.gameRooms[roomId]) {
-      const playerState = socket.id === io.gameRooms[roomId].admin ? 1 : 0
-      const { player } = new Player({ id: socket.id, username, state: playerState });
+      const playerState = socket.id === io.gameRooms[roomId].owner ? 1 : 0;
+      const { player } = new Player({
+        id: socket.id,
+        username,
+        state: playerState,
+      });
       //@ts-ignore
       io.gameRooms[roomId].players.push(player);
       socket.join(roomId);
@@ -87,12 +92,13 @@ export default ({
     }
   });
 
-  socket.on('CHANGE_STATE', ({ state }) => {
+  socket.on(CHANGE_USER_STATE, (params: any) => {
+    console.log(CHANGE_USER_STATE);
+    // callback(params)
     const roomId = socket.gameOptions.activeRoom;
     const room = io.gameRooms[roomId];
     const player = room.players.find(({ id }) => id === socket.id);
-    player.state = state;
-    console.log('payload', state, socket.gameOptions, player, room.players);
+    player.state = player.state === 0 || player.state === 2 ? 1 : 0;
     io.in(roomId).emit('UPDATE_PLAYERS', io.gameRooms[roomId].players);
   });
 };

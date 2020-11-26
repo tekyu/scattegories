@@ -1,0 +1,10 @@
+CLIENT
+
+* button for being ready
+* indicators for ready state
+* starting game
+* changing name
+* rework countdown element
+
+Game
+* play again

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
@@ -6,12 +6,16 @@ import "./assets/css/reset.css";
 import "./assets/css/index.scss";
 import store from "store/store";
 import App from "components/App/App";
+import FullScreenLoader from "components/FullScreenLoader/FullScreenLoader";
 import * as serviceWorker from "./serviceWorker";
+import "./i18n";
 
 const app = (
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <Suspense fallback={<FullScreenLoader />}>
+        <App />
+      </Suspense>
     </BrowserRouter>
   </Provider>
 );

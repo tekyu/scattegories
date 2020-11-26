@@ -1,31 +1,45 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import PostItNoteDynamic from "components/PostItNoteDynamic/PostItNoteDynamic";
+import PlayersCount from "components/PlayersCount/PlayersCount";
+import { useTranslation } from "react-i18next";
 import { roomSelectors } from "../../store/selectors";
+import * as Styled from "./RoomInfo.styled";
 
 const RoomInfo = () => {
-  const {
-    playersMax,
-    players,
-    id,
-    maxScore,
-    owner,
-    admin,
-    state,
-    categories,
-    createdAt
-  } = useSelector(roomSelectors.room);
+  const { t } = useTranslation();
+  const { playersMax, players, id, maxScore, categories } = useSelector(
+    roomSelectors.room
+  );
   return (
-    <div>
-      <p>Players max: {playersMax}</p>
-      <p>Players: {players.length}</p>
-      <p>Room id: {id}</p>
-      <p>Max score: {maxScore}</p>
-      <p>Owner: {owner}</p>
-      <p>Admin: {admin}</p>
-      <p>State: {state}</p>
-      <p>Categories: {JSON.stringify(categories)}</p>
-      <p>Created at: {createdAt}</p>
-    </div>
+    <Styled.RoomInfo>
+      <Styled.RoomIdMessage>
+        <Styled.RoomIdParagraph>
+          {t(`waitingRoom.shareCode`)} {t(`waitingRoom.or`)}
+          {` `}
+          <Styled.RoomLink
+            href={`http://localhost:3000/game/${id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t(`waitingRoom.clickLink`)}
+          </Styled.RoomLink>
+        </Styled.RoomIdParagraph>
+        <PostItNoteDynamic rotate={1.6}>{id}</PostItNoteDynamic>
+      </Styled.RoomIdMessage>
+      <Styled.PlayersCountContainer>
+        <Styled.PlayersCountLabel>
+          {t(`waitingRoom.playersCount`)}
+        </Styled.PlayersCountLabel>
+        <PlayersCount current={players.length} max={playersMax} />
+      </Styled.PlayersCountContainer>
+      <p>
+        {t(`waitingRoom.maxScore`)}: {maxScore}
+      </p>
+      <p>
+        {t(`waitingRoom.categories`)}: {categories.join(`, `)}
+      </p>
+    </Styled.RoomInfo>
   );
 };
 

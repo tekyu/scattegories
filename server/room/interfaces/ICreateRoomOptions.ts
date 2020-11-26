@@ -3,4 +3,6 @@ export default interface ICreateRoomOptions {
   maxScore: number;
   username: string;
   categories: Array<string>;
+  timePerRound: number;
+  timeWaiting: number;
 }

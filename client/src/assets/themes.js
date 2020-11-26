@@ -5,6 +5,9 @@ const themes = {
     secondary: `#16bffd`,
     font: `#3c3c3c`,
     fontSecondary: `#ffffff`
+  },
+  font: {
+    primary: `Covered By Your Grace`
   }
 };
 
