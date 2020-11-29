@@ -93,7 +93,7 @@ const InputRow = () => {
       initialValues={setInitialValues(mockCategories)}
       onSubmit={submitAnswersHandler}
     >
-      <Form>
+      <Styled.InputForm>
         <Styled.Row>
           <Letter letter={currentLetter} />
           <Styled.Answers>
@@ -104,8 +104,8 @@ const InputRow = () => {
             ))}
           </Styled.Answers>
         </Styled.Row>
-        <button type="submit">Wyslij</button>
-      </Form>
+        <Styled.Button type="submit">Wyslij</Styled.Button>
+      </Styled.InputForm>
     </Formik>
   );
 };

@@ -84,9 +84,9 @@ export default ({
     const roomId = socket.gameOptions.activeRoom;
     const room = io.gameRooms[roomId];
 
-    if (room.players.length <= 1) {
-      return;
-    }
+    // if (room.players.length <= 1) {
+    //   return;
+    // }
 
     const isAnyPlayerNotReady = room.players.find(({ state }) => state !== 1);
 
