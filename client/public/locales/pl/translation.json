@@ -37,6 +37,8 @@
     "maxScore": "Limit punktów",
     "categories": "Kategorie",
     "startingInCountdownText": "Startujemy za",
-    "countdownText": "Teraz!"
+    "countdownText": "Teraz!",
+    "readyButton": "Gotowy",
+    "unreadyButton": "Nie gotowy"
   }
 }

@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
+export const WaitingScreen = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const CountdownContainer = styled.div`
   display: flex;
   align-items: center;

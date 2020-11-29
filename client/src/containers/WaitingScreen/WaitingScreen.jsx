@@ -47,9 +47,8 @@ const WaitingScreen = () => {
   }, [dispatch, t]);
 
   return (
-    <div>
+    <Styled.WaitingScreen>
       <RoomInfo />
-      {/* <InputRow /> */}
       {timer && (
         <Styled.CountdownContainer>
           <PostItNoteDynamic
@@ -64,7 +63,7 @@ const WaitingScreen = () => {
       )}
       <ReadyButton />
       <PlayersList />
-    </div>
+    </Styled.WaitingScreen>
   );
 };
 

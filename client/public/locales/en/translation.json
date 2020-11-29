@@ -37,6 +37,8 @@
     "maxScore": "Maximum points",
     "categories": "Categories",
     "startingInCountdownText": "Starting in",
-    "countdownText": "Now!"
+    "countdownText": "Now!",
+    "readyButton": "I'm ready!",
+    "unreadyButton": "Stop being ready"
   }
 }

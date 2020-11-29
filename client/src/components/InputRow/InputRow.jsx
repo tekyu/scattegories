@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { categories } from "store/room/roomSelectors";
 import { sendAnswers } from "store/game/gameActions";
+import * as debounce from "lodash.debounce";
+import { activeLetter } from "store/game/gameSelectors";
+import Letter from "components/Letter/Letter";
 import * as Styled from "./InputRow.styled";
+// import { useTranslation } from "react-i18next";
 
 const InputRow = () => {
-  const dispatch = useDispatch();
+  // const {t} = useTranslation()
   const gameCategories = useSelector(categories);
+  const currentLetter = useSelector(activeLetter);
+  const getWidth = (gameCategories = []) =>
+    (window.innerWidth - 160) / (gameCategories.length || 1);
+
+  const [answerWidth, setAnswerWidth] = useState(getWidth(gameCategories));
+  const dispatch = useDispatch();
   const submitAnswersHandler = answers => {
     console.log(
       `SUBMIT ANSWERS HANDLER`,
@@ -33,7 +43,33 @@ const InputRow = () => {
       `SUBMIT ANSWERS HANDLER CAN SEND REQUEST`,
       answersReadyToSubmit
     );
+    return answersReadyToSubmit;
   };
+
+  const handleResize = event => {
+    setAnswerWidth(getWidth(categories));
+    console.log(`resize`, window.innerWidth, getWidth(categories));
+  };
+
+  useEffect(() => {
+    window.addEventListener(
+      `resize`,
+      debounce(handleResize, 300, {
+        leading: false,
+        trailing: true
+      })
+    );
+
+    return () => {
+      window.removeEventListener(
+        `resize`,
+        debounce(handleResize, 300, {
+          leading: true,
+          trailing: true
+        })
+      );
+    };
+  });
 
   const mockCategories = [
     `MockPaństwo`,
@@ -58,13 +94,16 @@ const InputRow = () => {
       onSubmit={submitAnswersHandler}
     >
       <Form>
-        <div>
-          {mockCategories.map(answer => (
-            <span key={answer}>
-              <Field name={answer} />
-            </span>
-          ))}
-        </div>
+        <Styled.Row>
+          <Letter letter={currentLetter} />
+          <Styled.Answers>
+            {mockCategories.map(answer => (
+              <Styled.InputContainer key={answer} width={answerWidth}>
+                <Styled.InputField name={answer} placeholder={answer} />
+              </Styled.InputContainer>
+            ))}
+          </Styled.Answers>
+        </Styled.Row>
         <button type="submit">Wyslij</button>
       </Form>
     </Formik>

@@ -53,7 +53,7 @@ export const Answer = styled.div`
   position: relative;
   padding: 14px 0;
   height: 100%;
-  width: 140px;
+  width: ${({ width }) => (width ? `${width}px` : `100px`)};
   margin: 0 4px;
   white-space: nowrap;
 `;

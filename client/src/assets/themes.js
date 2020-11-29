@@ -7,7 +7,7 @@ const themes = {
     fontSecondary: `#ffffff`
   },
   font: {
-    primary: `Covered By Your Grace`
+    primary: `"Covered By Your Grace", cursive;`
   }
 };
 

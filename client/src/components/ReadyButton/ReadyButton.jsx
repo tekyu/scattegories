@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { userSelectors } from "../../store/selectors";
-import { roomActions } from "../../store/actions";
+import { userSelectors } from "store/selectors";
+import { roomActions } from "store/actions";
+import theme from "assets/themes";
+import { useTranslation } from "react-i18next";
+import * as Styled from "./ReadyButton.styled";
 
 const ReadyButton = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const userState = useSelector(userSelectors.state);
   const [ready, setReady] = useState(userState || 0);
@@ -14,22 +18,16 @@ const ReadyButton = () => {
 
   console.log(`READYBUTTON --- state -> ${userState} | ready -> ${ready}`);
 
-  // useEffect(() => {
-  //   console.log(
-  //     `READYBUTTON | USEEFFECT --- state -> ${userState} | ready -> ${ready}`
-  //   );
-  //   dispatch(roomActions.changeUserState(ready));
-  //   // dispatch(
-  //   //   socketActions.emitter(userActions.CHANGE_STATE, {
-  //   //     ready
-  //   //   })
-  //   // );
-  // }, [dispatch, ready, userState]);
-
   return (
-    <button onClick={readyHandler}>
-      {ready === 1 ? `Cancel ready` : `Ready`}
-    </button>
+    <Styled.ReadyButton onClick={readyHandler}>
+      <Styled.Unready ready={ready === 1}>
+        {t(`waitingRoom.unreadyButton`)}
+      </Styled.Unready>
+      <Styled.Divider>/</Styled.Divider>
+      <Styled.Ready ready={ready === 1}>
+        {t(`waitingRoom.readyButton`)}
+      </Styled.Ready>
+    </Styled.ReadyButton>
   );
 };
 
