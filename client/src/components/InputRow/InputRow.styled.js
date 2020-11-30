@@ -1,6 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Field, Form } from "formik";
 import theme from "assets/themes";
+
+const wiggle = keyframes`
+  0% {transform: rotate(0deg);}
+  25% {transform: rotate(-5deg);}
+  50% {transform: rotate(15deg);}
+  75% {transform: rotate(-10deg);}
+  100% {transform: rotate(0deg);}
+`;
 
 export const InputRow = styled.div``;
 
@@ -43,13 +51,14 @@ export const InputField = styled(Field)`
   height: 100%;
   margin: 0 2px;
   background: transparent;
-  border: 0;
   transition: all 0.3s ease-in-out;
   font-family: ${theme.font.primary};
   background: rgba(255, 255, 255, 0.87);
   border: 1px solid transparent;
+  text-align: center;
   &::placeholder {
     text-align: center;
+    color: rgba(0, 0, 0, 0.87);
   }
   &:focus {
     background: rgba(255, 255, 255, 1);
@@ -61,7 +70,17 @@ export const Button = styled.button`
   font-family: ${theme.font.primary};
   font-size: 1.2em;
   color: #000;
+  transition: all 0.2s ease-in-out;
+  ${({ fullRow }) =>
+    fullRow &&
+    `
+    color: green;
+    font-size: 1.4em;
+    animation: ${wiggle} 0.7s linear infinite;
+  `}
   &:focus {
     color: green;
+    font-size: 1.4em;
+    animation: ${wiggle} 0.7s linear infinite;
   }
 `;

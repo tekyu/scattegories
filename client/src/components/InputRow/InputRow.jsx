@@ -8,11 +8,11 @@ import { sendAnswers } from "store/game/gameActions";
 import * as debounce from "lodash.debounce";
 import { activeLetter } from "store/game/gameSelectors";
 import Letter from "components/Letter/Letter";
+import { useTranslation } from "react-i18next";
 import * as Styled from "./InputRow.styled";
-// import { useTranslation } from "react-i18next";
 
 const InputRow = () => {
-  // const {t} = useTranslation()
+  const { t } = useTranslation();
   const gameCategories = useSelector(categories);
   const currentLetter = useSelector(activeLetter);
   const getWidth = (gameCategories = []) =>
@@ -71,16 +71,6 @@ const InputRow = () => {
     };
   });
 
-  const mockCategories = [
-    `MockPaństwo`,
-    `MockMiasto`,
-    `MockImię`,
-    `MockRzecz`,
-    `MockZwierze`,
-    `MockPotrawa`,
-    `Mock Rośliny Spacja`
-  ];
-
   const setInitialValues = (array = []) => {
     return array.reduce((obj, key) => {
       // eslint-disable-next-line no-param-reassign
@@ -90,14 +80,14 @@ const InputRow = () => {
   };
   return (
     <Formik
-      initialValues={setInitialValues(mockCategories)}
+      initialValues={setInitialValues(gameCategories)}
       onSubmit={submitAnswersHandler}
     >
       <Styled.InputForm>
         <Styled.Row>
           <Letter letter={currentLetter} />
           <Styled.Answers>
-            {mockCategories.map(answer => (
+            {gameCategories.map(answer => (
               <Styled.InputContainer key={answer} width={answerWidth}>
                 <Styled.InputField name={answer} placeholder={answer} />
               </Styled.InputContainer>

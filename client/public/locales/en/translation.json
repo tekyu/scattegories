@@ -40,5 +40,8 @@
     "countdownText": "Now!",
     "readyButton": "I'm ready!",
     "unreadyButton": "Stop being ready"
+  },
+  "inputRow": {
+    "send": "Send"
   }
 }

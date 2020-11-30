@@ -40,5 +40,8 @@
     "countdownText": "Teraz!",
     "readyButton": "Gotowy",
     "unreadyButton": "Nie gotowy"
+  },
+  "inputRow": {
+    "send": "Wyślij"
   }
 }
