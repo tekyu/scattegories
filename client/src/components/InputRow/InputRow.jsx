@@ -47,8 +47,8 @@ const InputRow = () => {
   };
 
   const handleResize = event => {
-    setAnswerWidth(getWidth(categories));
-    console.log(`resize`, window.innerWidth, getWidth(categories));
+    setAnswerWidth(getWidth(gameCategories));
+    console.log(`resize`, window.innerWidth, getWidth(gameCategories));
   };
 
   useEffect(() => {
@@ -79,24 +79,38 @@ const InputRow = () => {
     }, {});
   };
   return (
-    <Formik
-      initialValues={setInitialValues(gameCategories)}
-      onSubmit={submitAnswersHandler}
-    >
-      <Styled.InputForm>
-        <Styled.Row>
-          <Letter letter={currentLetter} />
-          <Styled.Answers>
-            {gameCategories.map(answer => (
-              <Styled.InputContainer key={answer} width={answerWidth}>
-                <Styled.InputField name={answer} placeholder={answer} />
-              </Styled.InputContainer>
-            ))}
-          </Styled.Answers>
-        </Styled.Row>
-        <Styled.Button type="submit">Wyslij</Styled.Button>
-      </Styled.InputForm>
-    </Formik>
+    <Styled.InputRow>
+      <Styled.Container>
+        <Formik
+          initialValues={setInitialValues(gameCategories)}
+          onSubmit={submitAnswersHandler}
+        >
+          <Styled.InputForm>
+            <Styled.Row>
+              <Letter />
+              <Styled.Answers>
+                {gameCategories.map(answer => (
+                  <Styled.Answer key={`${answer}-cat`} width={answerWidth}>
+                    {answer}
+                  </Styled.Answer>
+                ))}
+              </Styled.Answers>
+            </Styled.Row>
+            <Styled.Row>
+              <Letter letter={currentLetter} />
+              <Styled.Answers>
+                {gameCategories.map(answer => (
+                  <Styled.InputContainer key={answer} width={answerWidth}>
+                    <Styled.InputField name={answer} placeholder={answer} />
+                  </Styled.InputContainer>
+                ))}
+              </Styled.Answers>
+            </Styled.Row>
+            <Styled.Button type="submit">{t(`inputRow.send`)}</Styled.Button>
+          </Styled.InputForm>
+        </Formik>
+      </Styled.Container>
+    </Styled.InputRow>
   );
 };
 

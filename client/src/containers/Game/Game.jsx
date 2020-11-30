@@ -14,6 +14,7 @@ const Game = () => {
   const roomStage = useSelector(stage);
   const [waitingTimer, setWaitingTimer] = useState(0);
   const setWaitingTimeHandler = ({ data: { time } }) => {
+    console.log(`setWaitingTImeHandler`, time);
     setWaitingTimer(time);
   };
 
