@@ -39,7 +39,7 @@
     "startingInCountdownText": "Starting in",
     "countdownText": "Now!",
     "readyButton": "I'm ready!",
-    "unreadyButton": "Stop being ready"
+    "unreadyButton": "Not ready"
   },
   "inputRow": {
     "send": "Send",

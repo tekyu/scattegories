@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import { Formik } from "formik";
@@ -6,23 +6,27 @@ import { useDispatch } from "react-redux";
 import { sendAnswers } from "store/game/gameActions";
 import Letter from "components/Letter/Letter";
 import { useTranslation } from "react-i18next";
+import { socketActions } from "store/actions";
 import * as Styled from "./InputRow.styled";
 
 const InputRow = ({ answerWidth = 100, categories = [] }) => {
+  const submitButton = useRef(null);
   console.count(`[INPUTROW]`);
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [showOverlay, setshowOverlay] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
   const submitAnswersHandler = answers => {
     console.log(
       `SUBMIT ANSWERS HANDLER`,
       answers,
       Object.values(answers).some(answer => !answer)
     );
-    if (Object.values(answers).some(answer => !answer)) {
-      // some answers are empty
-      return false;
-    }
+    // TODO: Should validate if are empty and are not forced yet to submit
+    // if (Object.values(answers).some(answer => !answer)) {
+    //   // some answers are empty
+    //   return false;
+    // }
     const answersReadyToSubmit = Object.entries(answers).reduce(
       (obj, [key, value]) => {
         // eslint-disable-next-line no-param-reassign
@@ -31,14 +35,38 @@ const InputRow = ({ answerWidth = 100, categories = [] }) => {
       },
       {}
     );
+    setSubmitted(true);
     dispatch(sendAnswers(answersReadyToSubmit));
-    setshowOverlay(true);
+    setShowOverlay(true);
     console.log(
       `SUBMIT ANSWERS HANDLER CAN SEND REQUEST`,
       answersReadyToSubmit
     );
     return answersReadyToSubmit;
   };
+
+  const waitingTimeSubmitHandler = useCallback(
+    ({ data: { time } }) => {
+      setTimeout(() => {
+        console.log(`FORCE SUBMIT`);
+        if (!submitted && submitButton) {
+          console.log(`FORCE SUBMIT NOT SUBMITTED`, submitButton);
+          submitButton.current.click();
+        }
+      }, time);
+    },
+    [submitted]
+  );
+
+  useEffect(() => {
+    dispatch(socketActions.listener(`WAITING_TIME`, waitingTimeSubmitHandler));
+
+    return () => {
+      dispatch(
+        socketActions.removeListener(`WAITING_TIME`, waitingTimeSubmitHandler)
+      );
+    };
+  }, [dispatch, waitingTimeSubmitHandler]);
 
   const setInitialValues = (array = []) => {
     return array.reduce((obj, key) => {
@@ -70,7 +98,9 @@ const InputRow = ({ answerWidth = 100, categories = [] }) => {
                 ))}
               </Styled.Answers>
             </Styled.Row>
-            <Styled.Button type="submit">{t(`inputRow.send`)}</Styled.Button>
+            <Styled.Button ref={submitButton} type="submit">
+              {t(`inputRow.send`)}
+            </Styled.Button>
           </Styled.InputForm>
         </Formik>
       </Styled.Container>
