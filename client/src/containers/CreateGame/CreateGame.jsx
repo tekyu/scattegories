@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Field, ErrorMessage } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { emitter } from "store/socket/socketActions";

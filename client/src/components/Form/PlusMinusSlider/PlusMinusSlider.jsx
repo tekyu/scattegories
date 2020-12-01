@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 import { useField } from "formik";
 import * as Styled from "./PlusMinusSlider.styled";
@@ -14,9 +15,9 @@ const PlusMinusSlider = ({
   const avgValue = initialValue || (maxValue - minValue) / 2;
 
   const [sliderValue, setSliderValue] = useState(avgValue);
+  // eslint-disable-next-line no-unused-vars
   const [field, meta, helpers] = useField(name);
   const { setValue, setTouched } = helpers;
-  const { value } = meta;
   useEffect(() => {
     setValue(sliderValue);
   }, [setValue, sliderValue]);
@@ -80,6 +81,24 @@ const PlusMinusSlider = ({
       </Styled.Plus>
     </Styled.Slider>
   );
+};
+
+PlusMinusSlider.propTypes = {
+  name: PropTypes.string,
+  initialValue: PropTypes.number,
+  minValue: PropTypes.number,
+  maxValue: PropTypes.number,
+  step: PropTypes.number,
+  maxWidth: PropTypes.number
+};
+
+PlusMinusSlider.defaultProps = {
+  name: `PlusMinusSlider`,
+  initialValue: null,
+  minValue: 0,
+  maxValue: 10,
+  step: 1,
+  maxWidth: 100
 };
 
 export default PlusMinusSlider;

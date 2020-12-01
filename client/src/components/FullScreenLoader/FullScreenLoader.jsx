@@ -9,13 +9,13 @@ const StyledContainer = styled.div`
   right: 0;
   background: rgba(255, 255, 255, 0.3);
   display: flex;
-  color: red;
   align-items: center;
   justify-content: center;
+  font-size: ${({ minified }) => (minified ? `2em` : `5em`)};
 `;
 
 const FullScreenLoader = () => {
-  return <StyledContainer>Logo</StyledContainer>;
+  return <StyledContainer>Scattegories</StyledContainer>;
 };
 
 export default FullScreenLoader;

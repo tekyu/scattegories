@@ -107,14 +107,15 @@ export default ({
   socket.on(SEND_ANSWERS, (params: any) => {
     const roomId = socket.gameOptions.activeRoom;
     const room = io.gameRooms[roomId];
-    room.state = 3;
+    room.stage = 3;
     io.in(roomId).emit('WAITING_TIME', { time: room.timeWaiting });
-    // io.in(roomId).emit('UPDATE_ROOM', { state: room.state });
+    io.in(roomId).emit('UPDATE_ROOM', { stage: room.stage });
     console.log('[game.ts]', SEND_ANSWERS, params);
     setTimeout(() => {
-      room.state = 4;
-      console.log('SHOULD START AFTER 5S');
-      io.in(roomId).emit('UPDATE_ROOM', { state: room.state });
+      //   room.stage = 4;
+      //   console.log('SHOULD START AFTER 5S');
+      io.in(roomId).emit('WAITING_TIME', { time: 0 });
+      //   io.in(roomId).emit('UPDATE_ROOM', { stage: room.stage });
     }, room.timeWaiting);
   });
 };

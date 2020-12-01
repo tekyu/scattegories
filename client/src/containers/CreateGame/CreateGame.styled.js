@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { Form, Field } from "formik";
+import { Form } from "formik";
+import theme from "assets/themes";
 
 export const Header = styled.h3`
   text-align: center;
@@ -15,7 +16,7 @@ export const CreateGameForm = styled(Form)`
 `;
 
 export const CreateGameButton = styled.button`
-  font-family: "Covered By Your Grace", cursive;
+  font-family: ${theme.font.primary};
   font-size: 26px;
   background: transparent;
   border: none;

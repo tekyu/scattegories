@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { userSelectors } from "store/selectors";
 import { roomActions } from "store/actions";
-import theme from "assets/themes";
 import { useTranslation } from "react-i18next";
 import * as Styled from "./ReadyButton.styled";
 
@@ -15,8 +14,6 @@ const ReadyButton = () => {
     dispatch(roomActions.changeUserState());
     setReady(ready ? 0 : 1);
   };
-
-  console.log(`READYBUTTON --- state -> ${userState} | ready -> ${ready}`);
 
   return (
     <Styled.ReadyButton onClick={readyHandler}>

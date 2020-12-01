@@ -10,7 +10,21 @@ const wiggle = keyframes`
   100% {transform: rotate(0deg);}
 `;
 
+export const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  color: ${theme.default.font.primary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6em;
+`;
+
 export const InputRow = styled.div`
+  position: relative;
   z-index: 1;
   /* box-shadow: 0px 9px 28px 0px rgba(0, 0, 0, 0.3); */
   /* &:before {
@@ -28,7 +42,7 @@ export const Row = styled.div`
   color: #000;
   display: flex;
   width: 100%;
-  margin: 5px 0;
+  /* margin: 5px 0; */
   padding: 10px 0;
   position: relative;
 `;
@@ -36,7 +50,7 @@ export const Row = styled.div`
 export const Container = styled.div`
   position: relative;
   background: #ffff88;
-  padding: 12px 0;
+  /* padding: 12px 0; */
 `;
 
 export const InputForm = styled(Form)`
@@ -88,7 +102,7 @@ export const InputField = styled(Field)`
   transition: all 0.3s ease-in-out;
   font-family: ${theme.font.primary};
   background: rgba(255, 255, 255, 0.87);
-  border: 1px solid transparent;
+  border: 1px solid rgba(0, 0, 0, 0.14);
   text-align: center;
   &::placeholder {
     text-transform: lowercase;

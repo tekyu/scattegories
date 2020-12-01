@@ -39,7 +39,7 @@ export const InputField = styled(Field)`
   transition: all 0.3s ease-in-out;
   font-family: ${theme.font.primary};
   background: rgba(255, 255, 255, 0.87);
-  border: 1px solid transparent;
+  border: 1px solid rgba(0, 0, 0, 0.14);
   text-align: center;
   &::placeholder {
     text-transform: lowercase;

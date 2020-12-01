@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { categories } from "store/room/roomSelectors";
+import { Formik } from "formik";
+import { useDispatch } from "react-redux";
 import { sendAnswers } from "store/game/gameActions";
-import * as debounce from "lodash.debounce";
-import { activeLetter } from "store/game/gameSelectors";
 import Letter from "components/Letter/Letter";
 import { useTranslation } from "react-i18next";
 import * as Styled from "./InputRow.styled";
@@ -14,13 +11,8 @@ import * as Styled from "./InputRow.styled";
 const InputRow = ({ answerWidth = 100, categories = [] }) => {
   console.count(`[INPUTROW]`);
   const { t } = useTranslation();
-  // const gameCategories = useSelector(categories);
-  const currentLetter = useSelector(activeLetter);
-  // const getWidth = (gameCategories = []) =>
-  //   (window.innerWidth - 160) / (gameCategories.length || 1);
-
-  // const [answerWidth, setAnswerWidth] = useState(getWidth(gameCategories));
   const dispatch = useDispatch();
+  const [showOverlay, setshowOverlay] = useState(false);
   const submitAnswersHandler = answers => {
     console.log(
       `SUBMIT ANSWERS HANDLER`,
@@ -40,37 +32,13 @@ const InputRow = ({ answerWidth = 100, categories = [] }) => {
       {}
     );
     dispatch(sendAnswers(answersReadyToSubmit));
+    setshowOverlay(true);
     console.log(
       `SUBMIT ANSWERS HANDLER CAN SEND REQUEST`,
       answersReadyToSubmit
     );
     return answersReadyToSubmit;
   };
-
-  // const handleResize = event => {
-  //   setAnswerWidth(getWidth(gameCategories));
-  //   console.log(`resize`, window.innerWidth, getWidth(gameCategories));
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener(
-  //     `resize`,
-  //     debounce(handleResize, 300, {
-  //       leading: false,
-  //       trailing: true
-  //     })
-  //   );
-
-  //   return () => {
-  //     window.removeEventListener(
-  //       `resize`,
-  //       debounce(handleResize, 300, {
-  //         leading: true,
-  //         trailing: true
-  //       })
-  //     );
-  //   };
-  // });
 
   const setInitialValues = (array = []) => {
     return array.reduce((obj, key) => {
@@ -79,8 +47,10 @@ const InputRow = ({ answerWidth = 100, categories = [] }) => {
       return obj;
     }, {});
   };
+
   return (
     <Styled.InputRow>
+      {showOverlay && <Styled.Overlay>Wait for others</Styled.Overlay>}
       <Styled.Container>
         <Formik
           initialValues={setInitialValues(categories)}
@@ -88,7 +58,7 @@ const InputRow = ({ answerWidth = 100, categories = [] }) => {
         >
           <Styled.InputForm>
             <Styled.Row>
-              <Letter letter={currentLetter} />
+              <Letter />
               <Styled.Answers>
                 {categories.map(answer => (
                   <Styled.InputContainer key={answer} width={answerWidth}>

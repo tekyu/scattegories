@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import sillyname from "sillyname";
-import { Formik, Field, ErrorMessage } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import RippedPaper from "../../components/RippedPaper/RippedPaper";
 import * as Styled from "./JoinGame.styled";
 import * as socketActions from "../../store/socket/socketActions";

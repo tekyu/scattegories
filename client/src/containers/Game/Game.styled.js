@@ -12,5 +12,5 @@ export const LetterContainer = styled.div`
 export const LetterText = styled.div`
   color: #000;
   padding-right: 20px;
-  font-size: 1.2em;
+  font-size: 1.6em;
 `;

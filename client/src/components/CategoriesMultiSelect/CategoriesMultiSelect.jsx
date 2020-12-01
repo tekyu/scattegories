@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import CreatableSelect from "react-select/creatable";
@@ -13,11 +13,13 @@ const createOption = label => ({
   label,
   value: label
 });
+
 const CategoriesMultiSelect = ({
   name = `CategoriesMultiSelect`,
   initialValue = []
 }) => {
   const [inputValue, setInputValue] = useState(``);
+  // eslint-disable-next-line no-unused-vars
   const [field, meta, helpers] = useField(name);
   const [categories, setCategories] = useState(
     initialValue.map(val => createOption(val))
@@ -72,6 +74,14 @@ const CategoriesMultiSelect = ({
   );
 };
 
-CategoriesMultiSelect.propTypes = {};
+CategoriesMultiSelect.propTypes = {
+  name: PropTypes.string,
+  initialValue: PropTypes.array
+};
+
+CategoriesMultiSelect.defaultProps = {
+  name: `CategoriesMultiSelect`,
+  initialValue: []
+};
 
 export default CategoriesMultiSelect;

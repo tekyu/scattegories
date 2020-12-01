@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouteMatch, useHistory } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import { userSelectors, roomSelectors } from "store/selectors";
 import * as socketActions from "../../store/socket/socketActions";
 import { roomActions } from "../../store/actions";
@@ -17,9 +17,7 @@ const GameContainer = () => {
   const room = useSelector(roomSelectors.room);
   const roomState = useSelector(roomSelectors.state);
   const dispatch = useDispatch();
-  const history = useHistory();
   const [component, setComponent] = useState(<FullScreenLoader />);
-  // const [activeRoom, setActiveRoom] = useState(null);
 
   const updatePlayers = useCallback(
     ({ data }) => {

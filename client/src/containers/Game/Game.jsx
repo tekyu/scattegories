@@ -24,6 +24,7 @@ const Game = () => {
     `Rośliny`
   ];
   const gameCategories = useSelector(categories);
+  // const gameCategories = mockcategories;
   const getWidth = (categories = []) =>
     (window.innerWidth - 160) / (categories.length || 1);
 
@@ -77,13 +78,15 @@ const Game = () => {
   }, [dispatch]);
   return (
     <Styled.Game>
-      {waitingTimer > 0 && <Countdown time={waitingTimer} />}
+      {waitingTimer > 0 && (
+        <Countdown time={waitingTimer} text="Round ending" />
+      )}
       <Styled.LetterContainer>
         <Styled.LetterText>{t(`game.currentLetter`)}</Styled.LetterText>
         <TraversingLetter />
       </Styled.LetterContainer>
       <Categories answerWidth={answerWidth} categories={gameCategories} />
-      {roomStage === 2 && (
+      {(roomStage === 2 || roomStage === 3) && (
         <InputRow answerWidth={answerWidth} categories={gameCategories} />
       )}
       <Results answerWidth={answerWidth} categories={gameCategories} />

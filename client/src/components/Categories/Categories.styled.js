@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import theme from "assets/themes";
 
 export const Categories = styled.div`
-  background: #ffff88;
-  color: #000;
+  background: ${theme.default.paper};
+  color: ${theme.default.font.primary};
   display: flex;
+  padding: 10px 0;
 `;
 
 export const CategoryHeader = styled.div`

@@ -1,36 +1,48 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import Letter from "components/Letter/Letter";
+import Answer from "components/Answer/Answer";
 import * as Styled from "./AnswerRow.styled";
 
 const AnswerRow = ({
-  category = ``,
-  answer = ``,
-  points = null,
-  width = 100,
-  roundPoints = 0
+  letter = ``,
+  answerWidth = 100,
+  roundPoints = null,
+  answers = []
 }) => {
   return (
-    <Styled.Answer key={category} width={width}>
-      <Styled.AnswerText>{answer}</Styled.AnswerText>
-      <Styled.Points>{points}</Styled.Points>
-    </Styled.Answer>
+    <Styled.Row>
+      <Letter letter={letter} />
+      <Styled.Answers>
+        {answers.map(({ category, answer, points }) => {
+          return (
+            <Answer
+              key={`${letter}-${category}`}
+              answer={answer}
+              points={points}
+              width={answerWidth}
+            />
+          );
+        })}
+      </Styled.Answers>
+      <Styled.Points>{roundPoints}</Styled.Points>
+    </Styled.Row>
   );
 };
 
 AnswerRow.propTypes = {
-  category: PropTypes.string,
-  answer: PropTypes.string,
-  points: PropTypes.number,
-  width: PropTypes.number,
-  roundPoints: PropTypes
+  letter: PropTypes.string,
+  answerWidth: PropTypes.number,
+  roundPoints: PropTypes.number,
+  answers: PropTypes.array
 };
 
 AnswerRow.defaultProps = {
-  category: ``,
-  answer: ``,
-  points: null,
-  width: 100
+  letter: null,
+  answerWidth: 100,
+  roundPoints: null,
+  answers: []
 };
 
 export default AnswerRow;

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import Countdown from "components/Countdown/Countdown";
-import { roomSelectors, userSelectors } from "store/selectors";
 import { roomActions, socketActions } from "store/actions";
 import PlayersList from "components/PlayersList/PlayersList";
 import ReadyButton from "components/ReadyButton/ReadyButton";
 import RoomInfo from "components/RoomInfo/RoomInfo";
-import InputRow from "components/InputRow/InputRow";
 import { useTranslation } from "react-i18next";
 import PostItNoteDynamic from "components/PostItNoteDynamic/PostItNoteDynamic";
 import * as Styled from "./WaitingScreen.styled";
@@ -14,8 +12,6 @@ import * as Styled from "./WaitingScreen.styled";
 const WaitingScreen = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const admin = useSelector(roomSelectors.admin);
-  const userId = useSelector(userSelectors.id);
   const [timer, setTimer] = useState(null);
 
   useEffect(() => {

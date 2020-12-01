@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Letter from "components/Letter/Letter";
 import AnswerRow from "components/AnswerRow/AnswerRow";
-import Answer from "components/Answer/Answer";
 import * as Styled from "./Results.styled";
 
 const Results = ({ categories = [], answerWidth = 100 }) => {
@@ -70,24 +68,13 @@ const Results = ({ categories = [], answerWidth = 100 }) => {
   const renderRows = () => {
     return mockResults.map(({ letter, answers, roundPoints }) => {
       return (
-        <Styled.Row key={letter}>
-          <Letter letter={letter} />
-          <Styled.Answers>
-            {answers.map(({ category, answer, points }) => {
-              return (
-                <AnswerRow
-                  key={`${letter}-${category}`}
-                  category={category}
-                  answer={answer}
-                  points={points}
-                  width={answerWidth}
-                  roundPoints={roundPoints}
-                />
-              );
-            })}
-          </Styled.Answers>
-          <Styled.Points>{roundPoints}</Styled.Points>
-        </Styled.Row>
+        <AnswerRow
+          key={letter}
+          answers={answers}
+          letter={letter}
+          roundPoints={roundPoints}
+          answerWidth={answerWidth}
+        />
       );
     });
   };

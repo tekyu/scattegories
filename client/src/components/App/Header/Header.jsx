@@ -1,12 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
-import { roomSelectors } from "../../../store/selectors";
+import { roomSelectors } from "store/selectors";
+import Logo from "components/Logo/Logo";
 import * as Styled from "./Header.styled";
-import Logo from "../../Logo/Logo";
 
 const Header = () => {
-  const { t } = useTranslation();
   const roomId = useSelector(roomSelectors.id);
   return (
     <Styled.Header>

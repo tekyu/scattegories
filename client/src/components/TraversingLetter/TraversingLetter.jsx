@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import PropTypes from "prop-types";
 
 import { useDispatch } from "react-redux";
 import * as Styled from "./TraversingLetter.styled";
