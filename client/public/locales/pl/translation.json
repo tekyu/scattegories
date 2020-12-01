@@ -42,6 +42,10 @@
     "unreadyButton": "Nie gotowy"
   },
   "inputRow": {
-    "send": "Wyślij"
+    "send": "Wyślij",
+    "write": "Wpisz"
+  },
+  "game": {
+    "currentLetter": "Obecna litera"
   }
 }

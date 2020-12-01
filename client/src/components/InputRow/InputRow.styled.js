@@ -12,8 +12,8 @@ const wiggle = keyframes`
 
 export const InputRow = styled.div`
   z-index: 1;
-  box-shadow: 0px 9px 28px 0px rgba(0, 0, 0, 0.3);
-  &:before {
+  /* box-shadow: 0px 9px 28px 0px rgba(0, 0, 0, 0.3); */
+  /* &:before {
     content: "";
     background: rgba(255, 255, 255, 0.87);
     position: fixed;
@@ -21,7 +21,7 @@ export const InputRow = styled.div`
     left: 0;
     bottom: 0;
     right: 0;
-  }
+  } */
 `;
 
 export const Row = styled.div`
@@ -91,12 +91,17 @@ export const InputField = styled(Field)`
   border: 1px solid transparent;
   text-align: center;
   &::placeholder {
+    text-transform: lowercase;
     text-align: center;
-    color: rgba(0, 0, 0, 0.87);
+    color: rgba(0, 0, 0, 0.54);
   }
   &:focus {
     background: rgba(255, 255, 255, 1);
     border: 1px solid #000;
+  }
+  &:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.54);
   }
 `;
 
@@ -116,8 +121,5 @@ export const Button = styled.button`
   &:focus, &:hover {
     color: green;
     animation: ${wiggle} 0.7s linear infinite;
-    /* background: #fdfd86; */
-    /* box-shadow: -5px 3px 12px -2px rgba(0, 0, 0, 0.28); */
-    border: 1px solid #e8e8e8;
   }
 `;

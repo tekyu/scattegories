@@ -2,9 +2,6 @@ import styled from "styled-components";
 import theme from "assets/themes";
 
 export const TraversingLetter = styled.div`
-  position: absolute;
-  top: 30px;
-  left: 50%;
   color: #000;
   /* border: 2px solid #000; */
   width: 100px;

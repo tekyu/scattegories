@@ -11,14 +11,15 @@ import Letter from "components/Letter/Letter";
 import { useTranslation } from "react-i18next";
 import * as Styled from "./InputRow.styled";
 
-const InputRow = () => {
+const InputRow = ({ answerWidth = 100, categories = [] }) => {
+  console.count(`[INPUTROW]`);
   const { t } = useTranslation();
-  const gameCategories = useSelector(categories);
+  // const gameCategories = useSelector(categories);
   const currentLetter = useSelector(activeLetter);
-  const getWidth = (gameCategories = []) =>
-    (window.innerWidth - 160) / (gameCategories.length || 1);
+  // const getWidth = (gameCategories = []) =>
+  //   (window.innerWidth - 160) / (gameCategories.length || 1);
 
-  const [answerWidth, setAnswerWidth] = useState(getWidth(gameCategories));
+  // const [answerWidth, setAnswerWidth] = useState(getWidth(gameCategories));
   const dispatch = useDispatch();
   const submitAnswersHandler = answers => {
     console.log(
@@ -46,30 +47,30 @@ const InputRow = () => {
     return answersReadyToSubmit;
   };
 
-  const handleResize = event => {
-    setAnswerWidth(getWidth(gameCategories));
-    console.log(`resize`, window.innerWidth, getWidth(gameCategories));
-  };
+  // const handleResize = event => {
+  //   setAnswerWidth(getWidth(gameCategories));
+  //   console.log(`resize`, window.innerWidth, getWidth(gameCategories));
+  // };
 
-  useEffect(() => {
-    window.addEventListener(
-      `resize`,
-      debounce(handleResize, 300, {
-        leading: false,
-        trailing: true
-      })
-    );
+  // useEffect(() => {
+  //   window.addEventListener(
+  //     `resize`,
+  //     debounce(handleResize, 300, {
+  //       leading: false,
+  //       trailing: true
+  //     })
+  //   );
 
-    return () => {
-      window.removeEventListener(
-        `resize`,
-        debounce(handleResize, 300, {
-          leading: true,
-          trailing: true
-        })
-      );
-    };
-  });
+  //   return () => {
+  //     window.removeEventListener(
+  //       `resize`,
+  //       debounce(handleResize, 300, {
+  //         leading: true,
+  //         trailing: true
+  //       })
+  //     );
+  //   };
+  // });
 
   const setInitialValues = (array = []) => {
     return array.reduce((obj, key) => {
@@ -82,26 +83,19 @@ const InputRow = () => {
     <Styled.InputRow>
       <Styled.Container>
         <Formik
-          initialValues={setInitialValues(gameCategories)}
+          initialValues={setInitialValues(categories)}
           onSubmit={submitAnswersHandler}
         >
           <Styled.InputForm>
             <Styled.Row>
-              <Letter />
-              <Styled.Answers>
-                {gameCategories.map(answer => (
-                  <Styled.Answer key={`${answer}-cat`} width={answerWidth}>
-                    {answer}
-                  </Styled.Answer>
-                ))}
-              </Styled.Answers>
-            </Styled.Row>
-            <Styled.Row>
               <Letter letter={currentLetter} />
               <Styled.Answers>
-                {gameCategories.map(answer => (
+                {categories.map(answer => (
                   <Styled.InputContainer key={answer} width={answerWidth}>
-                    <Styled.InputField name={answer} placeholder={answer} />
+                    <Styled.InputField
+                      name={answer}
+                      placeholder={`${t(`inputRow.write`)} ${answer}...`}
+                    />
                   </Styled.InputContainer>
                 ))}
               </Styled.Answers>
@@ -114,6 +108,9 @@ const InputRow = () => {
   );
 };
 
-InputRow.propTypes = {};
+InputRow.propTypes = {
+  categories: PropTypes.array,
+  answerWidth: PropTypes.number
+};
 
 export default InputRow;

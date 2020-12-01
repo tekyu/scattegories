@@ -42,6 +42,10 @@
     "unreadyButton": "Stop being ready"
   },
   "inputRow": {
-    "send": "Send"
+    "send": "Send",
+    "write": "Enter"
+  },
+  "game": {
+    "currentLetter": "Current Letter"
   }
 }

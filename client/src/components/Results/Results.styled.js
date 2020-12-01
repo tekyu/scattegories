@@ -15,29 +15,6 @@ export const Row = styled.div`
   margin: 5px 0;
   padding: 10px 0;
   position: relative;
-  /* &:after {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 10px;
-    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-    border-bottom: solid 2px #41403e;
-    bottom: 0;
-    left: 0;
-  } */
-`;
-
-export const Letter = styled.div`
-  color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  min-width: 30px;
-  font-family: "Covered By Your Grace";
-  font-size: 34px;
-  text-transform: uppercase;
 `;
 
 export const Answers = styled.div`
@@ -46,40 +23,10 @@ export const Answers = styled.div`
   justify-content: center;
 `;
 
-export const Answer = styled.div`
+export const Points = styled.div`
+  font-size: 1.6em;
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 14px 0;
-  height: 100%;
-  width: ${({ width }) => (width ? `${width}px` : `100px`)};
-  margin: 0 4px;
-  white-space: nowrap;
-`;
-
-export const AnswerText = styled.div`
-  text-align: center;
-  width: 100%;
-  font-size: 18px;
-  margin: 0 4px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-export const Points = styled.div`
-  color: #000;
-  display: flex;
-  position: absolute;
-  bottom: -5px;
-  right: 5px;
-  font-size: 20px;
-  transform: rotate(5deg);
-`;
-
-export const Header = styled.div`
-  color: #000;
-  display: flex;
 `;
 
 export const Divider = styled.div`

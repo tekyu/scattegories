@@ -4,6 +4,7 @@ import Dashboard from "containers/Dashboard/Dashboard";
 import CreateGame from "containers/CreateGame/CreateGame";
 import JoinGame from "containers/JoinGame/JoinGame";
 import GameContainer from "containers/GameContainer/GameContainer";
+import Game from "containers/Game/Game";
 
 const Routes = auth => {
   return (
@@ -16,6 +17,7 @@ const Routes = auth => {
         exact
         render={() => <GameContainer auth={false} />}
       />
+      <Route path="/testgame/:id" exact render={() => <Game auth={false} />} />
     </Switch>
   );
 };

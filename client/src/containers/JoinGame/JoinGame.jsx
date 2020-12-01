@@ -70,13 +70,27 @@ const JoinGame = ({ roomId }) => {
           return (
             <Styled.JoinGameForm>
               <Styled.Header>{t(`joinForm.header`)}</Styled.Header>
-              <label htmlFor="username">{t(`joinForm.username`)}</label>
-              <Field label="Wpisz kod gry" name="username" value={username} />
+              <Styled.InputLabel htmlFor="username">
+                {t(`joinForm.username`)}
+              </Styled.InputLabel>
+              <Styled.InputField
+                label="Wpisz swój nick"
+                name="username"
+                value={username}
+                placeholder="Wpisz swój nick"
+              />
               <ErrorMessage name="username" />
               {!roomId && (
                 <React.Fragment>
-                  <label htmlFor="code">{t(`joinForm.gameCode`)}</label>
-                  <Field label="Wpisz kod gry" name="code" value={code} />
+                  <Styled.InputLabel htmlFor="code">
+                    {t(`joinForm.gameCode`)}
+                  </Styled.InputLabel>
+                  <Styled.InputField
+                    label="Wpisz kod gry"
+                    name="code"
+                    value={code}
+                    placeholder="Wpisz kod gry"
+                  />
                   <ErrorMessage name="code" />
                 </React.Fragment>
               )}
