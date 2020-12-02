@@ -107,6 +107,29 @@ export default ({
   socket.on(SEND_ANSWERS, (params: any) => {
     const roomId = socket.gameOptions.activeRoom;
     const room = io.gameRooms[roomId];
+    const activeLetter = room.activeLetter;
+
+    /*
+    round shape
+
+    [
+      {
+        letter: 'k',
+        entries: [
+          {
+            player: 'id12',
+            answers: [],
+            roundPoints: 40
+          }
+        ]
+      }
+    ]
+
+    */
+    const activeRound = room.rounds.find(
+      ({ letter }) => letter === activeLetter
+    );
+
     console.log('[game.ts]', SEND_ANSWERS, params);
     if (room.stage !== 3) {
       room.stage = 3;

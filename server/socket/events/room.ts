@@ -51,6 +51,50 @@ export default ({
     callback({ error: 'Gra nie istnieje' });
   });
 
+  socket.on('disconnect', () => {
+    // @ts-ignore
+    const roomId = socket.gameOptions.activeRoom;
+    // @ts-ignore
+    const room = io.gameRooms[roomId];
+    console.log('LEAVE ROOM ->', roomId);
+    if (!room) {
+      return;
+    }
+    room.disconnectPlayer(socket.id);
+    socket.leave(socket.id);
+    // @ts-ignore
+    delete socket.gameOptions.activeRoom;
+
+    const objectToUpdate: {
+      players: Array<Player>;
+      owner?: string;
+      admin?: string;
+    } = {
+      players: room.players,
+    };
+
+    if (room.owner === socket.id) {
+      const newOwner = room.players[0];
+      room.owner = newOwner ? newOwner.id : null;
+      objectToUpdate.owner = room.owner;
+    }
+
+    if (room.admin === socket.id) {
+      const newOwner = room.players[0];
+      room.owner = newOwner ? newOwner.id : null;
+      room.admin = newOwner ? newOwner.id : null;
+      objectToUpdate.owner = room.owner;
+      objectToUpdate.admin = room.admin;
+    }
+
+    if (room.players.length > 0) {
+      io.in(roomId).emit('UPDATE_ROOM', objectToUpdate);
+      io.in(roomId).emit('UPDATE_PLAYERS', io.gameRooms[roomId].players);
+    } else {
+      delete io.gameRooms[roomId];
+    }
+  });
+
   socket.on(LEAVE_ROOM, ({ roomId }) => {
     // @ts-ignore
     const room = io.gameRooms[roomId];
@@ -86,6 +130,7 @@ export default ({
 
     if (room.players.length > 0) {
       io.in(roomId).emit('UPDATE_ROOM', objectToUpdate);
+      console.log('LEAVE', io.gameRooms[roomId].players.length);
       io.in(roomId).emit('UPDATE_PLAYERS', io.gameRooms[roomId].players);
     } else {
       delete io.gameRooms[roomId];
