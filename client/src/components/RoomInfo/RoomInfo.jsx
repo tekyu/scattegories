@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import PostItNoteDynamic from "components/PostItNoteDynamic/PostItNoteDynamic";
 import PlayersCount from "components/PlayersCount/PlayersCount";
@@ -9,12 +9,16 @@ import * as Styled from "./RoomInfo.styled";
 
 const RoomInfo = () => {
   const { t } = useTranslation();
+  const [idCopied, setIdCopied] = useState(false);
   const { playersMax, players, id, maxScore, categories } = useSelector(
     roomSelectors.room
   );
 
   const copyHandler = () => {
-    console.log(`copied?`);
+    setIdCopied(true);
+    setTimeout(() => {
+      setIdCopied(false);
+    }, 1500);
   };
   return (
     <Styled.RoomInfo>
@@ -31,7 +35,9 @@ const RoomInfo = () => {
           </Styled.RoomLink>
         </Styled.RoomIdParagraph>
         <CopyToClipboard text={id} onCopy={copyHandler}>
-          <PostItNoteDynamic rotate={1.6}>{id}</PostItNoteDynamic>
+          <Styled.CopyButton copied={idCopied}>
+            <PostItNoteDynamic rotate={1.6}>{id}</PostItNoteDynamic>
+          </Styled.CopyButton>
         </CopyToClipboard>
       </Styled.RoomIdMessage>
       <Styled.PlayersCountContainer>

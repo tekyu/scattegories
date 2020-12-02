@@ -38,11 +38,11 @@ export const Container = styled.div`
 export const Note = styled.div`
   line-height: 1;
   text-align: center;
-  width: calc(100% - 25px);
+  padding: 20px;
   margin: 25px;
   height: auto;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  /* padding-top: 20px;
+  padding-bottom: 20px; */
   border: 1px solid #e8e8e8;
   /* border-top: 60px solid #fdfd86; */
   font-family: "Covered By Your Grace", cursive;
@@ -70,7 +70,7 @@ export const Note = styled.div`
     z-index: -1;
     right: -0px;
     bottom: 20px;
-    width: 200px;
+    width: calc(100% - 25px);
     height: 25px;
     background: rgba(0, 0, 0, 0.2);
     box-shadow: 2px 15px 5px rgba(0, 0, 0, 0.4);
