@@ -15,8 +15,7 @@ const Results = ({ categories = [], answerWidth = 100 }) => {
         { category: categories[2], answer: `tes`, points: 10 },
         { category: categories[3], answer: ``, points: 0 },
         { category: categories[4], answer: `test answer`, points: 5 },
-        { category: categories[5], answer: `test adfsfsdnswer`, points: 5 },
-        { category: categories[6], answer: `test adfsfsdnswer`, points: 5 }
+        { category: categories[5], answer: `test adfsfsdnswer`, points: 5 }
       ],
       roundPoints: 40
     },
@@ -28,8 +27,7 @@ const Results = ({ categories = [], answerWidth = 100 }) => {
         { category: categories[2], answer: `test answer`, points: 10 },
         { category: categories[3], answer: ``, points: 0 },
         { category: categories[4], answer: `test answer`, points: 5 },
-        { category: categories[5], answer: `test ansdfsfdswer`, points: 5 },
-        { category: categories[6], answer: `test adfsfsdnswer`, points: 5 }
+        { category: categories[5], answer: `test ansdfsfdswer`, points: 5 }
       ],
       roundPoints: 40
     },
@@ -45,8 +43,7 @@ const Results = ({ categories = [], answerWidth = 100 }) => {
         { category: categories[2], answer: `test answer`, points: 10 },
         { category: categories[3], answer: ``, points: 0 },
         { category: categories[4], answer: `tessdf st answer`, points: 5 },
-        { category: categories[5], answer: `test answer`, points: 5 },
-        { category: categories[6], answer: `test adfsfsdnswer`, points: 5 }
+        { category: categories[5], answer: `test answer`, points: 5 }
       ],
       roundPoints: 40
     },
@@ -58,8 +55,7 @@ const Results = ({ categories = [], answerWidth = 100 }) => {
         { category: categories[2], answer: `test answer`, points: 10 },
         { category: categories[3], answer: ``, points: 0 },
         { category: categories[4], answer: `tessd sdt answer`, points: 5 },
-        { category: categories[5], answer: `test answer`, points: 5 },
-        { category: categories[6], answer: `test adfsfsdnswer`, points: 5 }
+        { category: categories[5], answer: `test answer`, points: 5 }
       ],
       roundPoints: 40
     }
