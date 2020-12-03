@@ -98,10 +98,11 @@ export const InputField = styled(Field)`
   width: 100%;
   height: 100%;
   margin: 0 2px;
-  background: transparent;
   transition: all 0.3s ease-in-out;
   font-family: ${theme.font.primary};
-  background: rgba(255, 255, 255, 0.87);
+  pointer-events: ${({ disabled }) => (disabled ? `none` : `auto`)};
+  background: ${({ disabled }) =>
+    disabled ? `rgba(230, 230, 230, 0.87)` : `rgba(255, 255, 255, 0.87)`};
   border: 1px solid rgba(0, 0, 0, 0.14);
   text-align: center;
   &::placeholder {
@@ -125,6 +126,7 @@ export const Button = styled.button`
   color: #000;
   transition: all 0.2s ease-in-out;
   padding: 6px 12px;
+  pointer-events: ${({ disabled }) => (disabled ? `none` : `auto`)};
   ${({ fullRow }) =>
     fullRow &&
     `

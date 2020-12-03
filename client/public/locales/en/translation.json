@@ -43,7 +43,8 @@
   },
   "inputRow": {
     "send": "Send",
-    "write": "Enter"
+    "write": "Enter",
+    "waitForOthers": "Wait for others"
   },
   "game": {
     "currentLetter": "Current Letter"

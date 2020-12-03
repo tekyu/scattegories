@@ -91,6 +91,7 @@ const InputRow = ({ answerWidth = 100, categories = [] }) => {
                 {categories.map(answer => (
                   <Styled.InputContainer key={answer} width={answerWidth}>
                     <Styled.InputField
+                      disabled={submitted}
                       name={answer}
                       placeholder={`${t(`inputRow.write`)} ${answer}...`}
                     />
@@ -98,8 +99,12 @@ const InputRow = ({ answerWidth = 100, categories = [] }) => {
                 ))}
               </Styled.Answers>
             </Styled.Row>
-            <Styled.Button ref={submitButton} type="submit">
-              {t(`inputRow.send`)}
+            <Styled.Button
+              disabled={submitted}
+              ref={submitButton}
+              type="submit"
+            >
+              {submitted ? t(`inputRow.waitForOthers`) : t(`inputRow.send`)}
             </Styled.Button>
           </Styled.InputForm>
         </Formik>

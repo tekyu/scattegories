@@ -43,7 +43,8 @@
   },
   "inputRow": {
     "send": "Wyślij",
-    "write": "Wpisz"
+    "write": "Wpisz",
+    "waitForOthers": "Poczekaj na resztę"
   },
   "game": {
     "currentLetter": "Obecna litera"

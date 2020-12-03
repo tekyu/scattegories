@@ -13,6 +13,7 @@ import { readyForGame } from "../../store/game/gameActions";
 import * as Styled from "./Game.styled";
 
 const Game = () => {
+  console.count(`[Game component]`);
   const { t } = useTranslation();
   const mockcategories = [
     `Państwo`,

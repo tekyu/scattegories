@@ -1,8 +1,25 @@
 import socketIo from 'socket.io';
+import { nanoid } from 'nanoid';
 
 const CHANGE_USER_STATE = 'CHANGE_USER_STATE';
 const GAME_READY_STATUS = 'GAME_READY_STATUS';
 const SEND_ANSWERS = `SEND_ANSWERS`;
+
+const roundEntry = ({ id, answers }) => {
+  return {
+    playerId: id,
+    answers,
+    roundPoints: 0,
+  };
+};
+
+const emptyRound = ({ letter }) => {
+  return {
+    letter,
+    entries: [],
+    id: nanoid(),
+  };
+};
 
 export default ({
   io,
@@ -43,6 +60,7 @@ export default ({
     const roomId = socket.gameOptions.activeRoom;
     const room = io.gameRooms[roomId];
     room.activeLetter = letter;
+    room.rounds.push(emptyRound({ letter }));
     io.in(roomId).emit('STARTING_ROUND', {});
     room.stage = 1;
     io.in(roomId).emit('UPDATE_ROOM', { stage: room.stage });
@@ -55,6 +73,17 @@ export default ({
         io.in(roomId).emit('UPDATE_ROOM', { stage: room.stage });
       }, 2000);
     }, 4000);
+  };
+
+  const roundCheck = () => {
+    console.log('[game.ts] [roundCheck]');
+    const roomId = socket.gameOptions.activeRoom;
+    const room = io.gameRooms[roomId];
+    const { activeLetter, rounds } = room;
+    const { entries } =
+      room.rounds.find(({ letter }) => letter === activeLetter) || [];
+
+    // const getAllAnswers = entries.reduce;
   };
 
   socket.on(GAME_READY_STATUS, () => {
@@ -104,43 +133,38 @@ export default ({
     }, time);
   });
 
-  socket.on(SEND_ANSWERS, (params: any) => {
+  socket.on(SEND_ANSWERS, ({ answers }: any) => {
     const roomId = socket.gameOptions.activeRoom;
     const room = io.gameRooms[roomId];
-    const activeLetter = room.activeLetter;
+    const { activeLetter, rounds } = room;
 
-    /*
-    round shape
+    const round = rounds.find(({ letter }) => letter === activeLetter);
+    const player = round.entries.find(({ playerId }) => playerId === socket.id);
+    if (!player) {
+      round.entries.push(roundEntry({ id: socket.id, answers }));
+      console.log('Round Entries', round.entries);
+    } else {
+      player.answers = answers;
+    }
 
-    [
-      {
-        letter: 'k',
-        entries: [
-          {
-            player: 'id12',
-            answers: [],
-            roundPoints: 40
-          }
-        ]
-      }
-    ]
+    if (round.entries.length === room.players.length) {
+      room.stage = 4;
+      io.in(roomId).emit('UPDATE_ROOM', { stage: room.stage });
+      roundCheck();
+    }
 
-    */
-    const activeRound = room.rounds.find(
-      ({ letter }) => letter === activeLetter
-    );
-
-    console.log('[game.ts]', SEND_ANSWERS, params);
-    if (room.stage !== 3) {
+    console.log('[game.ts]', SEND_ANSWERS, answers);
+    if (room.stage <= 2) {
       room.stage = 3;
       io.in(roomId).emit('WAITING_TIME', { time: room.timeWaiting });
       io.in(roomId).emit('UPDATE_ROOM', { stage: room.stage });
-      console.log('[game.ts]', SEND_ANSWERS, 'stage change', params);
+      console.log('[game.ts]', SEND_ANSWERS, 'stage change');
       setTimeout(() => {
-        //   room.stage = 4;
-        //   console.log('SHOULD START AFTER 5S');
+        if (room.stage === 4) return;
+        room.stage = 4;
+        console.log('SHOULD START AFTER 5S');
         // io.in(roomId).emit('WAITING_TIME', { time: 0 });
-        //   io.in(roomId).emit('UPDATE_ROOM', { stage: room.stage });
+        io.in(roomId).emit('UPDATE_ROOM', { stage: room.stage });
       }, room.timeWaiting);
     }
   });
