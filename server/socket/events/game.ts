@@ -1,5 +1,10 @@
 import socketIo from 'socket.io';
 import { nanoid } from 'nanoid';
+import cloneDeep from 'clone-deep';
+import { getSortedAllAnswers } from './utils/gameUtils';
+import { isObjectEmpty } from '../../utils/utils';
+// https://github.com/losandes/socket.io-mongodb
+// https://github.com/socketio/socket.io-redis
 
 const CHANGE_USER_STATE = 'CHANGE_USER_STATE';
 const GAME_READY_STATUS = 'GAME_READY_STATUS';
@@ -76,14 +81,32 @@ export default ({
   };
 
   const roundCheck = () => {
-    console.log('[game.ts] [roundCheck]');
     const roomId = socket.gameOptions.activeRoom;
     const room = io.gameRooms[roomId];
-    const { activeLetter, rounds } = room;
+    const { activeLetter, rounds, categories } = room;
     const { entries } =
       room.rounds.find(({ letter }) => letter === activeLetter) || [];
+    console.log('[game.ts] [roundCheck]', entries);
 
-    // const getAllAnswers = entries.reduce;
+    const { pointable, questionable } = getSortedAllAnswers({
+      categories,
+      entries,
+    });
+
+    if (isObjectEmpty(questionable)) {
+      // go to giving points
+      console.log('[roundCheck][questionable empty][proceed to giving points]');
+    } else {
+      // send questionable answers
+      room.stage = 5;
+      io.in(roomId).emit('UPDATE_ROOM', { stage: room.stage });
+      io.in(roomId).emit('QUESTIONABLE_ANSWERS', questionable);
+    }
+    console.log('POINTABLE', pointable);
+    console.log('QUESTIONABLE', questionable);
+    // todo
+    // dac punkty tym co sie powtarzaja
+    // pokazac questionable answers
   };
 
   socket.on(GAME_READY_STATUS, () => {

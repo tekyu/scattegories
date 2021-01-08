@@ -3,13 +3,15 @@ import {
   UPDATE_ANSWERS,
   RESET_ANSWERS,
   UPDATE_SCOREBOARD,
-  UPDATE_ACTIVE_LETTER
+  UPDATE_ACTIVE_LETTER,
+  UPDATE_QUESTIONABLE
 } from "./gameActions";
 
 export const initialState = {
   answers: {},
   scoreboard: {},
-  activeLetter: ``
+  activeLetter: ``,
+  questionable: []
 };
 
 export const gameReducer = produce(
@@ -28,6 +30,9 @@ export const gameReducer = produce(
         return draft;
       case UPDATE_SCOREBOARD:
         draft.scoreboard = { ...draft.scoreboard, ...payload.scores };
+        return draft;
+      case UPDATE_QUESTIONABLE:
+        draft.questionable = payload;
         return draft;
       default:
         return draft;

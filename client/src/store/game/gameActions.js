@@ -6,6 +6,7 @@ export const UPDATE_SCOREBOARD = `UPDATE_SCOREBOARD`;
 export const GAME_READY_STATUS = `GAME_READY_STATUS`;
 export const UPDATE_ACTIVE_LETTER = `UPDATE_ACTIVE_LETTER`;
 export const SEND_ANSWERS = `SEND_ANSWERS`;
+export const UPDATE_QUESTIONABLE = `UPDATE_QUESTIONABLE`;
 
 export const readyForGame = () => {
   return dispatch => {
@@ -29,6 +30,11 @@ export const resetAnswers = () => ({
 
 export const updateScoreboard = scores => ({
   type: UPDATE_SCOREBOARD,
+  payload: scores
+});
+
+export const updateQuestionableAnswers = scores => ({
+  type: UPDATE_QUESTIONABLE,
   payload: scores
 });
 

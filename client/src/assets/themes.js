@@ -9,10 +9,12 @@ const themes = {
     }
   },
   dark: {
-    background: `#121212`,
+    background: `#3c3c3c`,
+    primary: `#3c3c3c`,
+    paper: `#6E67A3`,
     font: {
-      primary: `rgba(255, 255, 255, 0.87)`,
-      secondary: `rgba(255, 255, 255, 0.60)`
+      primary: `#ffffef`,
+      secondary: `#6E67A3`
     }
   },
   font: {

@@ -11,7 +11,7 @@ export default class Room implements IRoom {
   owner: string;
   admin: string;
   state: number; // 0 - waiting | 1 - ready | 2 - started | 3 - paused | 4 - ended
-  stage: number; // 0 - idle | 1 - choosing | 2 - writing | 3 - waiting | 4 - checking | 5 - summary | 6 - ended
+  stage: number; // 0 - idle | 1 - choosing | 2 - writing | 3 - waiting | 4 - checking | 5 - questionable | 6 - summary | 7 - ended
   players: Array<Object>;
   winners: Array<String>;
   createdAt: number;

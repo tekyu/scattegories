@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TraversingLetter from "components/TraversingLetter/TraversingLetter";
 import Results from "components/Results/Results";
 import { categories, stage } from "store/room/roomSelectors";
 import InputRow from "components/InputRow/InputRow";
-import { socketActions } from "store/actions";
+import { gameActions, socketActions } from "store/actions";
 import Countdown from "components/Countdown/Countdown";
 import Categories from "components/Categories/Categories";
 import * as debounce from "lodash.debounce";
@@ -31,17 +31,30 @@ const Game = () => {
 
   const dispatch = useDispatch();
   const roomStage = useSelector(stage);
-
   const [answerWidth, setAnswerWidth] = useState(getWidth(gameCategories));
   const [waitingTimer, setWaitingTimer] = useState(0);
+  const [showInputRow, setShowInputRow] = useState(false);
+
   const setWaitingTimeHandler = ({ data: { time } }) => {
     console.log(`setWaitingTImeHandler`, time);
     setWaitingTimer(time);
   };
 
+  const updateQuestionableAnswers = useCallback(
+    ({ data }) => {
+      console.log(`[game][updateQuestionableAnswers]`, data);
+      dispatch(gameActions.updateQuestionableAnswers(data));
+    },
+    [dispatch]
+  );
+
   const handleResize = event => {
     setAnswerWidth(getWidth(gameCategories));
     console.log(`resize`, window.innerWidth, getWidth(gameCategories));
+  };
+
+  const handleForcedSubmit = () => {
+    setShowInputRow(true);
   };
 
   useEffect(() => {
@@ -65,6 +78,14 @@ const Game = () => {
   });
 
   useEffect(() => {
+    if (roomStage === 2 || roomStage === 3) {
+      setShowInputRow(true);
+    } else {
+      setShowInputRow(false);
+    }
+  }, [roomStage, showInputRow]);
+
+  useEffect(() => {
     dispatch(socketActions.listener(`WAITING_TIME`, setWaitingTimeHandler));
 
     return () => {
@@ -73,6 +94,39 @@ const Game = () => {
       );
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      socketActions.listener(`QUESTIONABLE_ANSWERS`, updateQuestionableAnswers)
+    );
+
+    return () => {
+      dispatch(
+        socketActions.removeListener(
+          `QUESTIONABLE_ANSWERS`,
+          updateQuestionableAnswers
+        )
+      );
+    };
+  }, [dispatch, updateQuestionableAnswers]);
+
+  const gameContent = () => {
+    switch (stage) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+        return (
+          <Results answerWidth={answerWidth} categories={gameCategories} />
+        );
+      case 5:
+        return <div>questionable</div>;
+      default:
+        return (
+          <Results answerWidth={answerWidth} categories={gameCategories} />
+        );
+    }
+  };
 
   useEffect(() => {
     dispatch(readyForGame());
@@ -87,10 +141,15 @@ const Game = () => {
         <TraversingLetter />
       </Styled.LetterContainer>
       <Categories answerWidth={answerWidth} categories={gameCategories} />
-      {(roomStage === 2 || roomStage === 3) && (
-        <InputRow answerWidth={answerWidth} categories={gameCategories} />
+      {showInputRow && (
+        <InputRow
+          forceSubmitHandler={handleForcedSubmit}
+          answerWidth={answerWidth}
+          categories={gameCategories}
+        />
       )}
-      <Results answerWidth={answerWidth} categories={gameCategories} />
+
+      {gameContent()}
     </Styled.Game>
   );
 };

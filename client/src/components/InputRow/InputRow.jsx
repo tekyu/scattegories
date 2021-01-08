@@ -9,13 +9,22 @@ import { useTranslation } from "react-i18next";
 import { socketActions } from "store/actions";
 import * as Styled from "./InputRow.styled";
 
-const InputRow = ({ answerWidth = 100, categories = [] }) => {
+const InputRow = ({
+  answerWidth = 100,
+  categories = [],
+  forceSubmitHandler = () => {}
+}) => {
   const submitButton = useRef(null);
   console.count(`[INPUTROW]`);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [submitted, setSubmitted] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
+
+  useEffect(() => {
+    console.log(`[inpurow][submitted]`, submitted);
+  }, [submitted]);
+
   const submitAnswersHandler = answers => {
     console.log(
       `SUBMIT ANSWERS HANDLER`,
@@ -45,17 +54,20 @@ const InputRow = ({ answerWidth = 100, categories = [] }) => {
     return answersReadyToSubmit;
   };
 
+  const checkForForceSubmitHandler = useCallback(() => {
+    if (!submitted && submitButton && submitButton.current) {
+      submitButton.current.click();
+      forceSubmitHandler(false);
+    }
+  }, [forceSubmitHandler, submitted]);
+
   const waitingTimeSubmitHandler = useCallback(
     ({ data: { time } }) => {
       setTimeout(() => {
-        console.log(`FORCE SUBMIT`);
-        if (!submitted && submitButton) {
-          console.log(`FORCE SUBMIT NOT SUBMITTED`, submitButton);
-          submitButton.current.click();
-        }
+        checkForForceSubmitHandler();
       }, time);
     },
-    [submitted]
+    [checkForForceSubmitHandler]
   );
 
   useEffect(() => {

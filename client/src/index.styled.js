@@ -5,8 +5,8 @@ export const GlobalStyle = createGlobalStyle`
   body {
     font-size: 16px;
   font-family: ${theme.font.primary};
-  background: ${theme.default.background};
-  color: ${theme.default.font.primary};
+  background: ${theme.dark.background};
+  color: ${theme.dark.font.primary};
   background-image: linear-gradient(
       0deg,
       transparent 5em,

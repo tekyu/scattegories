@@ -17,3 +17,8 @@ export const scoreboard = createSelector(
   gameSelector,
   ({ scoreboard = initialState.scoreboard }) => scoreboard
 );
+
+export const questionable = createSelector(
+  gameSelector,
+  ({ questionable = initialState.questionable }) => questionable
+);
