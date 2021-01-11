@@ -1,4 +1,5 @@
 import cloneDeep from 'clone-deep';
+import { nanoid } from 'nanoid';
 
 export const getInitialAnswersArray = (categories) => {
   console.log('[getInitialAnswersArray]', categories);
@@ -15,7 +16,11 @@ export const getAllAnswers = (entries, initialAllAnswers) => {
       console.log('acc', answers);
       Object.entries(entry.answers).forEach(([category, answer]) => {
         console.log(category, answer);
-        answers[category].push({ answer, playerId: entry.playerId });
+        answers[category].push({
+          answer,
+          playerId: entry.playerId,
+          answerId: nanoid(6),
+        });
       });
       return answers;
     }, cloneDeep(initialAllAnswers)) || {}
@@ -54,7 +59,10 @@ export const getSortedAnswers = (allAnswers) => {
   );
 };
 
-export const getSortedAllAnswers = ({ categories = [], entries = [] }) => {
+export const getSortedAllAnswers = async ({
+  categories = [],
+  entries = [],
+}) => {
   console.log('[getSortedAllAnswers]', categories, entries);
   const initialAllAnswers = getInitialAnswersArray(categories);
   console.log('[getSortedAllAnswers][initialAllAnswers]', initialAllAnswers);

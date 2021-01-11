@@ -80,7 +80,7 @@ export default ({
     }, 4000);
   };
 
-  const roundCheck = () => {
+  const roundCheck = async () => {
     const roomId = socket.gameOptions.activeRoom;
     const room = io.gameRooms[roomId];
     const { activeLetter, rounds, categories } = room;
@@ -88,7 +88,7 @@ export default ({
       room.rounds.find(({ letter }) => letter === activeLetter) || [];
     console.log('[game.ts] [roundCheck]', entries);
 
-    const { pointable, questionable } = getSortedAllAnswers({
+    const { pointable, questionable } = await getSortedAllAnswers({
       categories,
       entries,
     });
@@ -99,6 +99,12 @@ export default ({
     } else {
       // send questionable answers
       room.stage = 5;
+      const activeRound = room.rounds.find(
+        ({ letter }) => letter === room.activeLetter
+      );
+      activeRound.questionableEntries = {};
+      activeRound.questionable = questionable;
+      activeRound.pointable = pointable;
       io.in(roomId).emit('UPDATE_ROOM', { stage: room.stage });
       io.in(roomId).emit('QUESTIONABLE_ANSWERS', questionable);
     }
