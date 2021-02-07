@@ -10,6 +10,7 @@ export const UPDATE_PLAYERS = `UPDATE_PLAYERS`;
 export const UPDATE_WINNERS = `UPDATE_WINNERS`;
 export const LEAVE_ROOM = `LEAVE_ROOM`;
 export const CHANGE_USER_STATE = `CHANGE_USER_STATE`;
+export const UPDATE_SCOREBOARD = `CHANGE_USER_STATE`;
 
 export const updateRoom = room => ({
   type: UPDATE_ROOM,
@@ -60,5 +61,13 @@ export const leaveRoom = roomId => {
     dispatch({ type: LEAVE_ROOM });
     dispatch({ type: RESET_USER });
     dispatch(emitter(LEAVE_ROOM, { roomId }));
+  };
+};
+
+export const updateScoreboard = scoreboard => {
+  console.log(`[roomActions][updateScoreboard]`, scoreboard);
+  return {
+    type: UPDATE_SCOREBOARD,
+    payload: scoreboard
   };
 };

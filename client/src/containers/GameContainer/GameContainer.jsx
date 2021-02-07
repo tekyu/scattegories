@@ -2,8 +2,13 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouteMatch } from "react-router-dom";
 import { userSelectors, roomSelectors } from "store/selectors";
+import {
+  UPDATE_PLAYERS,
+  UPDATE_ROOM,
+  UPDATE_SCOREBOARD
+} from "store/room/roomActions";
 import * as socketActions from "../../store/socket/socketActions";
-import { roomActions } from "../../store/actions";
+import { gameActions, roomActions } from "../../store/actions";
 import JoinGame from "../JoinGame/JoinGame";
 import WaitingScreen from "../WaitingScreen/WaitingScreen";
 import FullScreenLoader from "../../components/FullScreenLoader/FullScreenLoader";
@@ -33,15 +38,34 @@ const GameContainer = () => {
     [dispatch]
   );
 
-  useEffect(() => {
-    dispatch(socketActions.listener(`UPDATE_PLAYERS`, updatePlayers));
-    dispatch(socketActions.listener(`UPDATE_ROOM`, updateRoom));
+  const updateScoreboardHandler = useCallback(
+    ({ data }) => {
+      console.log(`[gameContainer][updateScoreboard]`, data);
+      dispatch(roomActions.updateScoreboard(data));
+      // dispatch(gameActions.updateScoreboard(data));
+    },
+    [dispatch]
+  );
 
+  useEffect(() => {
+    dispatch(socketActions.listener(UPDATE_PLAYERS, updatePlayers));
+    dispatch(socketActions.listener(UPDATE_ROOM, updateRoom));
+    dispatch(
+      socketActions.listener(`UPDATE_SCOREBOARD`, updateScoreboardHandler)
+    );
+    console.log(`[gameContainer][updateScoreboard][listener]`);
     return () => {
-      dispatch(socketActions.removeListener(`UPDATE_PLAYERS`, updatePlayers));
-      dispatch(socketActions.removeListener(`UPDATE_ROOM`, updateRoom));
+      dispatch(socketActions.removeListener(UPDATE_PLAYERS, updatePlayers));
+      dispatch(socketActions.removeListener(UPDATE_ROOM, updateRoom));
+      dispatch(
+        socketActions.removeListener(
+          `UPDATE_SCOREBOARD`,
+          updateScoreboardHandler
+        )
+      );
+      console.log(`[gameContainer][updateScoreboard][removeListener]`);
     };
-  }, [dispatch, updatePlayers, updateRoom]);
+  }, [dispatch, updatePlayers, updateRoom, updateScoreboardHandler]);
 
   useEffect(() => {
     console.log(`gamecontainer`, room.id, user.id, room.state);

@@ -6,7 +6,8 @@ import {
   UPDATE_ADMIN,
   UPDATE_STATE,
   UPDATE_WINNERS,
-  LEAVE_ROOM
+  LEAVE_ROOM,
+  UPDATE_SCOREBOARD
 } from "./roomActions";
 
 export const initialState = {
@@ -32,6 +33,10 @@ export const roomReducer = produce(
           draft[key] = value;
         });
         // Object.assign({}, draft, payload);
+        return draft;
+      case UPDATE_SCOREBOARD:
+        console.log(`[roomReducer] [UPDATE_SCOREBOARD]`, payload);
+        draft.scoreboard = payload;
         return draft;
       case UPDATE_PLAYERS:
         draft.players = payload;

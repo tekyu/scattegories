@@ -14,6 +14,8 @@ export const initialState = {
   questionable: []
 };
 
+const updateScoreboard = ({ scoreboard = {}, id = `` }) => scoreboard[id] || {};
+
 export const gameReducer = produce(
   (draft = initialState, { type, payload }) => {
     switch (type) {
@@ -29,7 +31,12 @@ export const gameReducer = produce(
         draft.answers = {};
         return draft;
       case UPDATE_SCOREBOARD:
-        draft.scoreboard = { ...draft.scoreboard, ...payload.scores };
+        console.log(
+          `[gameReducer] [UPDATE_SCOREBOARD]`,
+          payload,
+          updateScoreboard(payload)
+        );
+        draft.scoreboard = updateScoreboard(payload);
         return draft;
       case UPDATE_QUESTIONABLE:
         draft.questionable = payload;

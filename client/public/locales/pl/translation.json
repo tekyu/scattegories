@@ -47,6 +47,8 @@
     "waitForOthers": "Poczekaj na resztę"
   },
   "game": {
-    "currentLetter": "Obecna litera"
+    "currentLetter": "Obecna litera",
+    "questionableQuestion": "Czy te odpowiedzi są poprawne?",
+    "waitForOthers": "Poczekaj na resztę graczy"
   }
 }

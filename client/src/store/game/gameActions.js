@@ -7,6 +7,7 @@ export const GAME_READY_STATUS = `GAME_READY_STATUS`;
 export const UPDATE_ACTIVE_LETTER = `UPDATE_ACTIVE_LETTER`;
 export const SEND_ANSWERS = `SEND_ANSWERS`;
 export const UPDATE_QUESTIONABLE = `UPDATE_QUESTIONABLE`;
+export const QUESTIONABLE_ANSWERS_SENT = `QUESTIONABLE_ANSWERS_SENT`;
 
 export const readyForGame = () => {
   return dispatch => {
@@ -28,10 +29,15 @@ export const resetAnswers = () => ({
   type: RESET_ANSWERS
 });
 
-export const updateScoreboard = scores => ({
-  type: UPDATE_SCOREBOARD,
-  payload: scores
-});
+export const updateScoreboard = scoreboard => {
+  console.log(`[gameActions][updateScoreboard]`, scoreboard);
+  return (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_SCOREBOARD,
+      payload: { scoreboard, id: getState().user.id }
+    });
+  };
+};
 
 export const updateQuestionableAnswers = scores => ({
   type: UPDATE_QUESTIONABLE,
@@ -42,5 +48,12 @@ export const sendAnswers = answers => {
   return dispatch => {
     console.log(`sendansers dispatch`, answers);
     dispatch(emitter(SEND_ANSWERS, { answers }));
+  };
+};
+
+export const sendQuestionableAnswers = answers => {
+  return dispatch => {
+    console.log(`sendQuestionableAnswers dispatch`, answers);
+    dispatch(emitter(QUESTIONABLE_ANSWERS_SENT, { answers }));
   };
 };

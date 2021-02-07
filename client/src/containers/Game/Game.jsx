@@ -9,6 +9,7 @@ import Countdown from "components/Countdown/Countdown";
 import Categories from "components/Categories/Categories";
 import * as debounce from "lodash.debounce";
 import { useTranslation } from "react-i18next";
+import QuestionableAnswers from "components/QuestionableAnswers/QuestionableAnswers";
 import { readyForGame } from "../../store/game/gameActions";
 import * as Styled from "./Game.styled";
 
@@ -110,8 +111,12 @@ const Game = () => {
     };
   }, [dispatch, updateQuestionableAnswers]);
 
+  useEffect(() => {
+    console.log(`stage change`, roomStage);
+  }, [roomStage]);
+
   const gameContent = () => {
-    switch (stage) {
+    switch (roomStage) {
       case 1:
       case 2:
       case 3:
@@ -120,7 +125,7 @@ const Game = () => {
           <Results answerWidth={answerWidth} categories={gameCategories} />
         );
       case 5:
-        return <div>questionable</div>;
+        return <QuestionableAnswers />;
       default:
         return (
           <Results answerWidth={answerWidth} categories={gameCategories} />
@@ -141,6 +146,7 @@ const Game = () => {
         <TraversingLetter />
       </Styled.LetterContainer>
       <Categories answerWidth={answerWidth} categories={gameCategories} />
+      {/* <QuestionableAnswers /> */}
       {showInputRow && (
         <InputRow
           forceSubmitHandler={handleForcedSubmit}

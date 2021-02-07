@@ -47,6 +47,8 @@
     "waitForOthers": "Wait for others"
   },
   "game": {
-    "currentLetter": "Current Letter"
+    "currentLetter": "Current Letter",
+    "questionableQuestion": "Are these answers correct?",
+    "waitForOthers": "Wait for others"
   }
 }

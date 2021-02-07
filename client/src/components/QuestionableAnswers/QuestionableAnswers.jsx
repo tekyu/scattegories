@@ -1,77 +1,103 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { gameSelectors } from "store/selectors";
 import cloneDeep from "clone-deep";
+import { sendQuestionableAnswers } from "store/game/gameActions";
+import { useTranslation } from "react-i18next";
+import PostItNoteDynamic from "components/PostItNoteDynamic/PostItNoteDynamic";
+import { CSSTransition } from "react-transition-group";
 import * as Styled from "./QuestionableAnswers.styled";
 import mockAnswers from "./mockAnswers";
-
-const getAnswer = ({ category, answer, answerId, handler }) => {
-  const answerHandler = ({ target }) => {
-    const allowAnswer = target.getAttribute(`allowanswer`);
-    console.log(`state`, allowAnswer);
-    handler({ answerId, category, allowAnswer });
-  };
-  return (
-    <div key={answerId} id={answerId} category={category}>
-      {answer}
-      <button type="button" allowanswer="yes" onClick={answerHandler}>
-        Yes
-      </button>
-      <button type="button" allowanswer="no" onClick={answerHandler}>
-        No
-      </button>
-    </div>
-  );
-};
+import AnswerElement from "./AnswerElement/AnswerElement";
 
 const QuestionableAnswers = () => {
-  // const answers = useSelector(gameSelectors.questionable);
+  const { t } = useTranslation();
+  const answers = useSelector(gameSelectors.questionable);
+  const dispatch = useDispatch();
+  const [sent, setSent] = useState(false);
   const [redacted, setRedacted] = useState({});
-  const answers = mockAnswers;
-  const numOfAnswers = Object.keys(answers).length;
+  const [categoriesMap, setCategoriesMap] = useState({});
+  // const answers = mockAnswers;
+  const numOfAnswers = answers.length;
+
   useEffect(() => {
-    console.log(`[QuestionableAnswers][redacted]`, redacted, numOfAnswers);
-    if (Object.keys(redacted).length === numOfAnswers) {
-      console.log(`[QuestionableAnswers][redacted][sendHere]`);
+    const categories = answers.reduce((acc, answer) => {
+      if (!acc[answer.category]) {
+        // eslint-disable-next-line no-param-reassign
+        acc[answer.category] = [];
+      }
+      acc[answer.category].push(answer);
+      return acc;
+    }, {});
+    setCategoriesMap(categories);
+  }, [answers]);
+
+  useEffect(() => {
+    console.log(`test`, redacted, Object.keys(redacted).length, numOfAnswers);
+    if (
+      numOfAnswers > 0 &&
+      Object.keys(redacted).length > 0 &&
+      Object.keys(redacted).length === numOfAnswers
+    ) {
+      dispatch(sendQuestionableAnswers(redacted));
+      setSent(true);
     }
-  }, [numOfAnswers, redacted]);
+  }, [answers, dispatch, numOfAnswers, redacted]);
 
   const redactHandler = ({ answerId, category, allowAnswer }) => {
-    console.log(`[QuestionableAnswers][redactHandler]`, category, allowAnswer);
+    console.log(`redactHandler`, { answerId, category, allowAnswer });
     setRedacted(prevState => {
       return {
         ...prevState,
-        [answerId]: allowAnswer
+        [answerId]: { category, allow: allowAnswer }
       };
     });
   };
 
   const getCategories = () => {
-    return Object.entries(answers).map(([category, entries]) => {
+    return Object.entries(categoriesMap).map(([category, entries]) => {
       if (!entries.length > 0) {
         return null;
       }
       return (
-        <div key={category}>
-          <label>{category}</label>
-          {entries.map(({ answer, answerId, playerId }) =>
-            getAnswer({
-              answer,
-              playerId,
-              category,
-              answerId,
-              handler: redactHandler
-            })
-          )}
-        </div>
+        <Styled.Category key={category}>
+          <Styled.CategoryName>{category}</Styled.CategoryName>
+          {entries.map(({ answer, answerId }) => (
+            <PostItNoteDynamic
+              key={answerId}
+              rotate={(Math.random() * (-1 - 2.5) + 2.5).toFixed(2)}
+            >
+              <AnswerElement
+                key={answerId}
+                answerId={answerId}
+                answer={answer}
+                category={category}
+                handler={redactHandler}
+              />
+            </PostItNoteDynamic>
+          ))}
+        </Styled.Category>
       );
     });
   };
 
   return (
-    <Styled.QuestionableAnswers>{getCategories()}</Styled.QuestionableAnswers>
+    <CSSTransition in appear classNames="questionable" timeout={200}>
+      <Styled.QuestionableAnswers>
+        {!sent ? (
+          <>
+            <Styled.Question>{t(`game.questionableQuestion`)}</Styled.Question>
+            <Styled.Categories>{getCategories()}</Styled.Categories>
+          </>
+        ) : (
+            <CSSTransition in appear classNames="wait" timeout={300}>
+              <Styled.Wait>Please wait for others</Styled.Wait>
+            </CSSTransition>
+          )}
+      </Styled.QuestionableAnswers>
+    </CSSTransition>
   );
 };
 
