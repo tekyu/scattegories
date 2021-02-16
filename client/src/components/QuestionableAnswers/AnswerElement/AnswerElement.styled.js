@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import themes from "assets/themes";
 
 const colors = {
   true: `green`,
@@ -6,10 +7,19 @@ const colors = {
   undefined: `pink`
 };
 
+const answerColor = {
+  true: `${themes.default.success.light}`,
+  false: `${themes.default.error.main}`,
+  undefined: `transparent`
+};
+
 export const AnswerElement = styled.div`
   display: flex;
-  /* padding: 10px; */
-  /* margin: 10px; */
+  margin: 5px;
+  padding: 10px;
+  justify-content: space-between;
+  background: ${({ state }) =>
+    `linear-gradient(90deg, ${answerColor[state]} 0%, rgba(255,255,255,0) 80%)`};
 `;
 
 export const Answer = styled.p`
@@ -18,22 +28,24 @@ export const Answer = styled.p`
   margin-right: 20px;
 `;
 
+export const Buttons = styled.div`
+  display: flex;
+`;
+
 export const ButtonYes = styled.button`
-font-size: 16px;
-  /* font-size: ${({ state }) => (state === true ? `20px` : `16px`)}; */
-  color: ${({ state }) =>
-    state === true ? `${colors[state]}` : `${colors[undefined]}`};
+  font-size: 18px;
+  color: ${themes.default.font.primary};
+  font-family: ${themes.font.primary};
   &:hover {
-    color: ${colors.true};
+    font-weight: 600;
   }
 `;
 
 export const ButtonNo = styled.button`
-font-size: 16px;
-  /* font-size: ${({ state }) => (state === false ? `20px` : `16px`)}; */
-  color: ${({ state }) =>
-    state === false ? `${colors[state]}` : `${colors[undefined]}`};
+  font-size: 18px;
+  color: ${themes.default.font.primary};
+  font-family: ${themes.font.primary};
   &:hover {
-    color: ${colors.false};
+    font-weight: 600;
   }
 `;

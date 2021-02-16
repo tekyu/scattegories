@@ -1,6 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import { Field, Form } from "formik";
 import theme from "assets/themes";
+import { mediaQuery } from "utils/mediaQueries";
 
 const wiggle = keyframes`
   0% {transform: rotate(0deg);}
@@ -25,32 +26,27 @@ export const Overlay = styled.div`
 
 export const InputRow = styled.div`
   position: relative;
-  z-index: 1;
-  /* box-shadow: 0px 9px 28px 0px rgba(0, 0, 0, 0.3); */
-  /* &:before {
-    content: "";
-    background: rgba(255, 255, 255, 0.87);
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-  } */
+  /* z-index: 1; */
+  ${mediaQuery.lessThan(`medium`)`
+    width:100%;
+  `};
 `;
 
 export const Row = styled.div`
-  color: #000;
+  color: ${theme.default.font.primary};
   display: flex;
-  width: 100%;
-  /* margin: 5px 0; */
   padding: 10px 0;
   position: relative;
+  width: auto;
+  max-width: 1800px;
+  ${mediaQuery.lessThan(`medium`)`
+    width:100%;
+  `};
 `;
 
 export const Container = styled.div`
   position: relative;
   background: #ffff88;
-  /* padding: 12px 0; */
 `;
 
 export const InputForm = styled(Form)`
@@ -64,6 +60,10 @@ export const Answers = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  ${mediaQuery.lessThan(`medium`)`
+    flex-direction: column;
+    width:100%;
+  `};
 `;
 
 export const LetterContainer = styled.div`
@@ -77,20 +77,38 @@ export const Answer = styled.div`
   position: relative;
   padding: 14px 0;
   height: 100%;
-  width: ${({ width }) => (width ? `${width}px` : `100px`)};
   margin: 0 4px;
   white-space: nowrap;
 `;
 
 export const InputContainer = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
   height: 100%;
-  width: ${({ width }) => (width ? `${width}px` : `100px`)};
   margin: 0 4px;
   white-space: nowrap;
+  padding-top: 10px;
+  width: ${({ answerWidth }) => (answerWidth ? `${answerWidth}px` : `100px`)};
+  transition: width 0.2s ease-in-out;
+  ${mediaQuery.lessThan(`medium`)`
+    width:60%;
+    margin: 0 10px;
+    margin-top: 10px;
+  `};
+  ${mediaQuery.lessThan(`small`)`
+    width:80%;
+    margin: 0 10px;
+    margin-top: 10px;
+  `};
+`;
+
+export const Category = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 `;
 
 export const InputField = styled(Field)`
@@ -112,7 +130,7 @@ export const InputField = styled(Field)`
   }
   &:focus {
     background: rgba(255, 255, 255, 1);
-    border: 1px solid #000;
+    border: 1px solid ${theme.default.font.primary};
   }
   &:hover {
     background: rgba(255, 255, 255, 0.9);
@@ -123,7 +141,7 @@ export const InputField = styled(Field)`
 export const Button = styled.button`
   font-family: ${theme.font.primary};
   font-size: 1.4em;
-  color: #000;
+  color: ${theme.default.font.primary};
   transition: all 0.2s ease-in-out;
   padding: 6px 12px;
   pointer-events: ${({ disabled }) => (disabled ? `none` : `auto`)};
@@ -134,7 +152,13 @@ export const Button = styled.button`
     font-size: 1.4em;
     animation: ${wiggle} 0.7s linear infinite;
   `}
-  &:focus, &:hover {
+
+  ${mediaQuery.lessThan(`medium`)`
+    padding: 12px;
+  `};
+
+  &:focus,
+  &:hover {
     color: green;
     animation: ${wiggle} 0.7s linear infinite;
   }

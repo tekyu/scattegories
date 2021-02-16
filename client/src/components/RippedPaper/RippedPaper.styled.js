@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { mediaQuery } from "utils/mediaQueries";
 
 export const Container = styled.div`
   position: relative;
@@ -14,6 +15,10 @@ export const Container = styled.div`
     margin-top: 0px;
     margin-bottom: 0px;
   }
+
+  ${mediaQuery.lessThan(`small`)`
+    max-width: 90vw;
+  `};
 `;
 
 export const Paper = styled.div`
@@ -28,6 +33,11 @@ export const Paper = styled.div`
     `
   transform: rotate(${rotate}deg);
 `}
+
+  ${mediaQuery.lessThan(`menu`)`
+    padding: 40px 30px;
+  `};
+
   /* background: linear-gradient(
     135deg,
     #ffff88 81%,

@@ -1,7 +1,7 @@
 import socketIo from 'socket.io';
 import { nanoid } from 'nanoid';
 import cloneDeep from 'clone-deep';
-import { emptyRound, getActiveRound, getNewLetter, getAllAnswers, createScoreboard, getQuestionableCheckedAnswers, getRandomLetter, getSortedAllAnswers, roundEntry, getUpdatedScoreboard } from './utils/gameUtils';
+import { emptyRound, getActiveRound, getNewLetter, getAllAnswers, createScoreboard, getQuestionableCheckedAnswers, getRandomLetter, getSortedAllAnswers, roundEntry, getUpdatedScoreboard, shouldGameEnd, findWinnerId } from './utils/gameUtils';
 import { isObjectEmpty } from '../../utils/utils';
 // https://github.com/losandes/socket.io-mongodb
 // https://github.com/socketio/socket.io-redis
@@ -20,6 +20,8 @@ const QUESTIONABLE_ANSWERS_SENT_NOT_VOTED = `QUESTIONABLE_ANSWERS_SENT_NOT_VOTED
 const STARTING_GAME = `STARTING_GAME`;
 const WAITING_TIME = `WAITING_TIME`;
 const UPDATE_SCOREBOARD = `UPDATE_SCOREBOARD`;
+const PLAY_AGAIN_SEND = `PLAY_AGAIN_SEND`;
+const PLAY_AGAIN_PLAYERS = `PLAY_AGAIN_PLAYERS`;
 
 export default ({
   io,
@@ -41,30 +43,57 @@ export default ({
     return io.gameRooms[getRoomId()];
   }
 
-  // const setupNextRound = () => {
-  //   const room = getRoom();
-  //   const { letter, index } = getRandomLetter(room.letters);
-  //   if (index > -1) {
-  //     room.letters.splice(index, 1);
-  //   }
-  //   return { letter };
-  // };
+  const roundSummary = () => {
+    let room = getRoom();
+    const { activeLetter, rounds } = room;
+    const scoreboard = getUpdatedScoreboard({ scoreboard: room.scoreboard, activeRound: getActiveRound({ rounds, activeLetter }), activeLetter, playersCount: room.players.length });
+    const stage = 6;
+    room = updateRoom(room, { stage, scoreboard });
+    // timeoutedSetupNextRound(10000);
+    console.log('roundSummary', room);
+    return room;
+  }
 
-  const roundStop = () => {
-    console.log('roundStop');
-  };
+  const emitSummary = (scoreboard = {}, roomObjectToUpdate = {}) => {
+    const roomId = getRoomId();
+    console.log('emitSummary', scoreboard, roomObjectToUpdate);
+    io.in(roomId).emit(UPDATE_ROOM, roomObjectToUpdate);
+    io.in(roomId).emit(UPDATE_SCOREBOARD, scoreboard);
+  }
 
-  const startGame = () => {
+
+  const updateRoom = (room, updateObject) => {
+    const clonedRoom = cloneDeep(room);
+    Object.entries(updateObject).forEach(([key, value]) => {
+      clonedRoom[key] = value;
+    });
+    return clonedRoom;
+  }
+
+  const timeoutedSetupNextRound = time => {
+    setTimeout(() => {
+      setupNextRound()
+    }, time);
+  }
+
+
+  // try binding to this
+  const setupNextRound = () => {
     const roomId = getRoomId();
     const room = getRoom();
+    if (!room) {
+      logger.error('Cannot setup next round - room is undefined', room);
+      return;
+    }
     const { letters, letter } = getNewLetter(room.letters);
-    room.scoreboard = createScoreboard(room.players);
     room.letters = letters;
     room.activeLetter = letter;
-    room.rounds.push(emptyRound({ letter }));
+    room.roundNumber += 1;
+    room.rounds.push(emptyRound({ letter, lastRoundIndex: room.roundNumber }));
     io.in(roomId).emit(STARTING_ROUND, {});
     room.stage = 1;
-    io.in(roomId).emit(UPDATE_ROOM, { stage: room.stage, scoreboard: room.scoreboard });
+    io.in(roomId).emit(UPDATE_ROOM, { stage: room.stage, scoreboard: room.scoreboard, roundNumber: room.roundNumber });
+
     setTimeout(function () {
       io.in(roomId).emit(ROUND_LETTER, { letter });
       io.in(roomId).emit(UPDATE_GAME, { letters: room.letters });
@@ -76,6 +105,17 @@ export default ({
     }, 4000);
   };
 
+  const roundStop = () => {
+    console.log('roundStop');
+  };
+
+  const startGame = async () => {
+    const roomId = getRoomId();
+    const room = getRoom();
+    room.scoreboard = createScoreboard(room.players);
+    await setupNextRound();
+  };
+
   const roundCheck = async () => {
     const roomId = getRoomId();
     const room = getRoom();
@@ -84,14 +124,35 @@ export default ({
       room.rounds.find(({ letter }) => letter === activeLetter) || [];
     console.log('[game.ts] [roundCheck]', entries);
 
+    const activeRound = getActiveRound({ rounds, activeLetter: activeLetter })
+
     const { pointable, questionable, allAnswers } = await getSortedAllAnswers({
-      categories,
       entries,
     });
-
+    activeRound.questionable = questionable;
+    activeRound.questionableEntries = {};
+    activeRound.pointable = pointable;
+    activeRound.allAnswers = allAnswers;
+    console.log('roundcHECK', pointable, questionable, allAnswers)
     if (isObjectEmpty(questionable)) {
       // go to giving points
+
+      // THIS SHOULD GO TO ANOTHER FUNCTION
+      let room = getRoom();
+      room = roundSummary();
+      const { maxScore, scoreboard } = room;
+      console.log('round summary', room);
+
+      if (shouldGameEnd({ maxScore, scoreboard })) {
+        console.log('GAME SHOULD END HERE');
+        const winnerId = findWinnerId({ maxScore, scoreboard });
+        return;
+      }
+      emitSummary(room.scoreboard, { stage: room.stage },);
+      timeoutedSetupNextRound(room.nextRoundTimeout);
       console.log('[roundCheck][questionable empty][proceed to giving points]');
+      // THIS SHOULD GO TO ANOTHER FUNCTION
+
     } else {
       // send questionable answers
       room.stage = 5;
@@ -196,7 +257,7 @@ export default ({
 
   socket.on(QUESTIONABLE_ANSWERS_SENT, ({ answers }: any) => {
     const roomId = getRoomId();
-    const room = getRoom();
+    let room = getRoom();
     console.log('[game.ts][QUESTIONABLE_ANSWERS_SENT]', answers)
     const { activeLetter, rounds, players, categories } = room;
     const activeRound = getActiveRound({ rounds, activeLetter: activeLetter })
@@ -208,25 +269,38 @@ export default ({
       const namesOfPlayers = Object.keys(activeRound.questionableEntries).map(playerId => {
         players.find(({ id }) => playerId === id).username;
       })
-      console.log(QUESTIONABLE_ANSWERS_SENT, 'numOfNotVoted', numOfNotVoted);
       io.in(roomId).emit(QUESTIONABLE_ANSWERS_SENT_NOT_VOTED, { names: namesOfPlayers });
     } else {
-      console.log(QUESTIONABLE_ANSWERS_SENT, 'points here');
-      // sort questionableEntries
-      // merge to pointable
-      const { activeLetter } = room;
-      room.scoreboard = getUpdatedScoreboard({ scoreboard: room.scoreboard, activeRound, activeLetter, playersCount: room.players.length });
 
-      // console.log('[QUESTIONABLE_ANSWERS_SENT][allAnswers]', activeRound.allAnswers);
-      // console.log('************* round', activeRound);
-      // console.log('************* POINTABLE', activeRound.pointable);
-      // console.log('************* ENTRIES', activeRound.questionableEntries);
-      // console.log('************* questionable', activeRound.questionable);
-      // console.log('************* RIGHT ANSWERS', getQuestionableCheckedAnswers(room.players.length, activeRound.questionableEntries));
-      // console.log('************* UPDATED SCOREBOARD', getUpdatedScoreboard({ scoreboard, activeRound, activeLetter, playersCount: room.players.length }));
-      console.log('test', JSON.stringify(room.scoreboard))
+      //round summary
+      console.log(QUESTIONABLE_ANSWERS_SENT, 'points here');
+      room = roundSummary();
+      const { maxScore, scoreboard } = room;
+      console.log('round summary', room);
+
+      if (shouldGameEnd({ maxScore, scoreboard })) {
+        console.log('GAME SHOULD END HERE');
+        const winnerId = findWinnerId({ maxScore, scoreboard });
+        const winner = room.players.find(({ id }) => winnerId === id);
+        room.winners.push(winner);
+        room.stage = 7;
+        io.in(roomId).emit(UPDATE_ROOM, { stage: room.stage, winners: room.winners });
+
+        return;
+      }
+      emitSummary(room.scoreboard, { stage: room.stage });
+      timeoutedSetupNextRound(10000);
+      // const { activeLetter } = room;
+      // room.scoreboard = getUpdatedScoreboard({ scoreboard: room.scoreboard, activeRound, activeLetter, playersCount: room.players.length });
+
       // room.stage = 6;
-      io.in(roomId).emit(UPDATE_SCOREBOARD, room.scoreboard);
+      // io.in(roomId).emit(UPDATE_SCOREBOARD, room.scoreboard);
+      // io.in(roomId).emit(UPDATE_ROOM, { stage: room.stage });
+
+      // const time = 10000;
+      // setTimeout(() => {
+      //   setupNextRound()
+      // }, time);
 
       // pointable -> these are duplicates so always are eligible to 5pts
       // right answers -> pointable on percentage comparison - 0/10pts
@@ -237,67 +311,19 @@ export default ({
 
   });
 
+  socket.on(PLAY_AGAIN_SEND, () => {
+    const room = getRoom();
+    console.log('PLAY_AGAIN_SEND AGAIN', socket.id, room.id);
+    if (room.playAgain.some(socket.id)) {
+      room.playAgain = room.playAgain.filter(id => socket.id !== id);
+    } else {
+      room.playAgain.push(socket.id);
+    }
+
+    if (room.playAgain.length === room.players.length) {
+      // reset all
+      console.log('play again')
+    }
+  });
+
 };
-
-
-
-
-
-// // populate roundscores
-// all.forEach(({ answer, playerId, answerId, category }) => {
-//   console.log('answer', answer, playerId, answerId, scoreboard[playerId]);
-//   if (!scoreboard[playerId] || !scoreboard[playerId].roundScores) {
-//     scoreboard[playerId] = { roundScores: { 'k': { answers: [], roundPoints: 0, round: 1 } }, finalPoints: 0 }
-//   }
-//   const round = scoreboard[playerId].roundScores['k'];
-//   round.answers.push({ category, answer, playerId, answerId, points: 0 });
-//   //copy deep here
-// })
-
-// give all pointable 5 pts
-
-// dumping ideas
-// pointable.forEach(({ playerId, answerId: id }) => {
-//   console.log('scr', scoreboard[playerId].roundScores['k'].answers);
-//   scoreboard[playerId].roundScores['k'].answers.find(({ answerId }) => answerId === id)['points'] += 5
-// })
-
-// // get questionable right
-// const questRight = right.reduce((acc, { id, percentage, category }) => {
-//   console.log('RIGHT ------', id, percentage, category)
-//   const foundAnswer = questionable.find(({ answerId }) => id === answerId);
-//   if (foundAnswer && percentage > 0.5) {
-
-//     acc.push(foundAnswer)
-//   }
-//   return acc;
-// }, [])
-
-// // add all questionable-right 10 pts
-// questRight.forEach(answer => {
-//   console.log('ans', answer);
-//   console.log('scr', scoreboard[answer.playerId].roundScores['k'].answers);
-//   scoreboard[answer.playerId].roundScores['k'].answers.find(({ answerId }) => answerId === answer.answerId)['points'] += 10
-// })
-
-// // iterate over merged pointable and quuestionable-right
-// // use clone deep here 
-// const pointableAndQuestRight = [...pointable, ...questRight]
-
-// // if cat.length === 1 add 5 pts to an answer
-// pointableAndQuestRightCategories = pointableAndQuestRight.reduce((acc, answer) => {
-//   if (!acc[answer.category]) {
-//     // eslint-disable-next-line no-param-reassign
-//     acc[answer.category] = [];
-//   }
-//   acc[answer.category].push(answer);
-//   return acc;
-// }, {});
-
-// Object.entries(pointableAndQuestRightCategories).forEach(([category, answers]) => {
-//   console.log('d', pointableAndQuestRightCategories[category].length)
-//   if (pointableAndQuestRightCategories[category].length === 1) {
-//     console.log('1', answers)
-//     scoreboard[answers[0].playerId].roundScores['k'].answers.find(({ answerId }) => answerId === answers[0].answerId)['points'] += 5
-//   }
-// });

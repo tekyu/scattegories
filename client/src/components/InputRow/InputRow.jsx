@@ -12,10 +12,13 @@ import * as Styled from "./InputRow.styled";
 const InputRow = ({
   answerWidth = 100,
   categories = [],
-  forceSubmitHandler = () => {}
+  forceSubmitHandler = () => { },
+  showLetter = true,
+  showInput = false
 }) => {
   const submitButton = useRef(null);
-  console.count(`[INPUTROW]`);
+  console.count(`[INPUTROW]`, showInput);
+  console.log(`[INPUTROW]`, showInput, answerWidth);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [submitted, setSubmitted] = useState(false);
@@ -24,6 +27,13 @@ const InputRow = ({
   useEffect(() => {
     console.log(`[inpurow][submitted]`, submitted);
   }, [submitted]);
+
+  useEffect(() => {
+    console.log(`[inpurow][showInput]`, showInput);
+    if (showInput) {
+      setSubmitted(false);
+    }
+  }, [showInput]);
 
   const submitAnswersHandler = answers => {
     console.log(
@@ -98,26 +108,34 @@ const InputRow = ({
         >
           <Styled.InputForm>
             <Styled.Row>
-              <Letter />
+              {showLetter && <Letter />}
               <Styled.Answers>
-                {categories.map(answer => (
-                  <Styled.InputContainer key={answer} width={answerWidth}>
-                    <Styled.InputField
-                      disabled={submitted}
-                      name={answer}
-                      placeholder={`${t(`inputRow.write`)} ${answer}...`}
-                    />
+                {categories.map(category => (
+                  <Styled.InputContainer
+                    key={category}
+                    answerWidth={answerWidth}
+                  >
+                    <Styled.Category>{category}</Styled.Category>
+                    {showInput && (
+                      <Styled.InputField
+                        disabled={submitted}
+                        name={category}
+                        placeholder={`${t(`inputRow.write`)} ${category}...`}
+                      />
+                    )}
                   </Styled.InputContainer>
                 ))}
               </Styled.Answers>
             </Styled.Row>
-            <Styled.Button
-              disabled={submitted}
-              ref={submitButton}
-              type="submit"
-            >
-              {submitted ? t(`inputRow.waitForOthers`) : t(`inputRow.send`)}
-            </Styled.Button>
+            {showInput && (
+              <Styled.Button
+                disabled={submitted}
+                ref={submitButton}
+                type="submit"
+              >
+                {submitted ? t(`inputRow.waitForOthers`) : t(`inputRow.send`)}
+              </Styled.Button>
+            )}
           </Styled.InputForm>
         </Formik>
       </Styled.Container>
@@ -127,7 +145,10 @@ const InputRow = ({
 
 InputRow.propTypes = {
   categories: PropTypes.array,
-  answerWidth: PropTypes.number
+  answerWidth: PropTypes.number,
+  forceSubmitHandler: PropTypes.func,
+  showLetter: PropTypes.bool,
+  showInput: PropTypes.bool
 };
 
 export default InputRow;

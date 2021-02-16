@@ -49,6 +49,9 @@
   "game": {
     "currentLetter": "Obecna litera",
     "questionableQuestion": "Czy te odpowiedzi są poprawne?",
-    "waitForOthers": "Poczekaj na resztę graczy"
+    "waitForOthers": "Poczekaj na resztę graczy",
+    "previousRounds": "Poprzednie rundy",
+    "noResults": "Brak wyników",
+    "me": "ja!"
   }
 }

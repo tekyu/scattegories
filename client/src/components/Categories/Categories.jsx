@@ -7,7 +7,7 @@ import * as Styled from "./Categories.styled";
 const Categories = ({ answerWidth = 100, categories = [] }) => {
   return (
     <Styled.Categories>
-      <Letter />
+      {/* <Letter /> */}
       <Styled.CategoryHeader>
         {categories.map(category => (
           <Styled.Category key={`header-${category}`} width={answerWidth}>

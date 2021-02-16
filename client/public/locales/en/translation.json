@@ -49,6 +49,9 @@
   "game": {
     "currentLetter": "Current Letter",
     "questionableQuestion": "Are these answers correct?",
-    "waitForOthers": "Wait for others"
+    "waitForOthers": "Wait for others",
+    "previousRounds": "Previous rounds",
+    "noResults": "No results",
+    "me": "me!"
   }
 }

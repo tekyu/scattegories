@@ -1,25 +1,19 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-import { useDispatch, useSelector } from "react-redux";
-import { gameSelectors } from "store/selectors";
-import cloneDeep from "clone-deep";
+import { useDispatch } from "react-redux";
 import { sendQuestionableAnswers } from "store/game/gameActions";
 import { useTranslation } from "react-i18next";
-import PostItNoteDynamic from "components/PostItNoteDynamic/PostItNoteDynamic";
 import { CSSTransition } from "react-transition-group";
 import * as Styled from "./QuestionableAnswers.styled";
-import mockAnswers from "./mockAnswers";
-import AnswerElement from "./AnswerElement/AnswerElement";
+import AnswersCategory from "./AnswersCategory/AnswersCategory";
 
-const QuestionableAnswers = () => {
+const QuestionableAnswers = ({ answers = [] }) => {
   const { t } = useTranslation();
-  const answers = useSelector(gameSelectors.questionable);
   const dispatch = useDispatch();
   const [sent, setSent] = useState(false);
   const [redacted, setRedacted] = useState({});
   const [categoriesMap, setCategoriesMap] = useState({});
-  // const answers = mockAnswers;
   const numOfAnswers = answers.length;
 
   useEffect(() => {
@@ -35,7 +29,6 @@ const QuestionableAnswers = () => {
   }, [answers]);
 
   useEffect(() => {
-    console.log(`test`, redacted, Object.keys(redacted).length, numOfAnswers);
     if (
       numOfAnswers > 0 &&
       Object.keys(redacted).length > 0 &&
@@ -47,7 +40,6 @@ const QuestionableAnswers = () => {
   }, [answers, dispatch, numOfAnswers, redacted]);
 
   const redactHandler = ({ answerId, category, allowAnswer }) => {
-    console.log(`redactHandler`, { answerId, category, allowAnswer });
     setRedacted(prevState => {
       return {
         ...prevState,
@@ -62,23 +54,12 @@ const QuestionableAnswers = () => {
         return null;
       }
       return (
-        <Styled.Category key={category}>
-          <Styled.CategoryName>{category}</Styled.CategoryName>
-          {entries.map(({ answer, answerId }) => (
-            <PostItNoteDynamic
-              key={answerId}
-              rotate={(Math.random() * (-1 - 2.5) + 2.5).toFixed(2)}
-            >
-              <AnswerElement
-                key={answerId}
-                answerId={answerId}
-                answer={answer}
-                category={category}
-                handler={redactHandler}
-              />
-            </PostItNoteDynamic>
-          ))}
-        </Styled.Category>
+        <AnswersCategory
+          category={category}
+          key={category}
+          redactHandler={redactHandler}
+          entries={entries}
+        />
       );
     });
   };
@@ -101,7 +82,9 @@ const QuestionableAnswers = () => {
   );
 };
 
-QuestionableAnswers.propTypes = {};
+QuestionableAnswers.propTypes = {
+  answers: PropTypes.array
+};
 
 QuestionableAnswers.defaultProps = {};
 

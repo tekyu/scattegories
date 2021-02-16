@@ -4,7 +4,8 @@ import {
   RESET_ANSWERS,
   UPDATE_SCOREBOARD,
   UPDATE_ACTIVE_LETTER,
-  UPDATE_QUESTIONABLE
+  UPDATE_QUESTIONABLE,
+  LEAVE_ROOM
 } from "./gameActions";
 
 export const initialState = {
@@ -41,6 +42,8 @@ export const gameReducer = produce(
       case UPDATE_QUESTIONABLE:
         draft.questionable = payload;
         return draft;
+      case LEAVE_ROOM:
+        return initialState;
       default:
         return draft;
     }

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import * as Styled from "./RippedPaper.styled";
 
 const RippedPaper = ({ padding, children, rotate }) => {
@@ -9,6 +10,12 @@ const RippedPaper = ({ padding, children, rotate }) => {
       </Styled.Paper>
     </Styled.Container>
   );
+};
+
+RippedPaper.propTypes = {
+  padding: PropTypes.string,
+  children: PropTypes.element,
+  rotate: PropTypes.string
 };
 
 export default RippedPaper;

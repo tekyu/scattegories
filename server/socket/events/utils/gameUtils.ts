@@ -1,5 +1,6 @@
 import cloneDeep from 'clone-deep';
 import { nanoid } from 'nanoid';
+import { ROUND_LETTER, ROUND_START, STARTING_ROUND, UPDATE_GAME, UPDATE_ROOM, UPDATE_SCOREBOARD } from '../game/gameEvents';
 
 export const roundEntry = ({ id, answers }) => {
   return {
@@ -9,11 +10,12 @@ export const roundEntry = ({ id, answers }) => {
   };
 };
 
-export const emptyRound = ({ letter }) => {
+export const emptyRound = ({ letter, lastRoundIndex = 0 }) => {
   return {
     letter,
     entries: [],
     id: nanoid(),
+    roundNumber: lastRoundIndex + 1
   };
 };
 
@@ -133,7 +135,9 @@ export const getPercentage = (numOfPlayers, entries) => Object.entries(getNumber
 }, {});
 
 export const getQuestionableCheckedAnswers = ({ playersCount, questionableEntries }) => {
-
+  if (!questionableEntries) {
+    return [];
+  }
   const percentages = getPercentage(playersCount, questionableEntries) // w/ pid
   return Object.entries(percentages).reduce((acc, [answer, { percentage }]: Array<any>) => {
 
@@ -152,10 +156,10 @@ export const getQuestionableCheckedAnswers = ({ playersCount, questionableEntrie
 
 export const getUpdatedScoreboard = ({ scoreboard = {}, activeRound, activeLetter = '', playersCount = 0 }) => {
   const updatedScoreboard = cloneDeep(scoreboard);
-  const { allAnswers, pointable, questionable, questionableEntries } = activeRound;
+  const { allAnswers, pointable, questionable, questionableEntries, roundNumber } = activeRound;
 
   // get filtered questionable entries
-  const entriesRight = getQuestionableCheckedAnswers({ playersCount, questionableEntries })
+  const entriesRight = getQuestionableCheckedAnswers({ playersCount, questionableEntries });
   const foundQuestionableRight = entriesRight.reduce((acc, { id, percentage }) => {
     const foundAnswer = questionable.find(({ answerId }) => id === answerId);
     if (!foundAnswer) {
@@ -173,7 +177,7 @@ export const getUpdatedScoreboard = ({ scoreboard = {}, activeRound, activeLette
   // populate updatedScoreboard with all answers
   allAnswers.forEach(({ answer, playerId, answerId, category }) => {
     if (!updatedScoreboard[playerId].roundScores[activeLetter]) {
-      updatedScoreboard[playerId].roundScores[activeLetter] = { answers: [], roundPoints: 0, round: activeRound }
+      updatedScoreboard[playerId].roundScores[activeLetter] = { answers: [], roundPoints: 0, roundNumber };
     }
     const round = updatedScoreboard[playerId].roundScores[activeLetter];
     round.answers.push({ category, answer, playerId, answerId, points: 0 });    //copy deep here
@@ -214,3 +218,52 @@ export const getUpdatedScoreboard = ({ scoreboard = {}, activeRound, activeLette
   });
   return updatedScoreboard;
 }
+
+export const shouldGameEnd = ({ maxScore, scoreboard }) => {
+  // @ts-ignore
+  return Object.values(scoreboard).some(({ finalPoints }) => finalPoints >= maxScore);
+}
+export const findWinnerId = ({ maxScore, scoreboard }) => {
+  // @ts-ignore
+  return Object.values(scoreboard).find(({ finalPoints }) => finalPoints >= maxScore);
+}
+
+// export function getRoomId() {
+//   // @ts-ignore
+//   return this.socket.gameOptions.activeRoom;
+// }
+
+// export function getRoom() {
+//   // @ts-ignore
+//   return this.io.gameRooms[this.getRoomId()];
+// }
+
+
+// export function emitSummary(scoreboard, roomObjectToUpdate) {
+//   const roomId = this.getRoomId();
+//   this.io.in(roomId).emit(UPDATE_ROOM, roomObjectToUpdate);
+//   this.io.in(roomId).emit(UPDATE_SCOREBOARD, scoreboard);
+// }
+
+// export function setupNextRound() {
+//   const roomId = this.getRoomId();
+//   const room = this.getRoom();
+//   const { letters, letter } = getNewLetter(room.letters);
+//   room.letters = letters;
+//   room.activeLetter = letter;
+
+//   room.rounds.push(emptyRound({ letter, lastRoundIndex: room.roundNumber }));
+//   this.io.in(roomId).emit(STARTING_ROUND, {});
+//   room.stage = 1;
+//   this.io.in(roomId).emit(UPDATE_ROOM, { stage: room.stage, scoreboard: room.scoreboard });
+
+//   setTimeout(function () {
+//     this.io.in(roomId).emit(ROUND_LETTER, { letter });
+//     this.io.in(roomId).emit(UPDATE_GAME, { letters: room.letters });
+//     setTimeout(function () {
+//       this.io.in(roomId).emit(ROUND_START, {});
+//       room.stage = 2;
+//       this.io.in(roomId).emit(UPDATE_ROOM, { stage: room.stage });
+//     }, 2000);
+//   }, 4000);
+// };

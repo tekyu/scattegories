@@ -1,4 +1,5 @@
 import React from "react";
+
 import Menu from "components/Menu/Menu";
 import * as Styled from "./Dashboard.styled";
 

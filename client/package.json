@@ -73,7 +73,8 @@
     "reselect": "^4.0.0",
     "sillyname": "^0.1.0",
     "socket.io-client": "^2.3.0",
-    "styled-components": "^4.4.1"
+    "styled-components": "^4.4.1",
+    "styled-media-query": "^2.1.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.8.3",

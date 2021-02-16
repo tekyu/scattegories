@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import { useDispatch } from "react-redux";
 import * as Styled from "./TraversingLetter.styled";
-import { gameActions, socketActions } from "../../store/actions";
+import { gameActions, roomActions, socketActions } from "../../store/actions";
 
 const TraversingLetter = () => {
   const dispatch = useDispatch();
@@ -43,6 +43,7 @@ const TraversingLetter = () => {
       setTraversing(false);
       setLetterFromServer(letter);
       dispatch(gameActions.updateActiveLetter(letter));
+      dispatch(roomActions.updateActiveLetter(letter));
     },
     [dispatch]
   );

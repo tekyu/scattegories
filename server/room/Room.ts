@@ -11,7 +11,7 @@ export default class Room implements IRoom {
   owner: string;
   admin: string;
   state: number; // 0 - waiting | 1 - ready | 2 - started | 3 - paused | 4 - ended
-  stage: number; // 0 - idle | 1 - choosing | 2 - writing | 3 - waiting | 4 - checking | 5 - questionable | 6 - summary | 7 - ended
+  stage: number; // 0 - idle | 1 - choosing | 2 - writing | 3 - waiting | 4 - checking | 5 - questionable | 6 - round summary | 7 - ended
   players: Array<Object>;
   winners: Array<String>;
   createdAt: number;
@@ -21,7 +21,10 @@ export default class Room implements IRoom {
   rounds: Array<Object>;
   letters: Array<string>;
   activeLetter: string;
+  roundNumber: number;
   timeWaiting: number;
+  nextRoundTimeout: number;
+  playAgain: Array<string>;
 
   constructor(
     {
@@ -46,6 +49,7 @@ export default class Room implements IRoom {
     this.createdAt = Date.now();
     this.scoreboard = {};
     this.chat = [];
+    this.roundNumber = 0;
     this.timePerRound = timePerRound ? timePerRound * 1000 : 1000;
     this.rounds = [];
     this.letters = [
@@ -78,6 +82,8 @@ export default class Room implements IRoom {
     ]; // change this to locale alphabet
     this.timeWaiting = timeWaiting || 5000;
     this.activeLetter = '';
+    this.nextRoundTimeout = 10000;
+    this.playAgain = [];
     console.log('[Room] constructor');
   }
 
@@ -98,6 +104,10 @@ export default class Room implements IRoom {
       winners,
       createdAt,
       timePerRound,
+      roundNumber,
+      activeLetter,
+      nextRoundTimeout,
+      playAgain
     } = this;
     return {
       playersMax,
@@ -110,6 +120,10 @@ export default class Room implements IRoom {
       winners,
       createdAt,
       timePerRound,
+      roundNumber,
+      activeLetter,
+      nextRoundTimeout,
+      playAgain
     };
   }
 

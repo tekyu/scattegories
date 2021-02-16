@@ -23,35 +23,50 @@ const RoomInfo = () => {
   return (
     <Styled.RoomInfo>
       <Styled.RoomIdMessage>
-        <Styled.RoomIdParagraph>
-          {t(`waitingRoom.shareCode`)} {t(`waitingRoom.or`)}
-          {` `}
-          <Styled.RoomLink
+        <PostItNoteDynamic margin="0px" rotate={1.6}>
+          <Styled.RoomIdParagraph>
+            {t(`waitingRoom.shareCode`)}
+            {/* <Styled.RoomLink
             href={`http://localhost:3000/game/${id}`}
             target="_blank"
             rel="noopener noreferrer"
-          >
-            {t(`waitingRoom.clickLink`)}
-          </Styled.RoomLink>
-        </Styled.RoomIdParagraph>
-        <CopyToClipboard text={id} onCopy={copyHandler}>
-          <Styled.CopyButton copied={idCopied}>
-            <PostItNoteDynamic rotate={1.6}>{id}</PostItNoteDynamic>
-          </Styled.CopyButton>
-        </CopyToClipboard>
+          > */}
+            {/* {t(`waitingRoom.clickLink`)} */}
+            {/* </Styled.RoomLink> */}
+          </Styled.RoomIdParagraph>
+          <CopyToClipboard text={id} onCopy={copyHandler}>
+            <Styled.CopyButton copied={idCopied}>{id}</Styled.CopyButton>
+          </CopyToClipboard>
+        </PostItNoteDynamic>
       </Styled.RoomIdMessage>
-      <Styled.PlayersCountContainer>
-        <Styled.PlayersCountLabel>
-          {t(`waitingRoom.playersCount`)}
-        </Styled.PlayersCountLabel>
-        <PlayersCount current={players.length} max={playersMax} />
-      </Styled.PlayersCountContainer>
-      <p>
-        {t(`waitingRoom.maxScore`)}: {maxScore}
-      </p>
-      <p>
-        {t(`waitingRoom.categories`)}: {categories.join(`, `)}
-      </p>
+      <Styled.Info>
+        <Styled.Row>
+          <Styled.PlayersCountContainer>
+            <Styled.PlayersCountLabel>
+              {t(`waitingRoom.playersCount`)}
+            </Styled.PlayersCountLabel>
+            <PlayersCount current={players.length} max={playersMax} />
+          </Styled.PlayersCountContainer>
+          <Styled.MaxScore>
+            {t(`waitingRoom.maxScore`)}: {maxScore}
+          </Styled.MaxScore>
+        </Styled.Row>
+        <Styled.CategoriesContainer>
+          <Styled.CategoriesHeader>
+            {t(`waitingRoom.categories`)}
+          </Styled.CategoriesHeader>
+          <Styled.CategoriesPipsContainer>
+            {categories.map(category => (
+              <Styled.CategoryPip
+                rotate={(Math.random() * (-1 - 2.5) + 2.5).toFixed(2)}
+                key={category}
+              >
+                {category}
+              </Styled.CategoryPip>
+            ))}
+          </Styled.CategoriesPipsContainer>
+        </Styled.CategoriesContainer>
+      </Styled.Info>
     </Styled.RoomInfo>
   );
 };

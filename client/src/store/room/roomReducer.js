@@ -7,7 +7,8 @@ import {
   UPDATE_STATE,
   UPDATE_WINNERS,
   LEAVE_ROOM,
-  UPDATE_SCOREBOARD
+  UPDATE_SCOREBOARD,
+  UPDATE_ACTIVE_LETTER
 } from "./roomActions";
 
 export const initialState = {
@@ -21,7 +22,10 @@ export const initialState = {
   players: [],
   scoreboard: {},
   winners: [],
-  categories: []
+  categories: [],
+  roundNumber: 0,
+  activeLetter: ``,
+  nextRoundTimeout: 0
 };
 
 export const roomReducer = produce(
@@ -52,6 +56,9 @@ export const roomReducer = produce(
         return draft;
       case UPDATE_WINNERS:
         draft.winners = payload;
+        return draft;
+      case UPDATE_ACTIVE_LETTER:
+        draft.activeLetter = payload;
         return draft;
       case LEAVE_ROOM:
         return initialState;

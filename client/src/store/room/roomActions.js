@@ -11,6 +11,7 @@ export const UPDATE_WINNERS = `UPDATE_WINNERS`;
 export const LEAVE_ROOM = `LEAVE_ROOM`;
 export const CHANGE_USER_STATE = `CHANGE_USER_STATE`;
 export const UPDATE_SCOREBOARD = `CHANGE_USER_STATE`;
+export const UPDATE_ACTIVE_LETTER = `UPDATE_ACTIVE_LETTER`;
 
 export const updateRoom = room => ({
   type: UPDATE_ROOM,
@@ -71,3 +72,8 @@ export const updateScoreboard = scoreboard => {
     payload: scoreboard
   };
 };
+
+export const updateActiveLetter = letter => ({
+  type: UPDATE_ACTIVE_LETTER,
+  payload: letter
+});

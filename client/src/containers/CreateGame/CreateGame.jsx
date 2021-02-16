@@ -28,13 +28,14 @@ const CreateGame = () => {
     categories,
     timePerRound
   }) => {
+    const parsedCategories = categories.map(({ value }) => value);
     const roomOptions = {
       playersMax: +playersMax,
       maxScore: +maxScore,
-      categories,
+      categories: parsedCategories,
       timePerRound
     };
-    console.log(`CREATE GAME SUBMIT`, categories);
+    console.log(`categories`, categories, parsedCategories);
     dispatch(
       emitter(`CREATE_ROOM`, roomOptions, ({ error, id }) => {
         if (!error) {
@@ -44,6 +45,12 @@ const CreateGame = () => {
     );
   };
 
+  const onKeyDown = keyEvent => {
+    if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+      keyEvent.preventDefault();
+    }
+  };
+
   return (
     <RippedPaper rotate={2}>
       <Formik
@@ -51,12 +58,14 @@ const CreateGame = () => {
         validateOnChange={false}
         validateOnBlur={false}
         initialValues={{
-          maxScore: 100,
+          maxScore:
+            t(`createForm.initialCategories`).split(`,`).length * 10 * 8,
           playersMax: 4,
           categories: t(`createForm.initialCategories`).split(`,`),
           timePerRound: 30
         }}
         onSubmit={(values, { setSubmitting }) => {
+          console.log(`CreateGame`, values);
           submitCreateGameHandler(values);
           setSubmitting(false);
         }}
@@ -66,7 +75,7 @@ const CreateGame = () => {
           initialValues: { playersMax, maxScore, categories, timePerRound }
         }) => {
           return (
-            <Styled.CreateGameForm>
+            <Styled.CreateGameForm onKeyDown={onKeyDown}>
               <Styled.Header>{t(`createForm.header`)}</Styled.Header>
               <label htmlFor="playersMax">{t(`createForm.playersmax`)}</label>
               <PlusMinusSlider
@@ -98,7 +107,7 @@ const CreateGame = () => {
               <ErrorMessage name="timePerRound" />
               <label htmlFor="categories">{t(`createForm.categories`)}</label>
               <CategoriesMultiSelect
-                name="CategoriesMultiSelect"
+                name="categories"
                 initialValue={categories}
               />
               <Styled.CreateGameButton type="submit" disabled={isSubmitting}>

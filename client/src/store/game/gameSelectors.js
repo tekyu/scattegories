@@ -22,3 +22,8 @@ export const questionable = createSelector(
   gameSelector,
   ({ questionable = initialState.questionable }) => questionable
 );
+
+export const myScoreboard = createSelector(
+  gameSelector,
+  ({ scoreboard = initialState.scoreboard }) => scoreboard
+);

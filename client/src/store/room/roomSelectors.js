@@ -57,3 +57,23 @@ export const categories = createSelector(
   roomSelector,
   ({ categories = initialState.categories }) => categories
 );
+
+export const scoreboard = createSelector(
+  roomSelector,
+  ({ scoreboard = initialState.scoreboard }) => scoreboard
+);
+
+export const roundNumber = createSelector(
+  roomSelector,
+  ({ roundNumber = initialState.roundNumber }) => roundNumber
+);
+
+export const activeLetter = createSelector(
+  roomSelector,
+  ({ activeLetter = initialState.activeLetter }) => activeLetter
+);
+
+export const nextRoundTimeout = createSelector(
+  roomSelector,
+  ({ nextRoundTimeout = initialState.nextRoundTimeout }) => nextRoundTimeout
+);

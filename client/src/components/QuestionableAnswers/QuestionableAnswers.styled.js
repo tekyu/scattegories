@@ -39,19 +39,6 @@ export const Categories = styled.div`
   margin: 20px;
 `;
 
-export const Category = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 20px;
-`;
-
-export const CategoryName = styled.div`
-  display: flex;
-  justify-content: center;
-  font-size: 20px;
-  color: ${themes.default.font.primary};
-`;
-
 export const Wait = styled.div`
   font-size: 4rem;
   text-align: center;

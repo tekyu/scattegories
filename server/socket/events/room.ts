@@ -31,7 +31,12 @@ export default ({
   socket.on(JOIN_ROOM, (params: IJoinRoomOptions, callback: Function) => {
     const { roomId, username } = params;
     //@ts-ignore
-    if (io.gameRooms[roomId]) {
+    if (!io.gameRooms[roomId]) {
+      callback({ error: `Room doesn't exist` });
+    } else if (io.gameRooms[roomId].players.length >= io.gameRooms[roomId].playersMax) {
+      console.log('io.gameRooms[roomId].playersMax > io.gameRooms[roomId].players.length', io.gameRooms[roomId].playersMax, io.gameRooms[roomId].players.length, io.gameRooms[roomId].playersMax > io.gameRooms[roomId].players.length)
+      callback({ error: 'Room is full' });
+    } else {
       const playerState = socket.id === io.gameRooms[roomId].owner ? 1 : 0;
       const { player } = new Player({
         id: socket.id,
@@ -47,8 +52,8 @@ export default ({
       //@ts-ignore
       callback({ room: io.gameRooms[roomId], user: player });
       console.log('JOIN ROOM ->', roomId);
+      return;
     }
-    callback({ error: 'Gra nie istnieje' });
   });
 
   socket.on('disconnect', () => {

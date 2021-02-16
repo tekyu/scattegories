@@ -10,8 +10,8 @@ export const Container = styled.div`
   `}
   &:hover {
     ${({ rotate }) =>
-      rotate &&
-      `
+    rotate &&
+    `
     transform: rotate(${rotate - 6 * (rotate > 0 ? -1 : 1)}deg);
   `}
   }
@@ -22,7 +22,7 @@ export const Note = styled.div`
   text-align: center;
   width: 275px;
   margin: 25px;
-  min-height: 250px;
+  min-height: ${({ height }) => (height ? `${height}px` : `250px`)};
   max-height: 250px;
   padding-top: 35px;
   border: 1px solid #e8e8e8;

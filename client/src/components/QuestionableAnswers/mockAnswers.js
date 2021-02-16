@@ -1,23 +1,290 @@
-export default {
-  Country: [],
-  City: [
-    { answer: `fdssd`, playerId: `i2QpL-cQIe7fs5TEAAAK`, answerId: `hkj2132` },
-    { answer: `dsfs`, playerId: `aQO1hC1LdWrKVoFUAAAL`, answerId: `21bnm32` }
-  ],
-  Name: [
-    { answer: `sff`, playerId: `i2QpL-cQIe7fs5TEAAAK`, answerId: `213fgh2` },
-    { answer: `dsfs`, playerId: `aQO1hC1LdWrKVoFUAAAL`, answerId: `2dd132` }
-  ],
-  Thing: [
-    { answer: `fss`, playerId: `i2QpL-cQIe7fs5TEAAAK`, answerId: `21AD32` },
-    { answer: `dsfs`, playerId: `aQO1hC1LdWrKVoFUAAAL`, answerId: `2A132` }
-  ],
-  Animal: [
-    { answer: `sfsf`, playerId: `i2QpL-cQIe7fs5TEAAAK`, answerId: `2wer132` },
-    { answer: `dsfs`, playerId: `aQO1hC1LdWrKVoFUAAAL`, answerId: `21sf32` }
-  ],
-  Food: [
-    { answer: `fsfs`, playerId: `i2QpL-cQIe7fs5TEAAAK`, answerId: `2132` },
-    { answer: `dsfs`, playerId: `aQO1hC1LdWrKVoFUAAAL`, answerId: `654` }
-  ]
-};
+export default [
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `c7rNm0`,
+    category: `Country`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `ahNt83`,
+    category: `City`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `r8MHcm`,
+    category: `Name`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `fMz8Hk`,
+    category: `Thing`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `ovpUKo`,
+    category: `Animal`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `nZwi7d`,
+    category: `Food`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `UvsUmy`,
+    category: `Country`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `I4wrmH`,
+    category: `City`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `8n3OoB`,
+    category: `Name`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `7RGVvO`,
+    category: `Thing`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `7uwTu5`,
+    category: `Animal`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `1_IIk-`,
+    category: `Food`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `c7rNm0`,
+    category: `Country`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `ahNt83`,
+    category: `City`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `r8MHcm`,
+    category: `Name`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `fMz8Hk`,
+    category: `Thing`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `ovpUKo`,
+    category: `Animal`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `nZwi7d`,
+    category: `Food`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `UvsUmy`,
+    category: `Country`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `I4wrmH`,
+    category: `City`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `8n3OoB`,
+    category: `Name`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `7RGVvO`,
+    category: `Thing`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `7uwTu5`,
+    category: `Animal`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `1_IIk-`,
+    category: `Food`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `c7rNm0`,
+    category: `Country`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `ahNt83`,
+    category: `City`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `r8MHcm`,
+    category: `Name`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `fMz8Hk`,
+    category: `Thing`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `ovpUKo`,
+    category: `Animal`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `nZwi7d`,
+    category: `Food`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `UvsUmy`,
+    category: `Country`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `I4wrmH`,
+    category: `City`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `8n3OoB`,
+    category: `Name`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `7RGVvO`,
+    category: `Thing`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `7uwTu5`,
+    category: `Animal`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `1_IIk-`,
+    category: `Food`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `c7rNm0`,
+    category: `Country`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `ahNt83`,
+    category: `City`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `r8MHcm`,
+    category: `Name`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `fMz8Hk`,
+    category: `Thing`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `ovpUKo`,
+    category: `Animal`
+  },
+  {
+    answer: `fsdsdf`,
+    playerId: `tZVU6-ROMxfOpLs5AACg`,
+    answerId: `nZwi7d`,
+    category: `Food`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `UvsUmy`,
+    category: `Country`
+  },
+  {
+    answer: `yrtydsf sdfsdf sdfsrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `I4wrmH`,
+    category: `City`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `8n3OoB`,
+    category: `Name`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `7RGVvO`,
+    category: `Thing`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `7uwTu5`,
+    category: `Animal`
+  },
+  {
+    answer: `yrtyrtgh`,
+    playerId: `lDqo0uWogeKRWjwcAACh`,
+    answerId: `1_IIk-`,
+    category: `Food`
+  }
+];

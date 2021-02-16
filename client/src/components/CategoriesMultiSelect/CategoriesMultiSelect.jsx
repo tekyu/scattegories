@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import CreatableSelect from "react-select/creatable";
@@ -26,30 +26,30 @@ const CategoriesMultiSelect = ({
   );
   const { setValue, setTouched } = helpers;
 
+  useEffect(() => {
+    console.log(`dfgs`, categories);
+    setValue(categories);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categories]);
+
   const handleChange = value => {
     setCategories(value);
-    console.log(`handleChange`, value);
-    setValue(value);
+    setTouched(true);
   };
   const handleInputChange = inputValue => {
     setInputValue(inputValue);
     setTouched(true);
   };
+
   const handleKeyDown = async event => {
     if (!inputValue) return;
     switch (event.key) {
       case `Enter`:
       case `Tab`:
         await setCategories(prev => {
-          const newVal = [...prev, createOption(inputValue)];
-          console.log(
-            `handleKeyDown`,
-            newVal,
-            newVal.map(({ value }) => value)
-          );
-          return newVal;
+          const newPrev = prev || [];
+          return [...newPrev, createOption(inputValue)];
         });
-        setValue(categories.map(({ value }) => value));
         setInputValue(``);
         event.preventDefault();
         break;
@@ -59,6 +59,7 @@ const CategoriesMultiSelect = ({
   return (
     <Styled.CategoriesMultiSelect>
       <CreatableSelect
+        name={name}
         components={components}
         inputValue={inputValue}
         isClearable

@@ -27,7 +27,7 @@ const stateObject = {
 
 export const Container = styled.div`
   cursor: pointer;
-  margin: 0 25px;
+  /* margin: 0 25px; */
   ${({ rotate }) =>
     rotate &&
     `
@@ -38,8 +38,8 @@ export const Container = styled.div`
 export const Note = styled.div`
   line-height: 1;
   text-align: center;
-  padding: 20px;
-  margin: 25px;
+  padding: ${({ padding }) => padding || `20px`};
+  margin: ${({ margin }) => margin || `25px`};
   height: auto;
   /* padding-top: 20px;
   padding-bottom: 20px; */

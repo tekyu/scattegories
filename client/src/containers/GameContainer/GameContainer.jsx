@@ -40,9 +40,8 @@ const GameContainer = () => {
 
   const updateScoreboardHandler = useCallback(
     ({ data }) => {
-      console.log(`[gameContainer][updateScoreboard]`, data);
       dispatch(roomActions.updateScoreboard(data));
-      // dispatch(gameActions.updateScoreboard(data));
+      dispatch(gameActions.updateScoreboard(data));
     },
     [dispatch]
   );
@@ -53,7 +52,6 @@ const GameContainer = () => {
     dispatch(
       socketActions.listener(`UPDATE_SCOREBOARD`, updateScoreboardHandler)
     );
-    console.log(`[gameContainer][updateScoreboard][listener]`);
     return () => {
       dispatch(socketActions.removeListener(UPDATE_PLAYERS, updatePlayers));
       dispatch(socketActions.removeListener(UPDATE_ROOM, updateRoom));
@@ -63,12 +61,10 @@ const GameContainer = () => {
           updateScoreboardHandler
         )
       );
-      console.log(`[gameContainer][updateScoreboard][removeListener]`);
     };
   }, [dispatch, updatePlayers, updateRoom, updateScoreboardHandler]);
 
   useEffect(() => {
-    console.log(`gamecontainer`, room.id, user.id, room.state);
     if (roomState >= 2) {
       setComponent(<Game />);
     } else if (room.id && user.id) {
@@ -90,6 +86,7 @@ const GameContainer = () => {
   useEffect(() => {
     return () => {
       dispatch(roomActions.leaveRoom(id));
+      dispatch(gameActions.leaveRoom(id));
     };
   }, [dispatch, id]);
 

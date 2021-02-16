@@ -8,6 +8,7 @@ export const UPDATE_ACTIVE_LETTER = `UPDATE_ACTIVE_LETTER`;
 export const SEND_ANSWERS = `SEND_ANSWERS`;
 export const UPDATE_QUESTIONABLE = `UPDATE_QUESTIONABLE`;
 export const QUESTIONABLE_ANSWERS_SENT = `QUESTIONABLE_ANSWERS_SENT`;
+export const LEAVE_ROOM = `LEAVE_ROOM`;
 
 export const readyForGame = () => {
   return dispatch => {
@@ -55,5 +56,11 @@ export const sendQuestionableAnswers = answers => {
   return dispatch => {
     console.log(`sendQuestionableAnswers dispatch`, answers);
     dispatch(emitter(QUESTIONABLE_ANSWERS_SENT, { answers }));
+  };
+};
+
+export const leaveRoom = () => {
+  return dispatch => {
+    dispatch({ type: LEAVE_ROOM });
   };
 };

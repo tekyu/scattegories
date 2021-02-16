@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 import * as Styled from "./Answer.styled";
 
-const Answer = ({ answer = ``, points = null, width = 100 }) => {
+const Answer = ({ answer = ``, points = null, answerWidth = 100 }) => {
   return (
-    <Styled.Answer width={width}>
+    <Styled.Answer answerWidth={answerWidth}>
       <Styled.AnswerText>{answer}</Styled.AnswerText>
       <Styled.Points>{points}</Styled.Points>
     </Styled.Answer>
@@ -15,13 +15,13 @@ const Answer = ({ answer = ``, points = null, width = 100 }) => {
 Answer.propTypes = {
   answer: PropTypes.string,
   points: PropTypes.number,
-  width: PropTypes.number
+  answerWidth: PropTypes.number
 };
 
 Answer.defaultProps = {
   answer: ``,
   points: null,
-  width: 100
+  answerWidth: 100
 };
 
 export default Answer;
