@@ -27,6 +27,12 @@ export const Overlay = styled.div`
 export const InputRow = styled.div`
   position: relative;
   /* z-index: 1; */
+  box-shadow: 0px 4px 6px 0px rgba(107, 107, 107, 0.17);
+  margin-top: 10px;
+  ${mediaQuery.greaterThan(`medium`)`
+    margin-left: 50px;
+    margin-right: 50px;
+  `};
   ${mediaQuery.lessThan(`medium`)`
     width:100%;
   `};

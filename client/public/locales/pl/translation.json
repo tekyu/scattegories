@@ -52,6 +52,8 @@
     "waitForOthers": "Poczekaj na resztę graczy",
     "previousRounds": "Poprzednie rundy",
     "noResults": "Brak wyników",
-    "me": "ja!"
+    "me": "ja!",
+    "roundEnding": "Runda skończy się",
+    "now": "teraz!"
   }
 }

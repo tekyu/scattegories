@@ -35,7 +35,7 @@ const InputRow = ({
     }
   }, [showInput]);
 
-  const submitAnswersHandler = answers => {
+  const submitAnswersHandler = (answers, { resetForm }) => {
     console.log(
       `SUBMIT ANSWERS HANDLER`,
       answers,
@@ -57,6 +57,7 @@ const InputRow = ({
     setSubmitted(true);
     dispatch(sendAnswers(answersReadyToSubmit));
     setShowOverlay(true);
+    resetForm();
     console.log(
       `SUBMIT ANSWERS HANDLER CAN SEND REQUEST`,
       answersReadyToSubmit

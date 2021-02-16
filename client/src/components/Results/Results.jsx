@@ -9,7 +9,6 @@ import * as Styled from "./Results.styled";
 const Results = ({ answerWidth = 100 }) => {
   const myGameScoreboard = useSelector(myScoreboard);
   const { t } = useTranslation();
-
   const renderRows = () => {
     return myGameScoreboard && myGameScoreboard.roundScores ? (
       Object.entries(myGameScoreboard.roundScores)

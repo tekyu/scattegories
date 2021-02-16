@@ -50,16 +50,13 @@ const GameContainer = () => {
     dispatch(socketActions.listener(UPDATE_PLAYERS, updatePlayers));
     dispatch(socketActions.listener(UPDATE_ROOM, updateRoom));
     dispatch(
-      socketActions.listener(`UPDATE_SCOREBOARD`, updateScoreboardHandler)
+      socketActions.listener(UPDATE_SCOREBOARD, updateScoreboardHandler)
     );
     return () => {
       dispatch(socketActions.removeListener(UPDATE_PLAYERS, updatePlayers));
       dispatch(socketActions.removeListener(UPDATE_ROOM, updateRoom));
       dispatch(
-        socketActions.removeListener(
-          `UPDATE_SCOREBOARD`,
-          updateScoreboardHandler
-        )
+        socketActions.removeListener(UPDATE_SCOREBOARD, updateScoreboardHandler)
       );
     };
   }, [dispatch, updatePlayers, updateRoom, updateScoreboardHandler]);

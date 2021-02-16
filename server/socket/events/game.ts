@@ -114,6 +114,7 @@ export default ({
     const room = getRoom();
     room.scoreboard = createScoreboard(room.players);
     await setupNextRound();
+    io.in(roomId).emit(WAITING_TIME, { time: room.timeWaiting });
   };
 
   const roundCheck = async () => {
@@ -249,7 +250,6 @@ export default ({
         if (room.stage >= 4) return;
         room.stage = 4;
         console.log('SHOULD START AFTER 5S');
-        // io.in(roomId).emit('WAITING_TIME', { time: 0 });
         io.in(roomId).emit(UPDATE_ROOM, { stage: room.stage });
       }, room.timeWaiting);
     }

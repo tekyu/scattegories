@@ -4,14 +4,21 @@ import { mediaQuery } from "utils/mediaQueries";
 
 export const Results = styled.div`
   color: ${themes.default.font.primary};
+  background: ${themes.default.paper};
   width: auto;
   display: flex;
   flex-direction: column;
   font-family: "Covered By Your Grace";
-  margin-left: 14px;
+  padding-left: 14px;
+  margin-top: 40px;
+  box-shadow: 0px 4px 6px 0px rgba(107, 107, 107, 0.17);
+  ${mediaQuery.greaterThan(`medium`)`
+    margin-left: 50px;
+    margin-right: 50px;
+  `};
   ${mediaQuery.lessThan(`medium`)`
     width:100%;
-    margin-left: 0;
+    padding-left: 0;
   `};
 `;
 
@@ -25,6 +32,6 @@ export const NoResults = styled.div`
 export const Previous = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 20px;
   font-size: 1.4rem;
 `;

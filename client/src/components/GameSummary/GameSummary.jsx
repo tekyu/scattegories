@@ -2,19 +2,17 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import PostItNoteDynamic from "components/PostItNoteDynamic/PostItNoteDynamic";
-import Countdown from "components/Countdown/Countdown";
 import { useDispatch, useSelector } from "react-redux";
-import { roomSelectors } from "store/selectors";
+import { roomSelectors, userSelectors } from "store/selectors";
 import { socketActions } from "store/actions";
 import { useTranslation } from "react-i18next";
 import * as Styled from "./GameSummary.styled";
-import { mockScoreboard, mockPlayers, mockId } from "./summaryMock";
 
-const GameSummary = ({
-  scoreboard = mockScoreboard,
-  players = mockPlayers,
-  myId = mockId
-}) => {
+const GameSummary = () => {
+  const scoreboard = useSelector(roomSelectors.scoreboard);
+  const players = useSelector(roomSelectors.players);
+  const myId = useSelector(userSelectors.id);
+
   const { t } = useTranslation();
   const [playAgain, setPlayAgain] = useState([]);
   const dispatch = useDispatch();
@@ -29,7 +27,6 @@ const GameSummary = ({
     .sort((a, b) => {
       return b.score - a.score;
     });
-  // const winner = players.find(({ id }) => id === sortedPlayers[0].id);
   const content = () => {
     if (!scoreboard) {
       return <Styled.NoResults>No players</Styled.NoResults>;
@@ -104,15 +101,7 @@ const GameSummary = ({
   );
 };
 
-GameSummary.propTypes = {
-  scoreboard: PropTypes.object,
-  players: PropTypes.array,
-  myId: PropTypes.string,
-  activeLetter: PropTypes.string,
-  activeGameNumber: PropTypes.number,
-  nextGameTimeout: PropTypes.number,
-  pointLimit: PropTypes.number
-};
+GameSummary.propTypes = {};
 
 GameSummary.defaultProps = {};
 

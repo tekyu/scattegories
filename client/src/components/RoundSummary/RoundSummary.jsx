@@ -4,18 +4,38 @@ import PropTypes from "prop-types";
 import PostItNoteDynamic from "components/PostItNoteDynamic/PostItNoteDynamic";
 import Countdown from "components/Countdown/Countdown";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { roomSelectors, userSelectors } from "store/selectors";
 import * as Styled from "./RoundSummary.styled";
 import { mockScoreboard, mockPlayers, mockId } from "./summaryMock";
 
-const RoundSummary = ({
-  scoreboard = mockScoreboard,
-  players = mockPlayers,
-  myId = mockId,
-  activeRoundNumber = 0,
-  activeLetter = `i`,
-  nextRoundTimeout = 5000,
-  pointLimit = 1000
-}) => {
+const RoundSummary = (
+  {
+    // scoreboard = mockScoreboard,
+    // players = mockPlayers,
+    // myId = mockId,
+    // activeRoundNumber = 0,
+    // activeLetter = `i`,
+    // nextRoundTimeout = 5000,
+    // pointLimit = 1000
+  }
+) => {
+  // scoreboard={scoreboard}
+  // players={players}
+  // myId={myId}
+  // activeRoundNumber={activeRoundNumber}
+  // activeLetter={activeLetter}
+  // nextRoundTimeout={nextRoundTimeout}
+  // pointLimit={maxScore}
+
+  const scoreboard = useSelector(roomSelectors.scoreboard);
+  const players = useSelector(roomSelectors.players);
+  const myId = useSelector(userSelectors.id);
+  const activeRoundNumber = useSelector(roomSelectors.roundNumber);
+  const activeLetter = useSelector(roomSelectors.activeLetter);
+  const nextRoundTimeout = useSelector(roomSelectors.nextRoundTimeout);
+  const pointLimit = useSelector(roomSelectors.maxScore);
+
   const { t } = useTranslation();
   const content = () => {
     if (!scoreboard) {
