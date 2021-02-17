@@ -39,7 +39,7 @@ const RoundSummary = (
   const { t } = useTranslation();
   const content = () => {
     if (!scoreboard) {
-      return <Styled.NoResults>No players</Styled.NoResults>;
+      return <Styled.NoResults>{t(`summary.noPlayers`)}</Styled.NoResults>;
     }
     const sortedPlayers = Object.entries(scoreboard)
       .map(([playerId, scores]) => {
@@ -59,7 +59,7 @@ const RoundSummary = (
       const username =
         players.find(({ id: playerId }) => {
           return id === playerId;
-        }).username || `No user`;
+        }).username || `${t(`summary.noPlayers`)}`;
       return (
         <Styled.Player key={id}>
           {id === myId && <Styled.Me>{t(`game.me`)}</Styled.Me>}
@@ -84,11 +84,15 @@ const RoundSummary = (
       >
         <Styled.Header>
           <Styled.RoundInfo>
-            <Styled.RoundNumber>Round {activeRoundNumber}</Styled.RoundNumber>
-            <Styled.PointLimit>Point limit: {pointLimit}</Styled.PointLimit>
+            <Styled.RoundNumber>
+              {t(`summary.round`)} {activeRoundNumber}
+            </Styled.RoundNumber>
+            <Styled.PointLimit>
+              {t(`summary.pointLimit`)}: {pointLimit}
+            </Styled.PointLimit>
           </Styled.RoundInfo>
           <Styled.CountdownContainer>
-            <Styled.CountdownText>Next in</Styled.CountdownText>
+            <Styled.CountdownText>{t(`summary.nextIn`)}</Styled.CountdownText>
             <Countdown time={nextRoundTimeout} text="0" />
           </Styled.CountdownContainer>
         </Styled.Header>

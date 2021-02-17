@@ -29,14 +29,14 @@ const GameSummary = () => {
     });
   const content = () => {
     if (!scoreboard) {
-      return <Styled.NoResults>No players</Styled.NoResults>;
+      return <Styled.NoResults>{t(`summary.noPlayers`)}</Styled.NoResults>;
     }
 
     return sortedPlayers.map(({ score, id }, index) => {
       const username =
         players.find(({ id: playerId }) => {
           return id === playerId;
-        }).username || `No user`;
+        }).username || `${t(`summary.noPlayer`)}`;
       return (
         <Styled.Player key={id} playAgain={playAgain.some(pid => pid === id)}>
           {id === myId && <Styled.Me>{t(`game.me`)}</Styled.Me>}
@@ -81,7 +81,7 @@ const GameSummary = () => {
       >
         <Styled.Header>
           <Styled.GameInfo>
-            <Styled.GameText>And the winner is</Styled.GameText>
+            <Styled.GameText>{t(`summary.winnerIs`)}</Styled.GameText>
             <Styled.Winner>
               {winners[0] ? winners[0].username : `test username`}
             </Styled.Winner>
@@ -90,7 +90,7 @@ const GameSummary = () => {
         <Styled.Players>{content()}</Styled.Players>
         <Styled.Footer>
           <Styled.PlayAgain onClick={playAgainHandler}>
-            Play Again
+            {t(`summary.playAgain`)}
           </Styled.PlayAgain>
           <Styled.PlayersCount>
             {playAgain.length}/{players.length}

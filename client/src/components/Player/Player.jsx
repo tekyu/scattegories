@@ -1,15 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 import * as Styled from "./Player.styled";
 import PostItNoteDynamic from "../PostItNoteDynamic/PostItNoteDynamic";
 
 const Player = ({ id, username, state, score, isYou }) => {
+  const { t } = useTranslation();
+
   return (
     <PostItNoteDynamic
       rotate={(Math.random() * (-1 - 2.5) + 2.5).toFixed(2)}
       backgroundReadyState={state}
     >
-      <Styled.Container id={id} isYou={isYou}>
+      <Styled.Container id={id} isYou={isYou} youText={t(`game.me`)}>
         <Styled.Username>{username}</Styled.Username>
         {score && <Styled.Score>{score}</Styled.Score>}
       </Styled.Container>

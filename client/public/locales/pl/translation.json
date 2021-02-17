@@ -55,5 +55,14 @@
     "me": "ja!",
     "roundEnding": "Runda skończy się",
     "now": "teraz!"
-  }
+  },
+  "summary": {
+    "noPlayers": "Brak graczy",
+    "noPlayer": "Brak gracza",
+    "round": "Runda",
+    "pointLimit": "Limit punktów",
+    "nextIn": "Następna za",
+    "winnerIs": "Zwyciężcą jest",
+    "playAgain": "Zagraj ponownie"
+  },
 }

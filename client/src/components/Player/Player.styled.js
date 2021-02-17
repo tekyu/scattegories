@@ -10,11 +10,11 @@ export const Container = styled.div`
   margin: 0 20px;
   display: flex;
   position: relative;
-  ${({ isYou }) =>
+  ${({ isYou, youText }) =>
     isYou &&
     `
     &:after {
-      content: "You";
+      content: "${youText}";
       position:absolute;
       left: 28px;
       top: -18px;

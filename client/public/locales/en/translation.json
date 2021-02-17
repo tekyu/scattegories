@@ -54,6 +54,15 @@
     "noResults": "No results",
     "me": "me!",
     "roundEnding": "Round ending in",
-    "now": "now!"
-  }
+    "now": "now!",
+  },
+  "summary": {
+    "noPlayers": "No players",
+    "noPlayer": "No player",
+    "round": "Round",
+    "pointLimit": "Point limit",
+    "nextIn": "Next in",
+    "winnerIs": "And the winner is",
+    "playAgain": "Play Again"
+  },
 }
