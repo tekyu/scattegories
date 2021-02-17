@@ -32,14 +32,11 @@ export const roomReducer = produce(
   (draft = initialState, { type, payload }) => {
     switch (type) {
       case UPDATE_ROOM:
-        console.log(`updateroom reducer`, payload);
         Object.entries(payload).forEach(([key, value]) => {
           draft[key] = value;
         });
-        // Object.assign({}, draft, payload);
         return draft;
       case UPDATE_SCOREBOARD:
-        console.log(`[roomReducer] [UPDATE_SCOREBOARD]`, payload);
         draft.scoreboard = payload;
         return draft;
       case UPDATE_PLAYERS:

@@ -34,7 +34,6 @@ export default ({
     if (!io.gameRooms[roomId]) {
       callback({ error: `Room doesn't exist` });
     } else if (io.gameRooms[roomId].players.length >= io.gameRooms[roomId].playersMax) {
-      console.log('io.gameRooms[roomId].playersMax > io.gameRooms[roomId].players.length', io.gameRooms[roomId].playersMax, io.gameRooms[roomId].players.length, io.gameRooms[roomId].playersMax > io.gameRooms[roomId].players.length)
       callback({ error: 'Room is full' });
     } else {
       const playerState = socket.id === io.gameRooms[roomId].owner ? 1 : 0;
@@ -135,7 +134,6 @@ export default ({
 
     if (room.players.length > 0) {
       io.in(roomId).emit('UPDATE_ROOM', objectToUpdate);
-      console.log('LEAVE', io.gameRooms[roomId].players.length);
       io.in(roomId).emit('UPDATE_PLAYERS', io.gameRooms[roomId].players);
     } else {
       delete io.gameRooms[roomId];
@@ -143,7 +141,6 @@ export default ({
   });
 
   socket.on(CHANGE_USER_STATE, (params: any) => {
-    console.log(CHANGE_USER_STATE);
     // callback(params)
     const roomId = socket.gameOptions.activeRoom;
     const room = io.gameRooms[roomId];

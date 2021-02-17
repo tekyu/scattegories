@@ -7,7 +7,6 @@ import * as Styled from "./PlayersList.styled";
 const PlayersList = () => {
   const players = useSelector(roomSelectors.players);
   const id = useSelector(userSelectors.id);
-  console.log(`playerslist`, players);
   const playerList = players.map(player => {
     const isYou = player.id === id;
     return <Player key={player.id} {...player} isYou={isYou} />;

@@ -17,35 +17,18 @@ const InputRow = ({
   showInput = false
 }) => {
   const submitButton = useRef(null);
-  console.count(`[INPUTROW]`, showInput);
-  console.log(`[INPUTROW]`, showInput, answerWidth);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [submitted, setSubmitted] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
 
   useEffect(() => {
-    console.log(`[inpurow][submitted]`, submitted);
-  }, [submitted]);
-
-  useEffect(() => {
-    console.log(`[inpurow][showInput]`, showInput);
     if (showInput) {
       setSubmitted(false);
     }
   }, [showInput]);
 
   const submitAnswersHandler = (answers, { resetForm }) => {
-    console.log(
-      `SUBMIT ANSWERS HANDLER`,
-      answers,
-      Object.values(answers).some(answer => !answer)
-    );
-    // TODO: Should validate if are empty and are not forced yet to submit
-    // if (Object.values(answers).some(answer => !answer)) {
-    //   // some answers are empty
-    //   return false;
-    // }
     const answersReadyToSubmit = Object.entries(answers).reduce(
       (obj, [key, value]) => {
         // eslint-disable-next-line no-param-reassign
@@ -58,10 +41,7 @@ const InputRow = ({
     dispatch(sendAnswers(answersReadyToSubmit));
     setShowOverlay(true);
     resetForm();
-    console.log(
-      `SUBMIT ANSWERS HANDLER CAN SEND REQUEST`,
-      answersReadyToSubmit
-    );
+
     return answersReadyToSubmit;
   };
 

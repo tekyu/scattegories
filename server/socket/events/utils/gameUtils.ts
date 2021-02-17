@@ -54,7 +54,6 @@ export const getAllAnswers = (entries) => {
   return (
     entries.reduce((answers, entry) => {
       Object.entries(entry.answers).forEach(([category, answer]) => {
-        console.log(category, answer);
         answers.push({
           answer,
           playerId: entry.playerId,
@@ -73,17 +72,9 @@ export const getSortedAnswers = (allAnswers) => {
     const ndx = self.findIndex(function (v2, i2) {
       // make sure not looking at the same object (using index to verify)
       // use JSON.stringify for object comparison
-      console.log(
-        `i1 ${i1} i2 ${i2}`,
-        v1.answer,
-        v2.answer,
-        v1.answer == v2.answer
-      );
       return v1.answer && v2.answer && i1 != i2 && v1.answer === v2.answer && v1.category === v2.category;
     });
-    console.log(`TU? i1 ${i1} ndx ${ndx}`, v1);
     if (i1 != ndx && ndx === -1 && v1.answer) {
-      console.log('NO DUPE', v1);
       questionable.push(v1);
     }
     return i1 != ndx && ndx != -1;
@@ -95,7 +86,6 @@ export const getSortedAllAnswers = async ({
   entries = [],
 }) => {
   const allAnswers = getAllAnswers(entries);
-  console.log('[getSortedAllAnswers][allAnswers]', allAnswers);
   return getSortedAnswers(allAnswers);
 };
 

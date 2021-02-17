@@ -2,7 +2,7 @@ import produce from "immer";
 import {
   UPDATE_ANSWERS,
   RESET_ANSWERS,
-  UPDATE_SCOREBOARD,
+  UPDATE_GAME_SCOREBOARD,
   UPDATE_ACTIVE_LETTER,
   UPDATE_QUESTIONABLE,
   LEAVE_ROOM
@@ -15,7 +15,9 @@ export const initialState = {
   questionable: []
 };
 
-const updateScoreboard = ({ scoreboard = {}, id = `` }) => scoreboard[id] || {};
+const updateScoreboard = ({ scoreboard = {}, id = `` }) => {
+  return scoreboard[id] || {};
+};
 
 export const gameReducer = produce(
   (draft = initialState, { type, payload }) => {
@@ -31,12 +33,7 @@ export const gameReducer = produce(
       case RESET_ANSWERS:
         draft.answers = {};
         return draft;
-      case UPDATE_SCOREBOARD:
-        console.log(
-          `[gameReducer] [UPDATE_SCOREBOARD]`,
-          payload,
-          updateScoreboard(payload)
-        );
+      case UPDATE_GAME_SCOREBOARD:
         draft.scoreboard = updateScoreboard(payload);
         return draft;
       case UPDATE_QUESTIONABLE:

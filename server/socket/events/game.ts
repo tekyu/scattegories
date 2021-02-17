@@ -50,13 +50,11 @@ export default ({
     const stage = 6;
     room = updateRoom(room, { stage, scoreboard });
     // timeoutedSetupNextRound(10000);
-    console.log('roundSummary', room);
     return room;
   }
 
   const emitSummary = (scoreboard = {}, roomObjectToUpdate = {}) => {
     const roomId = getRoomId();
-    console.log('emitSummary', scoreboard, roomObjectToUpdate);
     io.in(roomId).emit(UPDATE_ROOM, roomObjectToUpdate);
     io.in(roomId).emit(UPDATE_SCOREBOARD, scoreboard);
   }
@@ -106,7 +104,6 @@ export default ({
   };
 
   const roundStop = () => {
-    console.log('roundStop');
   };
 
   const startGame = async () => {
@@ -123,7 +120,6 @@ export default ({
     const { activeLetter, rounds, categories } = room;
     const { entries } =
       room.rounds.find(({ letter }) => letter === activeLetter) || [];
-    console.log('[game.ts] [roundCheck]', entries);
 
     const activeRound = getActiveRound({ rounds, activeLetter: activeLetter })
 
@@ -134,7 +130,6 @@ export default ({
     activeRound.questionableEntries = {};
     activeRound.pointable = pointable;
     activeRound.allAnswers = allAnswers;
-    console.log('roundcHECK', pointable, questionable, allAnswers)
     if (isObjectEmpty(questionable)) {
       // go to giving points
 
@@ -142,16 +137,13 @@ export default ({
       let room = getRoom();
       room = roundSummary();
       const { maxScore, scoreboard } = room;
-      console.log('round summary', room);
 
       if (shouldGameEnd({ maxScore, scoreboard })) {
-        console.log('GAME SHOULD END HERE');
         const winnerId = findWinnerId({ maxScore, scoreboard });
         return;
       }
       emitSummary(room.scoreboard, { stage: room.stage },);
       timeoutedSetupNextRound(room.nextRoundTimeout);
-      console.log('[roundCheck][questionable empty][proceed to giving points]');
       // THIS SHOULD GO TO ANOTHER FUNCTION
 
     } else {
@@ -165,15 +157,9 @@ export default ({
       io.in(roomId).emit(UPDATE_ROOM, { stage: room.stage });
       io.in(roomId).emit(QUESTIONABLE_ANSWERS, questionable);
     }
-    console.log('POINTABLE', pointable);
-    console.log('QUESTIONABLE', questionable);
-    // todo
-    // dac punkty tym co sie powtarzaja
-    // pokazac questionable answers
   };
 
   socket.on(GAME_READY_STATUS, () => {
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAA', GAME_READY_STATUS, socket.id);
     const room = getRoom();
 
     if (!room.readyStatus) {
@@ -188,25 +174,22 @@ export default ({
       room.players.length === Object.keys(room.readyStatus).length &&
       !Object.values(room.readyStatus).some((value) => value === false)
     ) {
-      console.log('EVERYONE IS READY');
       startGame();
     }
   });
 
   socket.on(CHANGE_USER_STATE, (params: any, callback: Function) => {
-    console.log('GAME.TS', CHANGE_USER_STATE);
     const roomId = getRoomId();
     const room = getRoom();
 
 
-    // if (room.players.length <= 1) {
-    //   return;
-    // }
+    if (room.players.length <= 1) {
+      return;
+    }
 
     const isAnyPlayerNotReady = room.players.find(({ state }) => state !== 1);
 
     if (isAnyPlayerNotReady) {
-      console.log('SOMEONES NOT READY');
       return;
     }
 
@@ -229,7 +212,6 @@ export default ({
     const player = round.entries.find(({ playerId }) => playerId === socket.id);
     if (!player) {
       round.entries.push(roundEntry({ id: socket.id, answers }));
-      console.log('Round Entries', round.entries);
     } else {
       player.answers = answers;
     }
@@ -240,12 +222,10 @@ export default ({
       roundCheck();
     }
 
-    console.log('[game.ts]', SEND_ANSWERS, answers);
     if (room.stage <= 2) {
       room.stage = 3;
       io.in(roomId).emit(WAITING_TIME, { time: room.timeWaiting });
       io.in(roomId).emit(UPDATE_ROOM, { stage: room.stage });
-      console.log('[game.ts]', SEND_ANSWERS, 'stage change');
       setTimeout(() => {
         if (room.stage >= 4) return;
         room.stage = 4;
@@ -258,7 +238,6 @@ export default ({
   socket.on(QUESTIONABLE_ANSWERS_SENT, ({ answers }: any) => {
     const roomId = getRoomId();
     let room = getRoom();
-    console.log('[game.ts][QUESTIONABLE_ANSWERS_SENT]', answers)
     const { activeLetter, rounds, players, categories } = room;
     const activeRound = getActiveRound({ rounds, activeLetter: activeLetter })
     activeRound.questionableEntries[socket.id] = answers;
@@ -273,13 +252,10 @@ export default ({
     } else {
 
       //round summary
-      console.log(QUESTIONABLE_ANSWERS_SENT, 'points here');
       room = roundSummary();
       const { maxScore, scoreboard } = room;
-      console.log('round summary', room);
 
       if (shouldGameEnd({ maxScore, scoreboard })) {
-        console.log('GAME SHOULD END HERE');
         const winnerId = findWinnerId({ maxScore, scoreboard });
         const winner = room.players.find(({ id }) => winnerId === id);
         room.winners.push(winner);
@@ -313,7 +289,6 @@ export default ({
 
   socket.on(PLAY_AGAIN_SEND, () => {
     const room = getRoom();
-    console.log('PLAY_AGAIN_SEND AGAIN', socket.id, room.id);
     if (room.playAgain.some(socket.id)) {
       room.playAgain = room.playAgain.filter(id => socket.id !== id);
     } else {

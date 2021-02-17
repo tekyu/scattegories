@@ -27,7 +27,6 @@ const CategoriesMultiSelect = ({
   const { setValue, setTouched } = helpers;
 
   useEffect(() => {
-    console.log(`dfgs`, categories);
     setValue(categories);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories]);

@@ -20,7 +20,7 @@ const Player = ({ id, username, state, score, isYou }) => {
 Player.propTypes = {
   id: PropTypes.string,
   username: PropTypes.string,
-  state: PropTypes.number,
+  state: PropTypes.bool,
   score: PropTypes.number,
   isYou: PropTypes.bool
 };

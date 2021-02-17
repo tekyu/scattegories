@@ -35,7 +35,6 @@ const CreateGame = () => {
       categories: parsedCategories,
       timePerRound
     };
-    console.log(`categories`, categories, parsedCategories);
     dispatch(
       emitter(`CREATE_ROOM`, roomOptions, ({ error, id }) => {
         if (!error) {
@@ -65,7 +64,6 @@ const CreateGame = () => {
           timePerRound: 30
         }}
         onSubmit={(values, { setSubmitting }) => {
-          console.log(`CreateGame`, values);
           submitCreateGameHandler(values);
           setSubmitting(false);
         }}

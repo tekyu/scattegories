@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import * as Styled from "./Countdown.styled";
 
 const Countdown = ({ time = 0, fontSize, text = `Starting` }) => {
-  console.log(`[COUNTDOWN] time: ${time} | text: ${text}`);
   const [countdownTime, setCountdownTime] = useState(
     time !== 0 ? time / 1000 : 0
   );

@@ -2,7 +2,7 @@ import { emitter } from "../socket/socketActions";
 
 export const UPDATE_ANSWERS = `UPDATE_ANSWERS`;
 export const RESET_ANSWERS = `RESET_ANSWERS`;
-export const UPDATE_SCOREBOARD = `UPDATE_SCOREBOARD`;
+export const UPDATE_GAME_SCOREBOARD = `UPDATE_GAME_SCOREBOARD`;
 export const GAME_READY_STATUS = `GAME_READY_STATUS`;
 export const UPDATE_ACTIVE_LETTER = `UPDATE_ACTIVE_LETTER`;
 export const SEND_ANSWERS = `SEND_ANSWERS`;
@@ -31,10 +31,9 @@ export const resetAnswers = () => ({
 });
 
 export const updateScoreboard = scoreboard => {
-  console.log(`[gameActions][updateScoreboard]`, scoreboard);
   return (dispatch, getState) => {
     dispatch({
-      type: UPDATE_SCOREBOARD,
+      type: UPDATE_GAME_SCOREBOARD,
       payload: { scoreboard, id: getState().user.id }
     });
   };
@@ -47,14 +46,12 @@ export const updateQuestionableAnswers = scores => ({
 
 export const sendAnswers = answers => {
   return dispatch => {
-    console.log(`sendansers dispatch`, answers);
     dispatch(emitter(SEND_ANSWERS, { answers }));
   };
 };
 
 export const sendQuestionableAnswers = answers => {
   return dispatch => {
-    console.log(`sendQuestionableAnswers dispatch`, answers);
     dispatch(emitter(QUESTIONABLE_ANSWERS_SENT, { answers }));
   };
 };

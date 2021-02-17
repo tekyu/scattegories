@@ -5,12 +5,10 @@ import * as Styled from "./AnswerElement.styled";
 
 const AnswerElement = ({ category, answer, answerId, handler }) => {
   const [state, setState] = useState(undefined);
-  console.log(`AnswerElement`, state);
   // TODO: refactor buttons to have generic button and button with
   // stateHandler which is extending generic button
   const answerHandler = ({ target }) => {
     const allowAnswer = target.getAttribute(`data-state`);
-    console.log(`state`, allowAnswer);
     handler({ answerId, category, allowAnswer });
     setState(allowAnswer === `yes`);
   };

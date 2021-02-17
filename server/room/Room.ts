@@ -84,15 +84,12 @@ export default class Room implements IRoom {
     this.activeLetter = '';
     this.nextRoundTimeout = 10000;
     this.playAgain = [];
-    console.log('[Room] constructor');
   }
 
   get instance() {
-    console.log('[Room] get instance');
     return this;
   }
   get roomOptions() {
-    console.log('[Room] get roomOptions');
     const {
       playersMax,
       id,
@@ -128,12 +125,10 @@ export default class Room implements IRoom {
   }
 
   setState(newState) {
-    console.log('[Room] setState');
     this.state = newState;
   }
 
   setWinners() {
-    console.log('[Room] setWinners');
     this.winners = Object.entries(this.scoreboard).reduce(
       (winners, [id, score]) => {
         if (score >= this.maxScore) {
@@ -147,7 +142,6 @@ export default class Room implements IRoom {
   }
 
   async connectPlayer(playerData: Object) {
-    console.log('[Room] connectPlayer');
     const newPlayerData = { ...playerData };
     if (this.owner === playerData.id) {
       newPlayerData.state = 1;
@@ -157,7 +151,6 @@ export default class Room implements IRoom {
   }
 
   disconnectPlayer(id: string) {
-    console.log('[Room] disconnectPlayer');
     return (this.players = this.players.filter((player: any) => {
       return player.id !== id;
     }));
