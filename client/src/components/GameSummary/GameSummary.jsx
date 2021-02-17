@@ -88,14 +88,14 @@ const GameSummary = () => {
           </Styled.GameInfo>
         </Styled.Header>
         <Styled.Players>{content()}</Styled.Players>
-        <Styled.Footer>
+        {/* <Styled.Footer>
           <Styled.PlayAgain onClick={playAgainHandler}>
             {t(`summary.playAgain`)}
           </Styled.PlayAgain>
           <Styled.PlayersCount>
             {playAgain.length}/{players.length}
           </Styled.PlayersCount>
-        </Styled.Footer>
+        </Styled.Footer> */}
       </PostItNoteDynamic>
     </Styled.GameSummary>
   );
