@@ -1,8 +1,10 @@
-import socketIo from 'socket.io';
 import { nanoid } from 'nanoid';
 import cloneDeep from 'clone-deep';
 import { emptyRound, getActiveRound, getNewLetter, getAllAnswers, createScoreboard, getQuestionableCheckedAnswers, getRandomLetter, getSortedAllAnswers, roundEntry, getUpdatedScoreboard, shouldGameEnd, findWinnerId } from './utils/gameUtils';
 import { isObjectEmpty } from '../../utils/utils';
+import { ISocket, ISocketIO } from '../interfaces';
+import { Logger } from 'winston';
+import IRoom from '../../room/interfaces/IRoom';
 // https://github.com/losandes/socket.io-mongodb
 // https://github.com/socketio/socket.io-redis
 
@@ -28,18 +30,16 @@ export default ({
   socket,
   logger,
 }: {
-  io: socketIo.Server;
-  socket: socketIo.Socket;
-  logger: any;
+  io: ISocketIO;
+  socket: ISocket;
+  logger: Logger;
 }) => {
 
   const getRoomId = () => {
-    // @ts-ignore
     return socket.gameOptions.activeRoom
   }
 
   const getRoom = () => {
-    // @ts-ignore
     return io.gameRooms[getRoomId()];
   }
 
@@ -49,7 +49,6 @@ export default ({
     const scoreboard = getUpdatedScoreboard({ scoreboard: room.scoreboard, activeRound: getActiveRound({ rounds, activeLetter }), activeLetter, playersCount: room.players.length });
     const stage = 6;
     room = updateRoom(room, { stage, scoreboard });
-    // timeoutedSetupNextRound(10000);
     return room;
   }
 
@@ -60,7 +59,7 @@ export default ({
   }
 
 
-  const updateRoom = (room, updateObject) => {
+  const updateRoom = (room: IRoom, updateObject: object) => {
     const clonedRoom = cloneDeep(room);
     Object.entries(updateObject).forEach(([key, value]) => {
       clonedRoom[key] = value;
@@ -68,7 +67,7 @@ export default ({
     return clonedRoom;
   }
 
-  const timeoutedSetupNextRound = time => {
+  const timeoutedSetupNextRound = (time: number) => {
     setTimeout(() => {
       setupNextRound()
     }, time);
@@ -117,7 +116,7 @@ export default ({
   const roundCheck = async () => {
     const roomId = getRoomId();
     const room = getRoom();
-    const { activeLetter, rounds, categories } = room;
+    const { activeLetter, rounds } = room;
     const { entries } =
       room.rounds.find(({ letter }) => letter === activeLetter) || [];
 
@@ -178,7 +177,7 @@ export default ({
     }
   });
 
-  socket.on(CHANGE_USER_STATE, (params: any, callback: Function) => {
+  socket.on(CHANGE_USER_STATE, () => {
     const roomId = getRoomId();
     const room = getRoom();
 
@@ -197,7 +196,7 @@ export default ({
     room.state = 2; // started
     io.in(roomId).emit(STARTING_GAME, { time: time - 1000 });
     setTimeout(() => {
-      console.log('SHOULD START AFTER 5S');
+      logger.info('SHOULD START AFTER 5S');
       io.in(roomId).emit(UPDATE_ROOM, { state: room.state });
     }, time);
   });
@@ -229,7 +228,7 @@ export default ({
       setTimeout(() => {
         if (room.stage >= 4) return;
         room.stage = 4;
-        console.log('SHOULD START AFTER 5S');
+        logger.info('SHOULD START AFTER 5S');
         io.in(roomId).emit(UPDATE_ROOM, { stage: room.stage });
       }, room.timeWaiting);
     }
@@ -238,7 +237,7 @@ export default ({
   socket.on(QUESTIONABLE_ANSWERS_SENT, ({ answers }: any) => {
     const roomId = getRoomId();
     let room = getRoom();
-    const { activeLetter, rounds, players, categories } = room;
+    const { activeLetter, rounds, players } = room;
     const activeRound = getActiveRound({ rounds, activeLetter: activeLetter })
     activeRound.questionableEntries[socket.id] = answers;
 
@@ -266,25 +265,8 @@ export default ({
       }
       emitSummary(room.scoreboard, { stage: room.stage });
       timeoutedSetupNextRound(10000);
-      // const { activeLetter } = room;
-      // room.scoreboard = getUpdatedScoreboard({ scoreboard: room.scoreboard, activeRound, activeLetter, playersCount: room.players.length });
 
-      // room.stage = 6;
-      // io.in(roomId).emit(UPDATE_SCOREBOARD, room.scoreboard);
-      // io.in(roomId).emit(UPDATE_ROOM, { stage: room.stage });
-
-      // const time = 10000;
-      // setTimeout(() => {
-      //   setupNextRound()
-      // }, time);
-
-      // pointable -> these are duplicates so always are eligible to 5pts
-      // right answers -> pointable on percentage comparison - 0/10pts
-      // need to check if there is only 1 correct answer in each category - then 15pts
-      // 
     }
-    // const round = rounds.find(({ letter }) => letter === activeLetter);
-
   });
 
   socket.on(PLAY_AGAIN_SEND, () => {
@@ -297,7 +279,7 @@ export default ({
 
     if (room.playAgain.length === room.players.length) {
       // reset all
-      console.log('play again')
+      logger.info('play again')
     }
   });
 

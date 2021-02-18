@@ -12,4 +12,5 @@ export default interface IRoom {
   createdAt: number;
   chat: Array<Object>;
   scoreboard: Object;
+  rounds: Object;
 }
