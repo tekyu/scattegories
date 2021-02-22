@@ -1,0 +1,68 @@
+{
+  "logo": "Stadt,Land,Fluss",
+  "navigation": {
+    "create": "Bilde ein neues Spiel",
+    "join": "Nimm teil"
+  },
+  "header": {
+    "id": "Zimmer-ID"
+  },
+  "createForm": {
+    "header": "Bilde ein Spiel",
+    "playersmax": "Maximale Spieleranzahl",
+    "maxscore": "Maximale Punktzahl",
+    "timePerRound": "Zeit fuer die Antwort (in Sekunden)",
+    "categories": "Kategorien",
+    "submit": "Bilde",
+    "initialCategories": "Land,Stadt,Name,Sache,Tier,Speise,Pflanze",
+    "errors": {
+      "categories": "Du musst mindestens eine Kategorie hinzufuegen"
+    }
+  },
+  "joinForm": {
+    "header": "Nimm teil",
+    "username": "Name",
+    "gameCode": "Schreib ein Spiel-Code",
+    "submit": "Nimm teil",
+    "errors": {
+      "username": "Das Feld kann nicht leer werden",
+      "gameCode": "Das Feld kann nicht leer werden"
+    }
+  },
+  "waitingRoom": {
+    "shareCode": "Teile den u.g. Code mit",
+    "or": "oder",
+    "clickLink": "Klick den Link",
+    "playersCount": "Spieleranzahl",
+    "maxScore": "Maximale Punktzahl",
+    "categories": "Kategorien",
+    "startingInCountdownText": "Das Spiel beginnt in",
+    "countdownText": "Start!",
+    "readyButton": "Fertig",
+    "unreadyButton": "Noch nicht fertig"
+  },
+  "inputRow": {
+    "send": "Sende",
+    "write": "Ergaenze",
+    "waitForOthers": "Warte auf andere Spieler"
+  },
+  "game": {
+    "currentLetter": "Der aktuelle Buchstabe",
+    "questionableQuestion": "Sind die Antworten richtig?",
+    "waitForOthers": "Warte auf andere Spieler",
+    "previousRounds": "Vorherige Runden",
+    "noResults": "Keine Ergebnisse",
+    "me": "Ich!",
+    "roundEnding": "Die Runde endet in",
+    "now": "jetzt!"
+  },
+  "summary": {
+    "noPlayers": "Momentan ist kein Spieler da",
+    "noPlayer": "Ein Spieler fehlt",
+    "round": "Runde",
+    "pointLimit": "Limit punktów",
+    "nextIn": "Weiter in",
+    "winnerIs": "Der Gewinner ist",
+    "playAgain": "Spiel noch einmal"
+  }
+}
