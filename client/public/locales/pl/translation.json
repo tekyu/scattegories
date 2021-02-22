@@ -16,7 +16,7 @@
     "submit": "Stwórz",
     "initialCategories": "Państwo,Miasto,Imię,Rzecz,Zwierzę,Potrawa,Rośliny",
     "errors": {
-      "categories": "Musisz dodać conajmniej 1 kategorię"
+      "categories": "Musisz dodać co najmniej 1 kategorię"
     }
   },
   "joinForm": {
