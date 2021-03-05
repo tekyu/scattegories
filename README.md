@@ -1,4 +1,4 @@
-# Scattegories online!
+![alt text](https://github.com/tekyu/scattegories/blob/master/scattegories-readme.png "Scattegories logo")
 
 _Written using React & Socket.io, generated via create-react-app_
 
