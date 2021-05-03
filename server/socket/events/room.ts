@@ -23,6 +23,14 @@ export default ({
   socket: ISocket;
   logger: Logger;
 }) => {
+  const getRoomId = () => {
+    return socket.gameOptions.activeRoom
+  }
+
+  const getRoom = () => {
+    return io.gameRooms[getRoomId()];
+  }
+
   socket.on(CREATE_ROOM, (params: ICreateRoomOptions, callback: Function) => {
     const room = new Room(params, socket.id);
     const { id } = room;
