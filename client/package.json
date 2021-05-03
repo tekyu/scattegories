@@ -1,6 +1,6 @@
 {
-  "name": "deckit-client-hygge",
-  "version": "2.0.0",
+  "name": "scattegories-frontend",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "cross-env NODE_PATH=src/ react-app-rewired start",

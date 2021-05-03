@@ -1,7 +1,7 @@
 {
-  "name": "tournamentmaker-backend",
-  "version": "0.0.1",
-  "description": "backend for tournament maker",
+  "name": "scattegories-backend",
+  "version": "1.0.1",
+  "description": "backend for scattegories",
   "main": "app.js",
   "scripts": {
     "test": "jest",
@@ -22,6 +22,7 @@
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "clone-deep": "^4.0.1",
+    "cluster": "^0.7.7",
     "connect-mongo": "^3.2.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -32,6 +33,7 @@
     "mongoose": "^5.9.10",
     "mongoose-unique-validator": "^2.0.3",
     "nanoid": "^3.1.20",
+    "os": "^0.1.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "socket.io": "^2.3.0",
