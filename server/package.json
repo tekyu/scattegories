@@ -32,7 +32,7 @@
     "human-readable-ids": "^1.0.4",
     "mongoose": "^5.9.10",
     "mongoose-unique-validator": "^2.0.3",
-    "nanoid": "^3.1.20",
+    "nanoid": "^3.1.31",
     "os": "^0.1.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
