@@ -21,7 +21,7 @@ const Game = () => {
   const gameCategories = useSelector(categories);
   // const gameCategories = mockcategories;
   const getWidth = () => {
-    const margin = 56 + 10 + 10 + 140;
+    const margin = 56 + 10 + 10 + 140 + 140;
     if (window.innerWidth >= 768) {
       return (window.innerWidth - margin) / (gameCategories.length || 1);
     }
